@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon-menu-4-dots.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
