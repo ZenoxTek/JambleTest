@@ -43,7 +43,10 @@ final class ProductsViewModel: ProductsViewModelType {
             })
             .eraseToAnyPublisher()
 
-        let initialState: ProductsViewModelOuput = self.useCase.fetchProducts()
+        let appearInput = input.appear
+        
+        let initialState: ProductsViewModelOuput = appearInput
+            .flatMapLatest({[unowned self] query in self.useCase.fetchProducts() })
             .map { result -> ProductsState in
                 switch result {
                 case .success(let products) where products.isEmpty: return .noResults

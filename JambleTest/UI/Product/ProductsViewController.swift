@@ -113,11 +113,6 @@ final class ProductsViewController: UIViewController {
         fatalError("Not supported!")
     }
     
-  /*  required init?(coder aDecoder: NSCoder) {
-        self.viewModel = ProductsViewModel()
-        super.init(coder: aDecoder)
-    }*/
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -151,7 +146,10 @@ final class ProductsViewController: UIViewController {
         searchField.set(textColor: .gray)
         searchField.searchTextField.attributedPlaceholder = NSAttributedString(string: "Search",
                                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        searchField.delegate = self
         
+        resetButton.addTarget(self, action: #selector(resetPressed), for: .touchUpInside)
+
         let topStackView = UIStackView(arrangedSubviews: [searchField, resetButton])
         topStackView.axis = .horizontal
         topStackView.alignment = .center
@@ -230,6 +228,7 @@ final class ProductsViewController: UIViewController {
         }).store(in: &cancellables)
     }
     
+    /// TODO: Implement a view When no data is found. Implement a loading indicator when executing an action that may change the list content
     private func render(_ state: ProductsState) {
         switch state {
         case .idle(let products):
@@ -275,6 +274,24 @@ final class ProductsViewController: UIViewController {
         searchResultLabel.text = (newCount < 2)
             ? "Result: \(newCount) item"
             : "Result: \(newCount) items"
+    }
+}
+
+extension ProductsViewController {
+    
+    @objc func resetPressed() {
+        searchField.text = ""
+        appear.send(())
+    }
+}
+
+extension ProductsViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            appear.send(())
+        } else {
+            search.send(searchText)
+        }
     }
 }
 
