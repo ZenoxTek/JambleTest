@@ -77,47 +77,75 @@ final class ProductsViewController: UIViewController {
         return stackView
     }()
     
-    var products: UICollectionView?
+    let productsCV: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 2
+        layout.minimumLineSpacing = 2
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .red
+        collectionView.collectionViewLayout = layout
+        collectionView.backgroundColor = .white
+
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
     
+    private lazy var dataSource = makeDataSource()
+
     // Combine Elements
+    
+    private var cancellables = Set<AnyCancellable>()
+    private let search = PassthroughSubject<String, Never>()
+    private let appear = PassthroughSubject<Void, Never>()
     
     // Data Elements
     
-    var viewModel: ProductsViewModel
+    private let viewModel: ProductsViewModelType
     
-    init(viewModel: ProductsViewModel) {
+    init(viewModel: ProductsViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
+        fatalError("Not supported!")
+    }
+    
+  /*  required init?(coder aDecoder: NSCoder) {
         self.viewModel = ProductsViewModel()
         super.init(coder: aDecoder)
-    }
+    }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureUI()
+        bind(to: viewModel)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        appear.send(())
+        /*viewModel.loadMockData()
+        productsCV.reloadData()*/
+    }
+    
+    private func configureUI() {
         view.backgroundColor = .white
+
         configureTopScreen()
         configureSeparatorAndLabel()
         configureCollectionView()
         configureBottomScreen()
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.loadMockData()
-        products?.reloadData()
-        updateSearchResultLabel()
-    }
     
-    func configureTopScreen() {
+    private func configureTopScreen() {
         
         if let searchImage = UIImage(named: "icon-search")?.withTintColor(.gray) {
             searchField.setImage(searchImage, for: .search, state: .normal)
         }
-        //searchField.placeholder = "Search"
         searchField.backgroundImage = UIImage()
         searchField.setTextField(color: .black.withAlphaComponent(0.1))
         searchField.set(textColor: .gray)
@@ -140,7 +168,7 @@ final class ProductsViewController: UIViewController {
         ])
     }
 
-    func configureSeparatorAndLabel() {
+    private func configureSeparatorAndLabel() {
         separator.backgroundColor = .lightGray.withAlphaComponent(0.2)
         searchResultLabel.textColor = .lightGray
         searchResultLabel.font = .systemFont(ofSize: 12.0)
@@ -161,36 +189,22 @@ final class ProductsViewController: UIViewController {
         ])
     }
 
-    func configureCollectionView() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 2
-        layout.minimumLineSpacing = 2
-          
-        let productsCV = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        productsCV.backgroundColor = .red
-        productsCV.collectionViewLayout = layout
-        productsCV.backgroundColor = .white
-        productsCV.registerNib(cellClass: ProductCollectionViewCell.self)
-        productsCV.delegate = self
-        productsCV.dataSource = self
-
-        // Ajoutez des contraintes ou configurez le positionnement des éléments ici
-
-        // Exemple de positionnement sous les éléments précédents
-        productsCV.translatesAutoresizingMaskIntoConstraints = false
+    private func configureCollectionView() {
         view.addSubview(productsCV)
           
+        productsCV.registerNib(cellClass: ProductCollectionViewCell.self)
+        productsCV.dataSource = dataSource
+        productsCV.delegate = self
+        
         NSLayoutConstraint.activate([
             productsCV.topAnchor.constraint(equalTo: searchResultLabel.bottomAnchor, constant: 16),
             productsCV.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 2),
             productsCV.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -2),
             productsCV.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        products = productsCV
     }
     
-    func configureBottomScreen() {
+    private func configureBottomScreen() {
         view.addSubview(buttonsStackView)
 
         buttonsStackView.addArrangedSubview(sortByButton)
@@ -202,28 +216,83 @@ final class ProductsViewController: UIViewController {
             buttonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    func updateSearchResultLabel() {
-        searchResultLabel.text = (viewModel.productCount < 2)
-            ? "Result: \(viewModel.productCount) item"
-            : "Result: \(viewModel.productCount) items"
+    
+    private func bind(to viewModel: ProductsViewModelType) {
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+        let input = ProductsViewModelInput(appear: appear.eraseToAnyPublisher(),
+                                           search: search.eraseToAnyPublisher())
+
+        let output = viewModel.transform(input: input)
+
+        output.sink(receiveValue: {[unowned self] state in
+            self.render(state)
+        }).store(in: &cancellables)
+    }
+    
+    private func render(_ state: ProductsState) {
+        switch state {
+        case .idle(let products):
+            //alertViewController.view.isHidden = false
+            //alertViewController.showStartSearch()
+            //loadingView.isHidden = true
+            update(with: products, animate: true)
+        case .loading:
+            //alertViewController.view.isHidden = true
+            //loadingView.isHidden = false
+            update(with: [], animate: true)
+        case .noResults:
+            //alertViewController.view.isHidden = false
+            //alertViewController.showNoResults()
+            //loadingView.isHidden = true
+            update(with: [], animate: true)
+        case .failure:
+            //alertViewController.view.isHidden = false
+            //alertViewController.showDataLoadingError()
+            //loadingView.isHidden = true
+            update(with: [], animate: true)
+        case .success(let products):
+            //alertViewController.view.isHidden = true
+            //loadingView.isHidden = true
+            update(with: products, animate: true)
+        }
+    }
+    
+    private func update(with products: [Product], animate: Bool = true) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {
+                return
+            }
+            self.updateSearchResultLabel(with: products.count)
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections(Section.allCases)
+            snapshot.appendItems(products, toSection: .products)
+            self.dataSource.apply(snapshot, animatingDifferences: animate)
+        }
+    }
+    
+    private func updateSearchResultLabel(with newCount: Int) {
+        searchResultLabel.text = (newCount < 2)
+            ? "Result: \(newCount) item"
+            : "Result: \(newCount) items"
     }
 }
 
 extension ProductsViewController: UICollectionViewDelegate {
-    
-}
-
-extension ProductsViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.products.count
+    enum Section: CaseIterable {
+        case products
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withClass: ProductCollectionViewCell.self, forIndexPath: indexPath)
-        if indexPath.item < viewModel.products.count {
-            cell.bind(from: viewModel.products[indexPath.item])
-        }
-        return cell
+    private func makeDataSource() -> UICollectionViewDiffableDataSource<Section, Product> {
+        return UICollectionViewDiffableDataSource(
+            collectionView: productsCV,
+            cellProvider: {  collectionView, indexPath, product in
+                let cell = collectionView.dequeueReusableCell(withClass: ProductCollectionViewCell.self,
+                                                              forIndexPath: indexPath)
+                cell.bind(from: product)
+                return cell
+            }
+        )
     }
 }
 

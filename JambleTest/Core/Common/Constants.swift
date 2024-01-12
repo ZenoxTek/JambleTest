@@ -8,5 +8,5 @@
 import Foundation
 
 struct Constants {
-    static let jsonFile = "Resource/products"
+    static let jsonFile = "products"
 }

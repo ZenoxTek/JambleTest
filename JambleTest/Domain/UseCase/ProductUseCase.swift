@@ -10,9 +10,9 @@ import Combine
 
 protocol ProductUseCaseType: AutoMockable {
     
-    func searchProduct(with query: String) -> AnyPublisher<Result<Products, Error>, Never>
+    func searchProduct(with query: String) -> AnyPublisher<Result<[Product], Error>, Never>
     
-    func fetchProducts() -> AnyPublisher<Result<Products, Error>, Never>
+    func fetchProducts() -> AnyPublisher<Result<[Product], Error>, Never>
     
     //func filterProducts() -> AnyPublisher<Result<Products, Error>, Never>
     
@@ -30,18 +30,18 @@ final class ProductUseCase: ProductUseCaseType {
         self.imageLoaderService = imageLoaderService
     }
 
-    func searchProduct(with query: String) -> AnyPublisher<Result<Products, Error>, Never> {
+    func searchProduct(with query: String) -> AnyPublisher<Result<[Product], Error>, Never> {
         switch self.service {
         case is JsonServiceType:
             let jsonService: JsonServiceType = service as! JsonServiceType
-            return jsonService.load(JsonResource<Products>(file: Constants.jsonFile))
+            return jsonService.load(JsonResource<[Product]>(file: Constants.jsonFile))
                 .map { data in
-                    let products = data.products.filter { product in
+                    let products = data.filter { product in
                         product.title.lowercased().contains(query.lowercased())
                     }
-                    return .success(Products(products: products))
+                    return .success(products)
                 }
-                .catch { error -> AnyPublisher<Result<Products, Error>, Never> in .just(.failure(error)) }
+                .catch { error -> AnyPublisher<Result<[Product], Error>, Never> in .just(.failure(error)) }
                 .subscribe(on: Scheduler.backgroundWorkScheduler)
                 .receive(on: Scheduler.mainScheduler)
                 .eraseToAnyPublisher()
@@ -52,13 +52,13 @@ final class ProductUseCase: ProductUseCaseType {
         }
     }
     
-    func fetchProducts() -> AnyPublisher<Result<Products, Error>, Never> {
+    func fetchProducts() -> AnyPublisher<Result<[Product], Error>, Never> {
         switch self.service {
         case is JsonServiceType:
             let jsonService: JsonServiceType = service as! JsonServiceType
-            return jsonService.load(JsonResource<Products>(file: Constants.jsonFile))
+            return jsonService.load(JsonResource<[Product]>(file: Constants.jsonFile))
                 .map { .success($0) }
-                .catch { error -> AnyPublisher<Result<Products, Error>, Never> in .just(.failure(error)) }
+                .catch { error -> AnyPublisher<Result<[Product], Error>, Never> in .just(.failure(error)) }
                 .subscribe(on: Scheduler.backgroundWorkScheduler)
                 .receive(on: Scheduler.mainScheduler)
                 .eraseToAnyPublisher()

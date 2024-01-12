@@ -28,3 +28,17 @@ struct Product: Identifiable, Codable {
         return currency
     }
 }
+
+extension Product: Equatable {
+    
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+extension Product: Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
