@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - ProductSize
+
 struct Products: Decodable {
     var products: [Product]
 }

@@ -7,6 +7,9 @@
 
 import Foundation
 
+// MARK: - ServiceType
+
+/// A protocol to define the base service type.
 protocol ServiceType: AnyObject {
-    
+    // Add any common properties or methods for services if needed.
 }

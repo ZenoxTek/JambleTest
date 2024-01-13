@@ -8,10 +8,9 @@
 import Foundation
 import Combine
 
-///
-/// Can be used in future development for network call management
-///
-///
+// MARK: - NetworkService
+
+/// A concrete implementation of `NetworkServiceType` for making network requests.
 final class NetworkService: NetworkServiceType {
     private let session: URLSession
 
@@ -19,6 +18,9 @@ final class NetworkService: NetworkServiceType {
         self.session = session
     }
 
+    /// Loads data from a network resource and decodes it into the specified type.
+    /// - Parameter resource: The network resource to load.
+    /// - Returns: A publisher that emits the decoded type or an error.
     @discardableResult
     func load<T>(_ resource: Resource<T>) -> AnyPublisher<T, Error> {
         guard let request = resource.request else {
@@ -28,17 +30,16 @@ final class NetworkService: NetworkServiceType {
             .mapError { _ in NetworkError.invalidRequest }
             .print()
             .flatMap { data, response -> AnyPublisher<Data, Error> in
-                guard let response = response as? HTTPURLResponse else {
+                guard let httpResponse = response as? HTTPURLResponse else {
                     return .fail(NetworkError.invalidResponse)
                 }
 
-                guard 200..<300 ~= response.statusCode else {
-                    return .fail(NetworkError.dataLoadingError(statusCode: response.statusCode, data: data))
+                guard 200..<300 ~= httpResponse.statusCode else {
+                    return .fail(NetworkError.dataLoadingError(statusCode: httpResponse.statusCode, data: data))
                 }
                 return .just(data)
             }
             .decode(type: T.self, decoder: JSONDecoder())
-        .eraseToAnyPublisher()
+            .eraseToAnyPublisher()
     }
-
 }

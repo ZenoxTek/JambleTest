@@ -8,37 +8,49 @@
 import UIKit
 import ImageIO
 
-// Declares in-memory image cache
+// MARK: - ImageCacheType
+
+/// Protocol defining an in-memory image cache.
 protocol ImageCacheType: AnyObject {
-    // Returns the image associated with a given url
+    /// Returns the image associated with a given URL.
     func image(for url: URL) -> UIImage?
-    // Inserts the image of the specified url in the cache
+    /// Inserts the image of the specified URL into the cache.
     func insertImage(_ image: UIImage?, for url: URL)
-    // Removes the image of the specified url in the cache
+    /// Removes the image of the specified URL from the cache.
     func removeImage(for url: URL)
-    // Removes all images from the cache
+    /// Removes all images from the cache.
     func removeAllImages()
-    // Accesses the value associated with the given key for reading and writing
+    /// Accesses the value associated with the given key for reading and writing.
     subscript(_ url: URL) -> UIImage? { get set }
 }
 
-final class ImageCache: ImageCacheType {
+// MARK: - ImageCache
 
-    // 1st level cache, that contains encoded images
+/// A class implementing the ImageCacheType protocol for in-memory image caching. Not needed on this project but can be useful if managing image data in the future
+final class ImageCache: ImageCacheType {
+    
+    // MARK: - Properties
+    
+    /// 1st level cache that contains encoded images.
     private lazy var imageCache: NSCache<AnyObject, AnyObject> = {
         let cache = NSCache<AnyObject, AnyObject>()
         cache.countLimit = config.countLimit
         return cache
     }()
-    // 2nd level cache, that contains decoded images
+    
+    /// 2nd level cache that contains decoded images.
     private lazy var decodedImageCache: NSCache<AnyObject, AnyObject> = {
         let cache = NSCache<AnyObject, AnyObject>()
         cache.totalCostLimit = config.memoryLimit
         return cache
     }()
+    
     private let lock = NSLock()
     private let config: Config
-
+    
+    // MARK: - Config
+    
+    /// Configuration struct for the ImageCache.
     struct Config {
         let countLimit: Int
         let memoryLimit: Int
@@ -46,17 +58,21 @@ final class ImageCache: ImageCacheType {
         static let defaultConfig = Config(countLimit: 100, memoryLimit: 1024 * 1024 * 100) // 100 MB
     }
 
+    // MARK: - Initialization
+    
     init(config: Config = Config.defaultConfig) {
         self.config = config
     }
 
+    // MARK: - ImageCacheType Methods
+    
     func image(for url: URL) -> UIImage? {
         lock.lock(); defer { lock.unlock() }
-        // the best case scenario -> there is a decoded image in memory
+        // The best case scenario -> there is a decoded image in memory.
         if let decodedImage = decodedImageCache.object(forKey: url as AnyObject) as? UIImage {
             return decodedImage
         }
-        // search for image data
+        // Search for image data.
         if let image = imageCache.object(forKey: url as AnyObject) as? UIImage {
             let decodedImage = image.decodedImage()
             decodedImageCache.setObject(image as AnyObject, forKey: url as AnyObject, cost: decodedImage.diskSize)
@@ -86,6 +102,8 @@ final class ImageCache: ImageCacheType {
         decodedImageCache.removeAllObjects()
     }
 
+    // MARK: - Subscript
+    
     subscript(_ key: URL) -> UIImage? {
         get {
             return image(for: key)
@@ -96,8 +114,11 @@ final class ImageCache: ImageCacheType {
     }
 }
 
+// MARK: - UIImage Extension
+
 fileprivate extension UIImage {
 
+    /// Returns a decoded version of the image.
     func decodedImage() -> UIImage {
         UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
         self.draw(at: CGPoint.zero)
@@ -105,11 +126,9 @@ fileprivate extension UIImage {
         return self
     }
 
-    // Rough estimation of how much memory image uses in bytes
+    /// Rough estimation of how much memory the image uses in bytes.
     var diskSize: Int {
         guard let cgImage = cgImage else { return 0 }
         return cgImage.bytesPerRow * cgImage.height
     }
 }
-
-

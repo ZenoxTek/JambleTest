@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - ProductsNavigatorController
+
 /// The `ProductsNavigatorController` takes control over the flows on the products search screen
 class ProductsNavigatorController: NavigatorCoordinator {
     fileprivate let window: UIWindow
@@ -25,17 +27,13 @@ class ProductsNavigatorController: NavigatorCoordinator {
     }
 }
 
+// MARK: - ProductsViewNavigator
+
 extension ProductsNavigatorController: ProductsViewNavigator {
-    func showFilterMenu() {
-        // Present filter context menu
-    }
-    
-    func showOrderByMenu() {
-        // present order by context menu
-    }
     
     func showDetails(forProduct productId: Int) {
         let controller = self.dependencyProvider.productDetailsController(productId)
         searchNavigationController?.pushViewController(controller, animated: true)
     }
 }
+

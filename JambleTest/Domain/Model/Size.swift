@@ -7,7 +7,9 @@
 
 import Foundation
 
-enum ProductSize: String, CaseIterable {
+// MARK: - ProductSize
+
+enum ProductSize: String, CaseIterable, Equatable {
     case extraSmall         = "XS"
     case small              = "S"
     case medium             = "M"

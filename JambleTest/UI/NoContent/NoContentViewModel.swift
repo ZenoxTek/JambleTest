@@ -8,10 +8,14 @@
 import Foundation
 import UIKit.UIImage
 
+// MARK: - NoContentViewModel
+
 struct NoContentViewModel {
     let title: String
     let description: String?
     let image: UIImage
+
+    // MARK: Static Properties
 
     static var noResults: NoContentViewModel {
         let title = String(localized: "NoProductFound")

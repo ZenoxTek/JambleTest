@@ -8,6 +8,8 @@
 import UIKit
 import Foundation
 
+// MARK: - JambleActionButton
+
 class JambleActionButton: UIButton {
     
     // MARK: - Custom Variables
@@ -16,7 +18,7 @@ class JambleActionButton: UIButton {
     var linkedToMenuBehavior = false
     
     // MARK: - Initialization
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -37,20 +39,20 @@ class JambleActionButton: UIButton {
         self.setTitleColor(.white, for: .normal)
         
         // Add targets for touch events
-         addTarget(self, action: #selector(buttonPressed), for: .touchDown)
-         addTarget(self, action: #selector(buttonReleased), for: .touchUpInside)
-         addTarget(self, action: #selector(buttonReleased), for: .touchUpOutside)
+        addTarget(self, action: #selector(buttonPressed), for: .touchDown)
+        addTarget(self, action: #selector(buttonReleased), for: .touchUpInside)
+        addTarget(self, action: #selector(buttonReleased), for: .touchUpOutside)
     }
 
     // MARK: - Layout
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         // Perform any additional layout customization
     }
 
     // MARK: - UIControl State Handling
-
+    
     override var isEnabled: Bool {
         didSet {
             alpha = isEnabled ? 1.0 : 0.5
@@ -58,7 +60,7 @@ class JambleActionButton: UIButton {
     }
 
     // MARK: - Additional Customization
-
+    
     func setCustomTitle(_ title: String) {
         myConfiguration.title = title
         self.configuration = myConfiguration
@@ -74,7 +76,7 @@ class JambleActionButton: UIButton {
     }
     
     // MARK: - Button Pressed/Released
-
+    
     @objc private func buttonPressed() {
         if !linkedToMenuBehavior {
             UIView.animate(withDuration: 0.1) {

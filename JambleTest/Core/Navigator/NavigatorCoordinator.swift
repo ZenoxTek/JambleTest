@@ -7,9 +7,11 @@
 
 import Foundation
 
-/// A `NavigatorCoordinator` takes responsibility about coordinating view controllers and driving the flow in the application.
+// MARK: - NavigatorCoordinator
+
+/// A `NavigatorCoordinator` takes responsibility for coordinating view controllers and driving the flow in the application.
 protocol NavigatorCoordinator: AnyObject {
 
-    /// Stars the flow
+    /// Starts the flow.
     func start()
 }

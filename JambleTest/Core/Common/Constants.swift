@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - Constants
+
 struct Constants {
     static let jsonFile = "products"
 }

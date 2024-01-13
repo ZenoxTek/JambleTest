@@ -7,7 +7,9 @@
 
 import UIKit
 
-/// The ApplicationComponentsFactory takes responsibility of creating application components and establishing dependencies between them.
+// MARK: - ApplicationComponentsFactory
+
+/// The ApplicationComponentsFactory takes responsibility for creating application components and establishing dependencies between them.
 final class ApplicationComponentsFactory {
     fileprivate lazy var useCase: ProductUseCaseType = ProductUseCase(service: servicesProvider.service)
 
@@ -18,10 +20,12 @@ final class ApplicationComponentsFactory {
     }
 }
 
+// MARK: - ApplicationCoordinatorDependencyProvider Extension
+
 extension ApplicationComponentsFactory: ApplicationCoordinatorDependencyProvider {
     
     func productDetailsController(_ productId: Int) -> UIViewController {
-        ///TODO: Implement it if I have time
+        /// TODO: Implement it if I have time
         return UIViewController()
     }
 
@@ -33,3 +37,4 @@ extension ApplicationComponentsFactory: ApplicationCoordinatorDependencyProvider
         return productsNavigationController
     }
 }
+

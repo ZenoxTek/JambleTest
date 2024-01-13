@@ -7,19 +7,23 @@
 
 import Foundation
 
+// MARK: - Currency
+
 struct Currency {
-    let id: CurrencyType
+    let type: CurrencyType
 }
+
+// MARK: - CurrencyType
 
 enum CurrencyType: String {
 
     case dollar = "USD"
-    case euro = "EUR"
+    case euro   = "EUR"
     
-    var description: String {
+    var symbol: String {
         switch self {
-        case .dollar: "$"
-        case .euro: "€"
+        case .dollar: return "$"
+        case .euro: return "€"
         }
     }
 }

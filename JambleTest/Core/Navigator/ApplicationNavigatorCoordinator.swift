@@ -7,7 +7,9 @@
 
 import UIKit
 
-/// The application flow coordinator. Takes responsibility about coordinating view controllers and driving the flow
+// MARK: - ApplicationNavigatorCoordinator
+
+/// The application flow coordinator. Takes responsibility for coordinating view controllers and driving the flow.
 class ApplicationNavigatorCoordinator: NavigatorCoordinator {
 
     typealias DependencyProvider = ApplicationCoordinatorDependencyProvider
@@ -21,11 +23,10 @@ class ApplicationNavigatorCoordinator: NavigatorCoordinator {
         self.dependencyProvider = dependencyProvider
     }
 
-    /// Creates all necessary dependencies and starts the flow
+    /// Creates all necessary dependencies and starts the flow.
     func start() {
         let searchFlowCoordinator = ProductsNavigatorController(window: window, dependencyProvider: self.dependencyProvider)
         childCoordinators = [searchFlowCoordinator]
         searchFlowCoordinator.start()
     }
-
 }

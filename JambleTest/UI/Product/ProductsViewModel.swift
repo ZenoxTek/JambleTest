@@ -8,7 +8,11 @@
 import Foundation
 import Combine
 
+// MARK: - ProductsViewModel
+
 final class ProductsViewModel: ProductsViewModelType {
+    
+    // MARK: - Properties
     
     private weak var navigator: ProductsViewNavigator?
     private let useCase: ProductUseCaseType
@@ -19,10 +23,14 @@ final class ProductsViewModel: ProductsViewModelType {
         productItems.count
     }
     
+    // MARK: - Initialization
+    
     init(useCase: ProductUseCaseType, navigator: ProductsViewNavigator) {
         self.useCase = useCase
         self.navigator = navigator
     }
+    
+    // MARK: - Transform Input
     
     func transform(input: ProductsViewModelInput) -> ProductsViewModelOuput {
         cancellables.forEach { $0.cancel() }
@@ -43,12 +51,10 @@ final class ProductsViewModel: ProductsViewModelType {
             })
             .eraseToAnyPublisher()
         
-       /* let emptySearchString: ProductsViewModelOuput = searchInput.filter({ $0.isEmpty }).map({ _ in .idle([]) }).eraseToAnyPublisher()
-        let idle: ProductsViewModelOuput = Publishers.Merge(initialState, emptySearchString).eraseToAnyPublisher()*/
-        
-        //return Publishers.Merge(idle, searchEnd).removeDuplicates().eraseToAnyPublisher()
         return productsSearch
     }
+    
+    // MARK: - Mock Data
     
     func loadMockData() {
         MockData.shared.loadProducts().forEach {

@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - CustomColor
+
 enum CustomColor: String, CaseIterable {
     
     case orange     = "#FF5733"
@@ -18,12 +20,12 @@ enum CustomColor: String, CaseIterable {
     
     var description: String {
         switch self {
-        case .orange:   String(localized: "Orange")
-        case .yellow:   String(localized: "Yellow")
-        case .green:    String(localized: "Green")
-        case .red:      String(localized: "Red")
-        case .purple:   String(localized: "Purple")
-        case .unknown:  String(localized: "Unknown")
+        case .orange:   return String(localized: "Orange")
+        case .yellow:   return String(localized: "Yellow")
+        case .green:    return String(localized: "Green")
+        case .red:      return String(localized: "Red")
+        case .purple:   return String(localized: "Purple")
+        case .unknown:  return String(localized: "Unknown")
         }
     }
 }

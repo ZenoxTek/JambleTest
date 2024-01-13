@@ -7,26 +7,32 @@
 
 import Foundation
 
+// MARK: - ServicesProvider
+
+/// A class that provides various services for the application.
 class ServicesProvider {
-    /// This protocol is important to be flexible on the type of service we want to use in different situation. It can be a local service management, a network service management....
+    
+    /// The main service used in the application (e.g., network service, local service).
     let service: ServiceType
     
-    /// Add this `ImageLoaderServiceType` Service for image downloading management. It can be used in many service situation so let it be present in the `ServicesProvider` class
+    /// Service for managing image loading and caching.
     let imageLoader: ImageLoaderServiceType
 
-    /// Preparing a network provider when we'll need to implement network feature in the app
+    /// Creates a default network provider with a `NetworkService` and `ImageLoaderService`.
     static func defaultNetworkProvider() -> ServicesProvider {
         let service = NetworkService()
         let imageLoader = ImageLoaderService()
         return ServicesProvider(service: service, imageLoader: imageLoader)
     }
     
+    /// Creates a default JSON provider with a `JsonService` and `ImageLoaderService`.
     static func defaultJsonProvider() -> ServicesProvider {
         let service = JsonService()
         let imageLoader = ImageLoaderService()
         return ServicesProvider(service: service, imageLoader: imageLoader)
     }
 
+    /// Initializes the `ServicesProvider` with the specified services.
     init(service: ServiceType, imageLoader: ImageLoaderServiceType) {
         self.service = service
         self.imageLoader = imageLoader

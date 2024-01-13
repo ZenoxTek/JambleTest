@@ -9,9 +9,11 @@ import Foundation
 import UIKit
 import Combine
 
+// MARK: - ProductsViewController
+
 final class ProductsViewController: UIViewController {
     
-    // UI Elements
+    // MARK: - UI Elements
     
     let searchResultLabel = UILabel()
     let separator = UIView()
@@ -22,7 +24,7 @@ final class ProductsViewController: UIViewController {
         button.setCustomTitle(String(localized: "Reset"))
         return button
     }()
-
+    
     let sortByButton: JambleActionButton = {
         let button = JambleActionButton()
         button.setCustomTitle(String(localized: "SortBy"))
@@ -31,7 +33,7 @@ final class ProductsViewController: UIViewController {
         }
         return button
     }()
-
+    
     let filterButton: JambleActionButton = {
         let button = JambleActionButton()
         button.setCustomTitle(String(localized: "Filter"))
@@ -62,22 +64,24 @@ final class ProductsViewController: UIViewController {
         collectionView.backgroundColor = .red
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .white
-
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    private lazy var dataSource = makeDataSource()
-
-    // Combine Elements
+    
+    // MARK: - Combine Elements
     
     private var cancellables = Set<AnyCancellable>()
     private let search = PassthroughSubject<LogicalRulers, Never>()
     private var logicalRuler = LogicalRulers()
     
-    // Data Elements
+    // MARK: - Data Elements
     
+    private lazy var dataSource = makeDataSource()
     private let viewModel: ProductsViewModelType
+    
+    // MARK: - Initialization
     
     init(viewModel: ProductsViewModelType) {
         self.viewModel = viewModel
@@ -88,6 +92,12 @@ final class ProductsViewController: UIViewController {
         fatalError("Not supported!")
     }
     
+}
+
+// MARK: - View Lifecycle
+
+extension ProductsViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,10 +111,15 @@ final class ProductsViewController: UIViewController {
         /*viewModel.loadMockData()
         productsCV.reloadData()*/
     }
+}
+
+// MARK: - UI Configuration
+
+extension ProductsViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
-
+        
         configureTopScreen()
         configureSeparatorAndLabel()
         configureCollectionView()
@@ -153,47 +168,47 @@ final class ProductsViewController: UIViewController {
         searchField.delegate = self
         
         resetButton.addTarget(self, action: #selector(resetPressed), for: .touchUpInside)
-
+        
         let topStackView = UIStackView(arrangedSubviews: [searchField, resetButton])
         topStackView.axis = .horizontal
         topStackView.alignment = .center
         topStackView.spacing = 8
-
+        
         topStackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         view.addSubview(topStackView)
-
+        
         NSLayoutConstraint.activate([
             topStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             topStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12.0),
             topStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12.0)
         ])
     }
-
+    
     private func configureSeparatorAndLabel() {
         separator.backgroundColor = .lightGray.withAlphaComponent(0.2)
         searchResultLabel.textColor = .lightGray
         searchResultLabel.font = .systemFont(ofSize: 12.0)
         separator.translatesAutoresizingMaskIntoConstraints = false
         searchResultLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        
         view.addSubview(separator)
         view.addSubview(searchResultLabel)
-
+        
         NSLayoutConstraint.activate([
             separator.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 16),
             separator.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12.0),
             separator.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12.0),
             separator.heightAnchor.constraint(equalToConstant: 1),
-
+            
             searchResultLabel.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: 8),
             searchResultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24.0)
         ])
     }
-
+    
     private func configureCollectionView() {
         view.addSubview(productsCV)
-          
+        
         productsCV.registerNib(cellClass: ProductCollectionViewCell.self)
         productsCV.dataSource = dataSource
         productsCV.delegate = self
@@ -208,10 +223,10 @@ final class ProductsViewController: UIViewController {
     
     private func configureBottomScreen() {
         view.addSubview(buttonsStackView)
-
+        
         buttonsStackView.addArrangedSubview(sortByButton)
         buttonsStackView.addArrangedSubview(filterButton)
-
+        
         // Configurer les contraintes
         NSLayoutConstraint.activate([
             buttonsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -229,17 +244,17 @@ final class ProductsViewController: UIViewController {
         
         let itemsOrdering = UIMenu(title: String(localized: "SortBy"), image: UIImage(named: "icon-menu-4-dots"),
                                    options: .displayInline, children: [
-            UIAction(title: String(localized: "PriceAscMenu"), image: UIImage(systemName: "arrow.up"),
-                     handler: { _ in
-                         self.logicalRuler.sorting = .asc
-                         self.search.send(self.logicalRuler)
-                     }),
-            UIAction(title: String(localized: "PriceDescMenu"), image: UIImage(systemName: "arrow.down"),
-                     handler: { _ in
-                         self.logicalRuler.sorting = .desc
-                         self.search.send(self.logicalRuler)
-                     }),
-        ])
+                                    UIAction(title: String(localized: "PriceAscMenu"), image: UIImage(systemName: "arrow.up"),
+                                             handler: { _ in
+                                                 self.logicalRuler.sorting = .asc
+                                                 self.search.send(self.logicalRuler)
+                                             }),
+                                    UIAction(title: String(localized: "PriceDescMenu"), image: UIImage(systemName: "arrow.down"),
+                                             handler: { _ in
+                                                 self.logicalRuler.sorting = .desc
+                                                 self.search.send(self.logicalRuler)
+                                             }),
+                                   ])
         
         let resetFiltering = UIAction(title: String(localized: "Reset"), attributes: .destructive) { _ in
             self.logicalRuler.filtering = (FilteringType.none, "")
@@ -276,6 +291,11 @@ final class ProductsViewController: UIViewController {
         filterButton.menu = UIMenu(title: "", children: [itemsFiltering, resetFiltering])
         filterButton.showsMenuAsPrimaryAction = true
     }
+}
+
+// MARK: - Data Binding
+
+extension ProductsViewController {
     
     private func bind(to viewModel: ProductsViewModelType) {
         cancellables.forEach { $0.cancel() }
@@ -364,6 +384,8 @@ final class ProductsViewController: UIViewController {
     }
 }
 
+// MARK: - UI Actions
+
 extension ProductsViewController {
     
     @objc func resetPressed() {
@@ -373,12 +395,16 @@ extension ProductsViewController {
     }
 }
 
+// MARK: - UISearchBarDelegate
+
 extension ProductsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         logicalRuler.searchString = searchText
         search.send(logicalRuler)
     }
 }
+
+// MARK: - UICollectionViewDelegate
 
 extension ProductsViewController: UICollectionViewDelegate {
     enum Section: CaseIterable {
@@ -397,6 +423,8 @@ extension ProductsViewController: UICollectionViewDelegate {
         )
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension ProductsViewController: UICollectionViewDelegateFlowLayout {
     

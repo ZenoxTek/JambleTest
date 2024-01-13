@@ -265,24 +265,8 @@
 			children = (
 				B22B6FF12B52F1840044E0F7 /* Custom Views */,
 				B22B6F392B516DCC0044E0F7 /* Cells */,
-				B22B6F382B516DC30044E0F7 /* Filter */,
-				B22B6F372B516DBA0044E0F7 /* OrderBy */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		B22B6F372B516DBA0044E0F7 /* OrderBy */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = OrderBy;
-			sourceTree = "<group>";
-		};
-		B22B6F382B516DC30044E0F7 /* Filter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Filter;
 			sourceTree = "<group>";
 		};
 		B22B6F392B516DCC0044E0F7 /* Cells */ = {

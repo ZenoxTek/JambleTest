@@ -7,7 +7,11 @@
 
 import UIKit
 
+// MARK: - NoContentViewController
+
 final class NoContentViewController: UIViewController {
+
+    // MARK: Properties
 
     private var stackView: UIStackView!
 
@@ -34,11 +38,14 @@ final class NoContentViewController: UIViewController {
         return label
     }()
 
+    // MARK: Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureStackView()
     }
+
+    // MARK: Public Methods
 
     func showNoResults() {
         render(viewModel: NoContentViewModel.noResults)
@@ -47,6 +54,8 @@ final class NoContentViewController: UIViewController {
     func showDataLoadingError() {
         render(viewModel: NoContentViewModel.dataLoadingError)
     }
+
+    // MARK: Private Methods
 
     private func render(viewModel: NoContentViewModel) {
         errorTitle.text = viewModel.title

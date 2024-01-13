@@ -7,7 +7,11 @@
 
 import UIKit
 
+// MARK: - ProductCollectionViewCell
+
 class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableView {
+    
+    // MARK: - Outlets
     
     @IBOutlet private weak var price: UILabel!
     @IBOutlet private weak var productImage: UIImageView!
@@ -17,8 +21,12 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
     @IBOutlet private weak var productImg: UIImageView!
     @IBOutlet private weak var productColor: UIView!
     
+    // MARK: - Properties
+    
     private var isBookmarked = false
     private var numberBookmark = 0
+    
+    // MARK: - Cell Binding
     
     func bind(from product: Product) {
         price.text = product.price(with: product.currency)
@@ -32,6 +40,8 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
         setupBookmarkButton()
     }
     
+    // MARK: - Setup UI
+    
     private func setupBookmarkButton() {
         bookmarkBtn.tintColor = .white
         if let heartImg = UIImage(named: "icon-heart")?.withTintColor(.white) {
@@ -42,6 +52,8 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
         bookmarkBtn.addTarget(self, action: #selector(bookmarkReleased), for: .touchUpOutside)
         bookmarkBtn.addTarget(self, action: #selector(bookmarkReleased), for: .touchUpInside)
     }
+    
+    // MARK: - Bookmark Button Actions
     
     @objc func bookmarkPressed() {
         isBookmarked.toggle()

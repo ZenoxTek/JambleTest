@@ -7,4 +7,6 @@
 
 import Foundation
 
+// MARK: - AutoMockable
+
 public protocol AutoMockable {}

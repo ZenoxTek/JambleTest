@@ -8,7 +8,11 @@
 import Foundation
 import UIKit
 
+// MARK: - Product
+
 struct Product: Identifiable, Codable {
+
+    // MARK: - Properties
     
     let id: Int
     let color: String
@@ -17,35 +21,45 @@ struct Product: Identifiable, Codable {
     let currency: String
     let size: String
     
+    // MARK: - Computed Properties
+    
+    /// UIColor representation of the product color.
     var uiColor: UIColor {
         UIColor(hex: color)
     }
     
+    /// ProductSize enumeration based on the product size string.
     var sizeType: ProductSize {
         ProductSize(rawValue: size) ?? ProductSize.unknown
     }
     
+    /// CustomColor enumeration based on the product color string.
     var customColor: CustomColor {
         CustomColor(rawValue: color) ?? CustomColor.unknown
     }
     
+    // MARK: - Methods
+    
+    /// Formatted price string with the given currency.
     func price(with currency: String) -> String {
         if let currencyType: CurrencyType = CurrencyType(rawValue: currency) {
-            return "\(currencyType.description)\(price.description)"
+            return "\(currencyType.symbol) \(price.description)"
         }
         return currency
     }
 }
 
+// MARK: - Equatable
+
 extension Product: Equatable {
-    
     static func == (lhs: Product, rhs: Product) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
+// MARK: - Hashable
+
 extension Product: Hashable {
-    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

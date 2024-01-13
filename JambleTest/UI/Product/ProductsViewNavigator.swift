@@ -5,14 +5,12 @@
 //  Created by Benjamin Duhieu on 12/01/2024.
 //
 
+// MARK: - ProductsViewNavigator
+
 protocol ProductsViewNavigator: AutoMockable, AnyObject {
     
-    /// Presents the products details screen
+    /// Presents the screen for viewing details of a product.
+    /// - Parameter productId: The identifier of the product to be displayed.
     func showDetails(forProduct productId: Int)
     
-    /// Presents the filter context menu
-    func showFilterMenu()
-    
-    /// Presents the order by context menu
-    func showOrderByMenu()
 }

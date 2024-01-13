@@ -7,7 +7,15 @@
 
 import UIKit
 
+// MARK: - UIViewController Extension
+
 extension UIViewController {
+    
+    /// Adds a child view controller to the current view controller's view.
+    ///
+    /// - Parameters:
+    ///   - child: The child view controller to be added.
+    ///   - parent: The parent view to which the child view will be added.
     public func add(_ child: UIViewController, to parent: UIView) {
         addChild(child)
         view.addSubview(child.view)
@@ -21,6 +29,9 @@ extension UIViewController {
         child.didMove(toParent: self)
     }
 
+    /// Removes a child view controller from its parent.
+    ///
+    /// - Parameter child: The child view controller to be removed.
     public func remove(_ child: UIViewController) {
         guard child.parent != nil else {
             return

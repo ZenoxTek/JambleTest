@@ -8,11 +8,15 @@
 import Foundation
 import Combine
 
+// MARK: - JsonServiceType
+
 protocol JsonServiceType: ServiceType {
 
     @discardableResult
     func load<T>(_ resource: JsonResource<T>) -> AnyPublisher<T, Error>
 }
+
+// MARK: - JsonError
 
 /// Defines the Json service errors.
 enum JsonError: Error {

@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - MockData
+
 class MockData {
 
     static let shared = MockData()

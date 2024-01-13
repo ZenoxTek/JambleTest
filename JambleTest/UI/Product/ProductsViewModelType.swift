@@ -7,17 +7,16 @@
 
 import Combine
 
+// MARK: - ProductsViewModelInput
+
 struct ProductsViewModelInput {
-    /// called when a screen becomes visible or search is reset
-    //let appear: AnyPublisher<Void, Never>
-    // triggered when the search query is updated
+    
+    /// Called when a screen becomes visible or when the search query is updated.
     let search: AnyPublisher<LogicalRulers, Never>
     
-    // Called when filter button is pressed
-    //let filterOpen: AnyPublisher<Void, Never>
-    // Called when order button is pressed
-    //let sortByOpen: AnyPublisher<(Bool, String), Never>
 }
+
+// MARK: - LogicalRulers
 
 struct LogicalRulers {
     var sorting: SortingType = SortingType.none
@@ -33,17 +32,23 @@ extension LogicalRulers: Equatable {
     }
 }
 
+// MARK: - SortingType
+
 enum SortingType: Int {
     case none = 0
     case asc = 1
     case desc = 2
 }
 
+// MARK: - FilteringType
+
 enum FilteringType: Int {
     case none = 0
     case size = 1
     case color = 2
 }
+
+// MARK: - ProductsState
 
 enum ProductsState {
     case idle
@@ -60,13 +65,17 @@ extension ProductsState: Equatable {
         case (.loading, .loading): return true
         case (.success(let lhsProduct), .success(let rhsProduct)): return lhsProduct == rhsProduct
         case (.noResults, .noResults): return true
-        case (.failure, .failure): return true
+        case (.failure(let lhsError), .failure(let rhsError)): return lhsError.localizedDescription == rhsError.localizedDescription
         default: return false
         }
     }
 }
 
+// MARK: - ProductsViewModelOutput
+
 typealias ProductsViewModelOuput = AnyPublisher<ProductsState, Never>
+
+// MARK: - ProductsViewModelType
 
 protocol ProductsViewModelType {
     func transform(input: ProductsViewModelInput) -> ProductsViewModelOuput
