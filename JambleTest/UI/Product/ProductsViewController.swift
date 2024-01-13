@@ -16,59 +16,27 @@ final class ProductsViewController: UIViewController {
     let searchResultLabel = UILabel()
     let separator = UIView()
     let searchField = UISearchBar()
-    let resetButton: UIButton = {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = String(localized: "Reset")
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        var background = UIBackgroundConfiguration.clear()
-        background.backgroundColor = .black
-        background.cornerRadius = 16.0
-        configuration.background = background
-        button.configuration = configuration
-        button.setTitleColor(.white, for: .normal)
+    let resetButton: JambleActionButton = {
+        let button = JambleActionButton()
+        button.setCustomTitle(String(localized: "Reset"))
         return button
     }()
 
-    let sortByButton: UIButton = {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = String(localized: "SortBy")
+    let sortByButton: JambleActionButton = {
+        let button = JambleActionButton()
+        button.setCustomTitle(String(localized: "SortBy"))
         if let image = UIImage(named: "icon-menu-4-dots") {
-            configuration.image = image.withTintColor(.white)
+            button.setCustomImage(with: image.withTintColor(.white), with: 4, isMirror: true)
         }
-        configuration.imagePadding = 4
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        var background = UIBackgroundConfiguration.clear()
-        background.backgroundColor = .black
-        background.cornerRadius = 16.0
-        configuration.background = background
-        button.configuration = configuration
-        button.setTitleColor(.white, for: .normal)
-        button.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        button.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        button.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         return button
     }()
 
-    let filterButton: UIButton = {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = String(localized: "Filter")
+    let filterButton: JambleActionButton = {
+        let button = JambleActionButton()
+        button.setCustomTitle(String(localized: "Filter"))
         if let image = UIImage(named: "icon-filter") {
-            configuration.image = image.withTintColor(.white)
+            button.setCustomImage(with: image.withTintColor(.white), with: 4, isMirror: true)
         }
-        configuration.imagePadding = 4
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        var background = UIBackgroundConfiguration.clear()
-        background.backgroundColor = .black
-        background.cornerRadius = 16.0
-        configuration.background = background
-        button.configuration = configuration
-        button.setTitleColor(.white, for: .normal)
-        button.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        button.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        button.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         return button
     }()
 
@@ -273,9 +241,10 @@ final class ProductsViewController: UIViewController {
                                         sizeMenu,
                                         colorMenu
                                     ])
-        
+        sortByButton.linkedToMenuBehavior = true
         sortByButton.menu = UIMenu(title: "", children: [itemsOrdering, resetOrdering])
         sortByButton.showsMenuAsPrimaryAction = true
+        filterButton.linkedToMenuBehavior = true
         filterButton.menu = UIMenu(title: "", children: [itemsFiltering, resetFiltering])
         filterButton.showsMenuAsPrimaryAction = true
     }

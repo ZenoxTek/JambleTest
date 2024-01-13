@@ -53,6 +53,7 @@
 		B22B6FF32B52F1960044E0F7 /* RoundedCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FF22B52F1960044E0F7 /* RoundedCornerButton.swift */; };
 		B22B6FF52B52F6EF0044E0F7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FF42B52F6EF0044E0F7 /* Color.swift */; };
 		B22B6FF72B5304040044E0F7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B22B6FF62B5304040044E0F7 /* Localizable.xcstrings */; };
+		B22B6FF92B5314D30044E0F7 /* JambleActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FF82B5314D30044E0F7 /* JambleActionButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		B22B6FF22B52F1960044E0F7 /* RoundedCornerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerButton.swift; sourceTree = "<group>"; };
 		B22B6FF42B52F6EF0044E0F7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B22B6FF62B5304040044E0F7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		B22B6FF82B5314D30044E0F7 /* JambleActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JambleActionButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -402,6 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				B22B6FF22B52F1960044E0F7 /* RoundedCornerButton.swift */,
+				B22B6FF82B5314D30044E0F7 /* JambleActionButton.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B22B6FF92B5314D30044E0F7 /* JambleActionButton.swift in Sources */,
 				B22B6F772B517A030044E0F7 /* NetworkServiceType.swift in Sources */,
 				B22B6F892B517C200044E0F7 /* JsonResource.swift in Sources */,
 				B22B6F7D2B517A030044E0F7 /* ImageLoaderServiceType.swift in Sources */,
