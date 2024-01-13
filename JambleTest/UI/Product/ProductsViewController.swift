@@ -19,7 +19,7 @@ final class ProductsViewController: UIViewController {
     let resetButton: UIButton = {
         let button = UIButton()
         var configuration = UIButton.Configuration.filled()
-        configuration.title = "Reset"
+        configuration.title = String(localized: "Reset")
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         var background = UIBackgroundConfiguration.clear()
         background.backgroundColor = .black
@@ -33,7 +33,7 @@ final class ProductsViewController: UIViewController {
     let sortByButton: UIButton = {
         let button = UIButton()
         var configuration = UIButton.Configuration.filled()
-        configuration.title = "Sort By"
+        configuration.title = String(localized: "SortBy")
         if let image = UIImage(named: "icon-menu-4-dots") {
             configuration.image = image.withTintColor(.white)
         }
@@ -54,7 +54,7 @@ final class ProductsViewController: UIViewController {
     let filterButton: UIButton = {
         let button = UIButton()
         var configuration = UIButton.Configuration.filled()
-        configuration.title = "Filter"
+        configuration.title = String(localized: "Filter")
         if let image = UIImage(named: "icon-filter") {
             configuration.image = image.withTintColor(.white)
         }
@@ -152,7 +152,7 @@ final class ProductsViewController: UIViewController {
         searchField.backgroundImage = UIImage()
         searchField.setTextField(color: .black.withAlphaComponent(0.1))
         searchField.set(textColor: .gray)
-        searchField.searchTextField.attributedPlaceholder = NSAttributedString(string: "Search",
+        searchField.searchTextField.attributedPlaceholder = NSAttributedString(string: String(localized: "Search"),
                                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         searchField.delegate = self
         
@@ -226,26 +226,26 @@ final class ProductsViewController: UIViewController {
     
     private func configureMenuOnActionButtons() {
         
-        let resetOrdering = UIAction(title: "Reset", attributes: .destructive) { _ in
+        let resetOrdering = UIAction(title: String(localized: "Reset"), attributes: .destructive) { _ in
             self.logicalRuler.sorting = .none
             self.search.send(self.logicalRuler)
         }
         
-        let itemsOrdering = UIMenu(title: "Sort by", image: UIImage(named: "icon-menu-4-dots"),
+        let itemsOrdering = UIMenu(title: String(localized: "SortBy"), image: UIImage(named: "icon-menu-4-dots"),
                                    options: .displayInline, children: [
-            UIAction(title: "Price Ascending", image: UIImage(systemName: "arrow.up"), 
+            UIAction(title: String(localized: "PriceAscMenu"), image: UIImage(systemName: "arrow.up"),
                      handler: { _ in
                          self.logicalRuler.sorting = .asc
                          self.search.send(self.logicalRuler)
                      }),
-            UIAction(title: "Price Descending", image: UIImage(systemName: "arrow.down"), 
+            UIAction(title: String(localized: "PriceDescMenu"), image: UIImage(systemName: "arrow.down"),
                      handler: { _ in
                          self.logicalRuler.sorting = .desc
                          self.search.send(self.logicalRuler)
                      }),
         ])
         
-        let resetFiltering = UIAction(title: "Reset", attributes: .destructive) { _ in
+        let resetFiltering = UIAction(title: String(localized: "Reset"), attributes: .destructive) { _ in
             self.logicalRuler.filtering = (FilteringType.none, "")
             self.search.send(self.logicalRuler)
         }
@@ -264,11 +264,11 @@ final class ProductsViewController: UIViewController {
             })
         }
         
-        let sizeMenu = UIMenu(title: "Size", options: .displayAsPalette, children: sizeMenuActions)
+        let sizeMenu = UIMenu(title: String(localized: "Size"), options: .displayAsPalette, children: sizeMenuActions)
         
-        let colorMenu = UIMenu(title: "Color", options: .displayAsPalette, children: colorMenuActions)
+        let colorMenu = UIMenu(title: String(localized: "Color"), options: .displayAsPalette, children: colorMenuActions)
         
-        let itemsFiltering = UIMenu(title: "Filter", image: UIImage(named: "icon-filter"),
+        let itemsFiltering = UIMenu(title: String(localized: "Filter"), image: UIImage(named: "icon-filter"),
                                     options: .displayInline, children: [
                                         sizeMenu,
                                         colorMenu
@@ -342,30 +342,28 @@ final class ProductsViewController: UIViewController {
     }
         
     private func updateSearchResultLabel(with newCount: Int) {
-        searchResultLabel.text = (newCount < 2)
-            ? "Result: \(newCount) item"
-            : "Result: \(newCount) items"
+        searchResultLabel.text = String(localized: "Result: \(newCount) items")
     }
     
     private func updateFilterButtonLabel() {
         switch logicalRuler.filtering.0 {
         case .none:
-            filterButton.setTitle("Filter", for: .normal)
+            filterButton.setTitle(String(localized: "Filter"), for: .normal)
         case .color:
-            filterButton.setTitle("Color - \(logicalRuler.filtering.1)", for: .normal)
+            filterButton.setTitle("\(String(localized: "Color")) - \(logicalRuler.filtering.1)", for: .normal)
         case .size:
-            filterButton.setTitle("Size - \(logicalRuler.filtering.1)", for: .normal)
+            filterButton.setTitle("\(String(localized: "Size")) - \(logicalRuler.filtering.1)", for: .normal)
         }
     }
     
     private func updateSortingButtonLabel() {
         switch logicalRuler.sorting {
         case .none:
-            sortByButton.setTitle("Sort By", for: .normal)
+            sortByButton.setTitle(String(localized: "SortBy"), for: .normal)
         case .asc:
-            sortByButton.setTitle("Price Asc", for: .normal)
+            sortByButton.setTitle("\(String(localized: "Price")) Asc", for: .normal)
         case .desc:
-            sortByButton.setTitle("Price Desc", for: .normal)
+            sortByButton.setTitle("\(String(localized: "Price")) Desc", for: .normal)
         }
     }
 }

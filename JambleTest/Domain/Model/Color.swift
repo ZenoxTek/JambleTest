@@ -18,12 +18,12 @@ enum CustomColor: String, CaseIterable {
     
     var description: String {
         switch self {
-        case .orange:   "Orange"
-        case .yellow:   "Yellow"
-        case .green:    "Green"
-        case .red:      "Red"
-        case .purple:   "Purple"
-        case .unknown:  "Unknown"
+        case .orange:   String(localized: "Orange")
+        case .yellow:   String(localized: "Yellow")
+        case .green:    String(localized: "Green")
+        case .red:      String(localized: "Red")
+        case .purple:   String(localized: "Purple")
+        case .unknown:  String(localized: "Unknown")
         }
     }
 }

@@ -8,11 +8,11 @@
 import Foundation
 
 enum ProductSize: String, CaseIterable {
-    case extraSmall = "XS"
-    case small = "S"
-    case medium = "M"
-    case large = "L"
-    case extraLarge = "XL"
-    case extraExtraLarge = "XXL"
-    case unknown = "Unknown"
+    case extraSmall         = "XS"
+    case small              = "S"
+    case medium             = "M"
+    case large              = "L"
+    case extraLarge         = "XL"
+    case extraExtraLarge    = "XXL"
+    case unknown            = "Unknown"
 }
