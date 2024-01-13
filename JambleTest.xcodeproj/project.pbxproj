@@ -49,6 +49,9 @@
 		B22B6FEA2B51C86F0044E0F7 /* ApplicationCoordinatorDependencyProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FE92B51C86F0044E0F7 /* ApplicationCoordinatorDependencyProviders.swift */; };
 		B22B6FEC2B51C9520044E0F7 /* ProductsNavigatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorController.swift */; };
 		B22B6FEE2B51CB510044E0F7 /* ProductsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FED2B51CB510044E0F7 /* ProductsViewModelType.swift */; };
+		B22B6FF02B52DF420044E0F7 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FEF2B52DF420044E0F7 /* Size.swift */; };
+		B22B6FF32B52F1960044E0F7 /* RoundedCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FF22B52F1960044E0F7 /* RoundedCornerButton.swift */; };
+		B22B6FF52B52F6EF0044E0F7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FF42B52F6EF0044E0F7 /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +118,9 @@
 		B22B6FE92B51C86F0044E0F7 /* ApplicationCoordinatorDependencyProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinatorDependencyProviders.swift; sourceTree = "<group>"; };
 		B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsNavigatorController.swift; sourceTree = "<group>"; };
 		B22B6FED2B51CB510044E0F7 /* ProductsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModelType.swift; sourceTree = "<group>"; };
+		B22B6FEF2B52DF420044E0F7 /* Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		B22B6FF22B52F1960044E0F7 /* RoundedCornerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerButton.swift; sourceTree = "<group>"; };
+		B22B6FF42B52F6EF0044E0F7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +252,7 @@
 		B22B6F362B516DA70044E0F7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B22B6FF12B52F1840044E0F7 /* Custom Views */,
 				B22B6F392B516DCC0044E0F7 /* Cells */,
 				B22B6F382B516DC30044E0F7 /* Filter */,
 				B22B6F372B516DBA0044E0F7 /* OrderBy */,
@@ -282,6 +289,8 @@
 				B22B6F3B2B516E4E0044E0F7 /* Product.swift */,
 				B22B6F3D2B516FE00044E0F7 /* Currency.swift */,
 				B22B6F462B51765F0044E0F7 /* Products.swift */,
+				B22B6FEF2B52DF420044E0F7 /* Size.swift */,
+				B22B6FF42B52F6EF0044E0F7 /* Color.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -384,6 +393,14 @@
 				B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorController.swift */,
 			);
 			path = Navigator;
+			sourceTree = "<group>";
+		};
+		B22B6FF12B52F1840044E0F7 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				B22B6FF22B52F1960044E0F7 /* RoundedCornerButton.swift */,
+			);
+			path = "Custom Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -522,12 +539,14 @@
 				B22B6F892B517C200044E0F7 /* JsonResource.swift in Sources */,
 				B22B6F7D2B517A030044E0F7 /* ImageLoaderServiceType.swift in Sources */,
 				B22B6F7C2B517A030044E0F7 /* ImageLoaderService.swift in Sources */,
+				B22B6FF02B52DF420044E0F7 /* Size.swift in Sources */,
 				B22B6F782B517A030044E0F7 /* NetworkService.swift in Sources */,
 				B22B6FDD2B51AF750044E0F7 /* MockData.swift in Sources */,
 				B22B6FE22B51C6260044E0F7 /* NavigatorCoordinator.swift in Sources */,
 				B22B6F7A2B517A030044E0F7 /* ServicesProvider.swift in Sources */,
 				B22B6F3E2B516FE00044E0F7 /* Currency.swift in Sources */,
 				B22B6F3C2B516E4E0044E0F7 /* Product.swift in Sources */,
+				B22B6FF52B52F6EF0044E0F7 /* Color.swift in Sources */,
 				B22B6FEC2B51C9520044E0F7 /* ProductsNavigatorController.swift in Sources */,
 				B22B6FDF2B51BBB50044E0F7 /* SearchField+Ext.swift in Sources */,
 				B22B6FEE2B51CB510044E0F7 /* ProductsViewModelType.swift in Sources */,
@@ -547,6 +566,7 @@
 				B22B6F992B518C600044E0F7 /* ProductsViewModel.swift in Sources */,
 				B22B6F872B517BE20044E0F7 /* JsonServiceType.swift in Sources */,
 				B22B6F7E2B517A030044E0F7 /* Scheduler.swift in Sources */,
+				B22B6FF32B52F1960044E0F7 /* RoundedCornerButton.swift in Sources */,
 				B22B6F042B516CD20044E0F7 /* SceneDelegate.swift in Sources */,
 				B22B6F7B2B517A030044E0F7 /* ImageCache.swift in Sources */,
 				B22B6F412B5175A80044E0F7 /* Color+Ext.swift in Sources */,

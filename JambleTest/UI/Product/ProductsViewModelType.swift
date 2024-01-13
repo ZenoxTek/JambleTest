@@ -8,10 +8,41 @@
 import Combine
 
 struct ProductsViewModelInput {
-    /// called when a screen becomes visible
-    let appear: AnyPublisher<Void, Never>
+    /// called when a screen becomes visible or search is reset
+    //let appear: AnyPublisher<Void, Never>
     // triggered when the search query is updated
-    let search: AnyPublisher<String, Never>
+    let search: AnyPublisher<LogicalRulers, Never>
+    
+    // Called when filter button is pressed
+    //let filterOpen: AnyPublisher<Void, Never>
+    // Called when order button is pressed
+    //let sortByOpen: AnyPublisher<(Bool, String), Never>
+}
+
+struct LogicalRulers {
+    var sorting: SortingType = SortingType.none
+    var filtering: (FilteringType, String) = (FilteringType.none, "")
+    var searchString: String = ""
+}
+
+extension LogicalRulers: Equatable {
+    static func == (lhs: LogicalRulers, rhs: LogicalRulers) -> Bool {
+        return lhs.sorting == rhs.sorting 
+            && lhs.filtering == rhs.filtering
+            && lhs.searchString == rhs.searchString
+    }
+}
+
+enum SortingType: Int {
+    case none = 0
+    case asc = 1
+    case desc = 2
+}
+
+enum FilteringType: Int {
+    case none = 0
+    case size = 1
+    case color = 2
 }
 
 enum ProductsState {

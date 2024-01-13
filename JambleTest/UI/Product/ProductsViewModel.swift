@@ -14,9 +14,9 @@ final class ProductsViewModel: ProductsViewModelType {
     private let useCase: ProductUseCaseType
     private var cancellables = Set<AnyCancellable>()
     
-    var products: [Product] = []
+    var productItems: [Product] = []
     var productCount: Int {
-        products.count
+        productItems.count
     }
     
     init(useCase: ProductUseCaseType, navigator: ProductsViewNavigator) {
@@ -27,12 +27,12 @@ final class ProductsViewModel: ProductsViewModelType {
     func transform(input: ProductsViewModelInput) -> ProductsViewModelOuput {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
-
+        
         let searchInput = input.search
             .debounce(for: .milliseconds(300), scheduler: Scheduler.mainScheduler)
             .removeDuplicates()
+        
         let productsSearch = searchInput
-            .filter({ !$0.isEmpty })
             .flatMapLatest({[unowned self] query in self.useCase.searchProduct(with: query) })
             .map({ result -> ProductsState in
                 switch result {
@@ -42,29 +42,17 @@ final class ProductsViewModel: ProductsViewModelType {
                 }
             })
             .eraseToAnyPublisher()
-
-        let appearInput = input.appear
         
-        let initialState: ProductsViewModelOuput = appearInput
-            .flatMapLatest({[unowned self] query in self.useCase.fetchProducts() })
-            .map { result -> ProductsState in
-                switch result {
-                case .success(let products) where products.isEmpty: return .noResults
-                case .success(let products): return .success(products)
-                case .failure(let error): return .failure(error)
-                }
-            }
-            .eraseToAnyPublisher()
+       /* let emptySearchString: ProductsViewModelOuput = searchInput.filter({ $0.isEmpty }).map({ _ in .idle([]) }).eraseToAnyPublisher()
+        let idle: ProductsViewModelOuput = Publishers.Merge(initialState, emptySearchString).eraseToAnyPublisher()*/
         
-        let emptySearchString: ProductsViewModelOuput = searchInput.filter({ $0.isEmpty }).map({ _ in .idle([]) }).eraseToAnyPublisher()
-        let idle: ProductsViewModelOuput = Publishers.Merge(initialState, emptySearchString).eraseToAnyPublisher()
-
-        return Publishers.Merge(idle, productsSearch).removeDuplicates().eraseToAnyPublisher()
+        //return Publishers.Merge(idle, searchEnd).removeDuplicates().eraseToAnyPublisher()
+        return productsSearch
     }
     
     func loadMockData() {
         MockData.shared.loadProducts().forEach {
-            products.append($0)
+            self.productItems.append($0)
         }
     }
 }

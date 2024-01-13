@@ -17,14 +17,18 @@ final class ProductsViewController: UIViewController {
     let separator = UIView()
     let searchField = UISearchBar()
     let resetButton: UIButton = {
-            let resetButton = UIButton()
-            resetButton.widthAnchor.constraint(equalToConstant: 64.0).isActive = true
-            resetButton.setTitle("Reset", for: .normal)
-            resetButton.setTitleColor(.white, for: .normal)
-            resetButton.backgroundColor = .black
-            resetButton.layer.cornerRadius = 16.0
-            return resetButton
-        }()
+        let button = UIButton()
+        var configuration = UIButton.Configuration.filled()
+        configuration.title = "Reset"
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        var background = UIBackgroundConfiguration.clear()
+        background.backgroundColor = .black
+        background.cornerRadius = 16.0
+        configuration.background = background
+        button.configuration = configuration
+        button.setTitleColor(.white, for: .normal)
+        return button
+    }()
 
     let sortByButton: UIButton = {
         let button = UIButton()
@@ -33,7 +37,7 @@ final class ProductsViewController: UIViewController {
         if let image = UIImage(named: "icon-menu-4-dots") {
             configuration.image = image.withTintColor(.white)
         }
-        configuration.titlePadding = 4
+        configuration.imagePadding = 4
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         var background = UIBackgroundConfiguration.clear()
         background.backgroundColor = .black
@@ -54,7 +58,7 @@ final class ProductsViewController: UIViewController {
         if let image = UIImage(named: "icon-filter") {
             configuration.image = image.withTintColor(.white)
         }
-        configuration.titlePadding = 4
+        configuration.imagePadding = 4
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         var background = UIBackgroundConfiguration.clear()
         background.backgroundColor = .black
@@ -97,8 +101,12 @@ final class ProductsViewController: UIViewController {
     // Combine Elements
     
     private var cancellables = Set<AnyCancellable>()
-    private let search = PassthroughSubject<String, Never>()
-    private let appear = PassthroughSubject<Void, Never>()
+    private let search = PassthroughSubject<LogicalRulers, Never>()
+    private var logicalRuler = LogicalRulers()
+    
+    //private let appear = PassthroughSubject<Void, Never>()
+    //private let filterOpen = PassthroughSubject<Void, Never>()
+    //private let sortBy = PassthroughSubject<(Bool, String), Never>()
     
     // Data Elements
     
@@ -122,7 +130,7 @@ final class ProductsViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        appear.send(())
+        search.send(logicalRuler)
         /*viewModel.loadMockData()
         productsCV.reloadData()*/
     }
@@ -213,13 +221,70 @@ final class ProductsViewController: UIViewController {
             buttonsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             buttonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+        configureMenuOnActionButtons()
+    }
+    
+    private func configureMenuOnActionButtons() {
+        
+        let resetOrdering = UIAction(title: "Reset", attributes: .destructive) { _ in
+            self.logicalRuler.sorting = .none
+            self.search.send(self.logicalRuler)
+        }
+        
+        let itemsOrdering = UIMenu(title: "Sort by", image: UIImage(named: "icon-menu-4-dots"),
+                                   options: .displayInline, children: [
+            UIAction(title: "Price Ascending", image: UIImage(systemName: "arrow.up"), 
+                     handler: { _ in
+                         self.logicalRuler.sorting = .asc
+                         self.search.send(self.logicalRuler)
+                     }),
+            UIAction(title: "Price Descending", image: UIImage(systemName: "arrow.down"), 
+                     handler: { _ in
+                         self.logicalRuler.sorting = .desc
+                         self.search.send(self.logicalRuler)
+                     }),
+        ])
+        
+        let resetFiltering = UIAction(title: "Reset", attributes: .destructive) { _ in
+            self.logicalRuler.filtering = (FilteringType.none, "")
+            self.search.send(self.logicalRuler)
+        }
+        
+        let sizeMenuActions = ProductSize.allCases.filter { size in size != .unknown }.map { index -> UIAction in
+            return UIAction(title: index.rawValue, handler: { _ in
+                self.logicalRuler.filtering = (FilteringType.size, index.rawValue)
+                self.search.send(self.logicalRuler)
+            })
+        }
+        
+        let colorMenuActions = CustomColor.allCases.filter { color in color != .unknown }.map { index -> UIAction in
+            return UIAction(title: index.description, handler: { _ in
+                self.logicalRuler.filtering = (FilteringType.color, index.description)
+                self.search.send(self.logicalRuler)
+            })
+        }
+        
+        let sizeMenu = UIMenu(title: "Size", options: .displayAsPalette, children: sizeMenuActions)
+        
+        let colorMenu = UIMenu(title: "Color", options: .displayAsPalette, children: colorMenuActions)
+        
+        let itemsFiltering = UIMenu(title: "Filter", image: UIImage(named: "icon-filter"),
+                                    options: .displayInline, children: [
+                                        sizeMenu,
+                                        colorMenu
+                                    ])
+        
+        sortByButton.menu = UIMenu(title: "", children: [itemsOrdering, resetOrdering])
+        sortByButton.showsMenuAsPrimaryAction = true
+        filterButton.menu = UIMenu(title: "", children: [itemsFiltering, resetFiltering])
+        filterButton.showsMenuAsPrimaryAction = true
     }
     
     private func bind(to viewModel: ProductsViewModelType) {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
-        let input = ProductsViewModelInput(appear: appear.eraseToAnyPublisher(),
-                                           search: search.eraseToAnyPublisher())
+        
+        let input = ProductsViewModelInput(search: search.eraseToAnyPublisher())
 
         let output = viewModel.transform(input: input)
 
@@ -262,7 +327,7 @@ final class ProductsViewController: UIViewController {
             guard let self = self else {
                 return
             }
-            self.updateSearchResultLabel(with: products.count)
+            updateLayout(with: products.count)
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections(Section.allCases)
             snapshot.appendItems(products, toSection: .products)
@@ -270,10 +335,38 @@ final class ProductsViewController: UIViewController {
         }
     }
     
+    private func updateLayout(with productItemsNb: Int) {
+        updateSearchResultLabel(with: productItemsNb)
+        updateFilterButtonLabel()
+        updateSortingButtonLabel()
+    }
+        
     private func updateSearchResultLabel(with newCount: Int) {
         searchResultLabel.text = (newCount < 2)
             ? "Result: \(newCount) item"
             : "Result: \(newCount) items"
+    }
+    
+    private func updateFilterButtonLabel() {
+        switch logicalRuler.filtering.0 {
+        case .none:
+            filterButton.setTitle("Filter", for: .normal)
+        case .color:
+            filterButton.setTitle("Color - \(logicalRuler.filtering.1)", for: .normal)
+        case .size:
+            filterButton.setTitle("Size - \(logicalRuler.filtering.1)", for: .normal)
+        }
+    }
+    
+    private func updateSortingButtonLabel() {
+        switch logicalRuler.sorting {
+        case .none:
+            sortByButton.setTitle("Sort By", for: .normal)
+        case .asc:
+            sortByButton.setTitle("Price Asc", for: .normal)
+        case .desc:
+            sortByButton.setTitle("Price Desc", for: .normal)
+        }
     }
 }
 
@@ -281,17 +374,15 @@ extension ProductsViewController {
     
     @objc func resetPressed() {
         searchField.text = ""
-        appear.send(())
+        logicalRuler.searchString = ""
+        search.send(logicalRuler)
     }
 }
 
 extension ProductsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
-            appear.send(())
-        } else {
-            search.send(searchText)
-        }
+        logicalRuler.searchString = searchText
+        search.send(logicalRuler)
     }
 }
 

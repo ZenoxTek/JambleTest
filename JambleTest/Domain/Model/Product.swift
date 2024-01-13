@@ -21,6 +21,14 @@ struct Product: Identifiable, Codable {
         UIColor(hex: color)
     }
     
+    var sizeType: ProductSize {
+        ProductSize(rawValue: size) ?? ProductSize.unknown
+    }
+    
+    var customColor: CustomColor {
+        CustomColor(rawValue: color) ?? CustomColor.unknown
+    }
+    
     func price(with currency: String) -> String {
         if let currencyType: CurrencyType = CurrencyType(rawValue: currency) {
             return "\(currencyType.description)\(price.description)"
