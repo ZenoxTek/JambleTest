@@ -46,7 +46,7 @@ enum FilteringType: Int {
 }
 
 enum ProductsState {
-    case idle([Product])
+    case idle
     case loading
     case success([Product])
     case noResults
@@ -56,7 +56,7 @@ enum ProductsState {
 extension ProductsState: Equatable {
     static func == (lhs: ProductsState, rhs: ProductsState) -> Bool {
         switch (lhs, rhs) {
-        case (.idle(let lhsProduct), .idle(let rhsProduct)): return lhsProduct == rhsProduct
+        case (.idle, .idle): return true
         case (.loading, .loading): return true
         case (.success(let lhsProduct), .success(let rhsProduct)): return lhsProduct == rhsProduct
         case (.noResults, .noResults): return true

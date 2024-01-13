@@ -17,11 +17,9 @@ protocol ProductUseCaseType: AutoMockable {
 final class ProductUseCase: ProductUseCaseType {
     
     private let service: ServiceType
-    private let imageLoaderService: ImageLoaderServiceType
 
-    init(service: ServiceType, imageLoaderService: ImageLoaderServiceType) {
+    init(service: ServiceType) {
         self.service = service
-        self.imageLoaderService = imageLoaderService
     }
 
     func searchProduct(with query: LogicalRulers) -> AnyPublisher<Result<[Product], Error>, Never> {

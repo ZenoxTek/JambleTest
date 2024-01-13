@@ -19,6 +19,42 @@
         }
       }
     },
+    "ErrorLoadResult" : {
+      "comment" : "Error loading label on alert view",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't load search results!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger les résultats !"
+          }
+        }
+      }
+    },
+    "ErrorSearchAgain" : {
+      "comment" : "Error searching label on alert view",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong. Try searching again..."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une erreur est survenue. Veuillez tenter une nouvelle recherche..."
+          }
+        }
+      }
+    },
     "Filter" : {
       "comment" : "Filter label used on buttons",
       "extractionState" : "manual",
@@ -51,6 +87,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vert"
+          }
+        }
+      }
+    },
+    "NoProductFound" : {
+      "comment" : "No result found label on alert view",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No products found!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun produits trouvés !"
           }
         }
       }
@@ -92,6 +146,7 @@
       }
     },
     "PriceAscMenu" : {
+      "comment" : "price sorting ascend on UIMenu",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -109,6 +164,7 @@
       }
     },
     "PriceDescMenu" : {
+      "comment" : "price sorting descend on UIMenu",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -239,6 +295,24 @@
         }
       }
     },
+    "SearchAgain" : {
+      "comment" : "No result found label description on Alert View",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try searching again..."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essayez une nouvelle recherche..."
+          }
+        }
+      }
+    },
     "Size" : {
       "comment" : "Size label used on UIMenu",
       "extractionState" : "manual",
@@ -276,6 +350,7 @@
       }
     },
     "Unknown" : {
+      "comment" : "Unknown default enum",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {

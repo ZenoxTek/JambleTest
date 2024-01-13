@@ -15,6 +15,7 @@ final class ProductsViewController: UIViewController {
     
     let searchResultLabel = UILabel()
     let separator = UIView()
+    let alertView = UIView()
     let searchField = UISearchBar()
     let resetButton: JambleActionButton = {
         let button = JambleActionButton()
@@ -39,7 +40,9 @@ final class ProductsViewController: UIViewController {
         }
         return button
     }()
-
+    
+    private var alertViewController: NoContentViewController?
+    
     let buttonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -71,10 +74,6 @@ final class ProductsViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private let search = PassthroughSubject<LogicalRulers, Never>()
     private var logicalRuler = LogicalRulers()
-    
-    //private let appear = PassthroughSubject<Void, Never>()
-    //private let filterOpen = PassthroughSubject<Void, Never>()
-    //private let sortBy = PassthroughSubject<(Bool, String), Never>()
     
     // Data Elements
     
@@ -110,6 +109,35 @@ final class ProductsViewController: UIViewController {
         configureSeparatorAndLabel()
         configureCollectionView()
         configureBottomScreen()
+        configureAlertView()
+    }
+    
+    private func configureAlertView() {
+        view.addSubview(alertView)
+        
+        alertView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            alertView.widthAnchor.constraint(equalToConstant: 200),
+            alertView.heightAnchor.constraint(equalToConstant: 300),
+            alertView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            alertView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    private func setupNoContentController() {
+        alertViewController = NoContentViewController(nibName: nil, bundle: nil)
+        filterButton.isEnabled = false
+        sortByButton.isEnabled = false
+        add(alertViewController!, to: alertView)
+    }
+    
+    private func hideNoContentController() {
+        filterButton.isEnabled = true
+        sortByButton.isEnabled = true
+        if let alertViewController {
+            remove(alertViewController)
+        }
     }
     
     private func configureTopScreen() {
@@ -262,31 +290,30 @@ final class ProductsViewController: UIViewController {
         }).store(in: &cancellables)
     }
     
-    /// TODO: Implement a view When no data is found. Implement a loading indicator when executing an action that may change the list content
     private func render(_ state: ProductsState) {
         switch state {
-        case .idle(let products):
-            //alertViewController.view.isHidden = false
-            //alertViewController.showStartSearch()
-            //loadingView.isHidden = true
-            update(with: products, animate: true)
+        case .idle:
+            /// TODO: Implement logic here if you have an idle state
+            update(with: [], animate: true)
         case .loading:
-            //alertViewController.view.isHidden = true
-            //loadingView.isHidden = false
+            /// TODO Display a loadingView if you have some logics that take some times
             update(with: [], animate: true)
         case .noResults:
-            //alertViewController.view.isHidden = false
-            //alertViewController.showNoResults()
-            //loadingView.isHidden = true
+            alertView.isHidden = false
+            productsCV.isHidden = true
+            setupNoContentController()
+            alertViewController?.showNoResults()
             update(with: [], animate: true)
         case .failure:
-            //alertViewController.view.isHidden = false
-            //alertViewController.showDataLoadingError()
-            //loadingView.isHidden = true
+            alertView.isHidden = false
+            productsCV.isHidden = true
+            setupNoContentController()
+            alertViewController?.showDataLoadingError()
             update(with: [], animate: true)
         case .success(let products):
-            //alertViewController.view.isHidden = true
-            //loadingView.isHidden = true
+            alertView.isHidden = true
+            productsCV.isHidden = false
+            hideNoContentController()
             update(with: products, animate: true)
         }
     }

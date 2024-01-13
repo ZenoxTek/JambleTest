@@ -54,6 +54,9 @@
 		B22B6FF52B52F6EF0044E0F7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FF42B52F6EF0044E0F7 /* Color.swift */; };
 		B22B6FF72B5304040044E0F7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B22B6FF62B5304040044E0F7 /* Localizable.xcstrings */; };
 		B22B6FF92B5314D30044E0F7 /* JambleActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FF82B5314D30044E0F7 /* JambleActionButton.swift */; };
+		B22B6FFE2B5328C80044E0F7 /* NoContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FFD2B5328C80044E0F7 /* NoContentViewController.swift */; };
+		B22B70002B53295C0044E0F7 /* NoContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FFF2B53295C0044E0F7 /* NoContentViewModel.swift */; };
+		B22B70022B532AB20044E0F7 /* UIViewController+Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70012B532AB20044E0F7 /* UIViewController+Child.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +128,9 @@
 		B22B6FF42B52F6EF0044E0F7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B22B6FF62B5304040044E0F7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B22B6FF82B5314D30044E0F7 /* JambleActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JambleActionButton.swift; sourceTree = "<group>"; };
+		B22B6FFD2B5328C80044E0F7 /* NoContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentViewController.swift; sourceTree = "<group>"; };
+		B22B6FFF2B53295C0044E0F7 /* NoContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentViewModel.swift; sourceTree = "<group>"; };
+		B22B70012B532AB20044E0F7 /* UIViewController+Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Child.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +242,7 @@
 		B22B6F342B516D810044E0F7 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				B22B6FFA2B5327670044E0F7 /* NoContent */,
 				B22B6F362B516DA70044E0F7 /* Views */,
 				B22B6F352B516D8A0044E0F7 /* Product */,
 			);
@@ -306,6 +313,7 @@
 				B22B6F812B517AD90044E0F7 /* Publisher+Ext.swift */,
 				B22B6F9E2B518E910044E0F7 /* UICollectionView+Ext.swift */,
 				B22B6FDE2B51BBB50044E0F7 /* SearchField+Ext.swift */,
+				B22B70012B532AB20044E0F7 /* UIViewController+Child.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -331,10 +339,10 @@
 			children = (
 				B22B6F852B517BD20044E0F7 /* Json */,
 				B22B6F5F2B517A030044E0F7 /* Network */,
-				B22B6F632B517A030044E0F7 /* ServicesProvider.swift */,
 				B22B6F642B517A030044E0F7 /* ImageLoader */,
 				B22B6F682B517A030044E0F7 /* Scheduler.swift */,
 				B22B6F832B517B700044E0F7 /* ServiceType.swift */,
+				B22B6F632B517A030044E0F7 /* ServicesProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -407,6 +415,15 @@
 				B22B6FF82B5314D30044E0F7 /* JambleActionButton.swift */,
 			);
 			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		B22B6FFA2B5327670044E0F7 /* NoContent */ = {
+			isa = PBXGroup;
+			children = (
+				B22B6FFD2B5328C80044E0F7 /* NoContentViewController.swift */,
+				B22B6FFF2B53295C0044E0F7 /* NoContentViewModel.swift */,
+			);
+			path = NoContent;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -546,6 +563,7 @@
 				B22B6FF92B5314D30044E0F7 /* JambleActionButton.swift in Sources */,
 				B22B6F772B517A030044E0F7 /* NetworkServiceType.swift in Sources */,
 				B22B6F892B517C200044E0F7 /* JsonResource.swift in Sources */,
+				B22B6FFE2B5328C80044E0F7 /* NoContentViewController.swift in Sources */,
 				B22B6F7D2B517A030044E0F7 /* ImageLoaderServiceType.swift in Sources */,
 				B22B6F7C2B517A030044E0F7 /* ImageLoaderService.swift in Sources */,
 				B22B6FF02B52DF420044E0F7 /* Size.swift in Sources */,
@@ -565,6 +583,7 @@
 				B22B6F9F2B518E910044E0F7 /* UICollectionView+Ext.swift in Sources */,
 				B22B6F022B516CD20044E0F7 /* AppDelegate.swift in Sources */,
 				B22B6FE42B51C65A0044E0F7 /* ApplicationNavigatorCoordinator.swift in Sources */,
+				B22B70022B532AB20044E0F7 /* UIViewController+Child.swift in Sources */,
 				B22B6F912B517F690044E0F7 /* JsonService.swift in Sources */,
 				B22B6F4C2B5178E50044E0F7 /* AutoMockable.swift in Sources */,
 				B22B6FE62B51C68C0044E0F7 /* ApplicationComponentsFactory.swift in Sources */,
@@ -576,6 +595,7 @@
 				B22B6F872B517BE20044E0F7 /* JsonServiceType.swift in Sources */,
 				B22B6F7E2B517A030044E0F7 /* Scheduler.swift in Sources */,
 				B22B6FF32B52F1960044E0F7 /* RoundedCornerButton.swift in Sources */,
+				B22B70002B53295C0044E0F7 /* NoContentViewModel.swift in Sources */,
 				B22B6F042B516CD20044E0F7 /* SceneDelegate.swift in Sources */,
 				B22B6F7B2B517A030044E0F7 /* ImageCache.swift in Sources */,
 				B22B6F412B5175A80044E0F7 /* Color+Ext.swift in Sources */,

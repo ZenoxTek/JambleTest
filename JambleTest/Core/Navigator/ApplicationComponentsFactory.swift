@@ -9,8 +9,7 @@ import UIKit
 
 /// The ApplicationComponentsFactory takes responsibility of creating application components and establishing dependencies between them.
 final class ApplicationComponentsFactory {
-    fileprivate lazy var useCase: ProductUseCaseType = ProductUseCase(service: servicesProvider.service,
-                                                                      imageLoaderService: servicesProvider.imageLoader)
+    fileprivate lazy var useCase: ProductUseCaseType = ProductUseCase(service: servicesProvider.service)
 
     private let servicesProvider: ServicesProvider
 
