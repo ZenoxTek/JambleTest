@@ -25,6 +25,11 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
     
     private var isBookmarked = false
     private var numberBookmark = 0
+    private var productId = -1
+    var id: Int {
+        productId
+    }
+    
     
     // MARK: - Cell Binding
     
@@ -37,6 +42,7 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
         size.textColor = .black
         productImg.isHidden = true
         productColor.backgroundColor = product.uiColor
+        productId = product.id
         setupBookmarkButton()
     }
     

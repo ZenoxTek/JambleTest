@@ -25,6 +25,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ProductUseCase(repository: r.resolve(ProductRepositoryImpl.self)!)
         }
         
+        container.register(ProductDetailsUseCase.self) { r in
+            ProductDetailsUseCase(repository: r.resolve(ProductRepositoryImpl.self)!)
+        }
+        
         container.register(ProductsNavigatorController.self) { r in
             ProductsNavigatorController(provider: ApplicationComponentsFactory())
         }

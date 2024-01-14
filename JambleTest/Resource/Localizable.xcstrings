@@ -1,6 +1,24 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "AddToBookmarks" : {
+      "comment" : "Button label located in productDetails page",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to Bookmarks"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter aux Favoris"
+          }
+        }
+      }
+    },
     "Color" : {
       "comment" : "Color label used on UIMenu",
       "extractionState" : "manual",
@@ -33,6 +51,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossible de charger les résultats !"
+          }
+        }
+      }
+    },
+    "ErrorProductDetails" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't load product infos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de charger les infos du produit"
+          }
+        }
+      }
+    },
+    "ErrorProductDetailsDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try it again later..."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veuillez réessayez plus tard..."
           }
         }
       }

@@ -15,10 +15,35 @@ final class ProductsViewController: UIViewController {
     
     // MARK: - UI Elements
     
-    let searchResultLabel = UILabel()
-    let separator = UIView()
+    let searchResultLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .lightGray
+        label.font = .systemFont(ofSize: 12.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let separator: UIView = {
+        let separator = UIView()
+        separator.backgroundColor = .lightGray.withAlphaComponent(0.2)
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        return separator
+    }()
+    
     let alertView = UIView()
-    let searchField = UISearchBar()
+    let searchField: UISearchBar = {
+        let searchBar = UISearchBar()
+        if let searchImage = UIImage(named: "icon-search")?.withTintColor(.gray) {
+            searchBar.setImage(searchImage, for: .search, state: .normal)
+        }
+        searchBar.backgroundImage = UIImage()
+        searchBar.setTextField(color: .black.withAlphaComponent(0.1))
+        searchBar.set(textColor: .gray)
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: String(localized: "Search"),
+                                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        return searchBar
+    }()
+    
     let resetButton: JambleActionButton = {
         let button = JambleActionButton()
         button.setCustomTitle(String(localized: "Reset"))
@@ -42,9 +67,7 @@ final class ProductsViewController: UIViewController {
         }
         return button
     }()
-    
-    private var alertViewController: NoContentViewController?
-    
+        
     let buttonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -74,13 +97,15 @@ final class ProductsViewController: UIViewController {
     
     private var cancellables = Set<AnyCancellable>()
     private let search = PassthroughSubject<LogicalRulers, Never>()
-    private var logicalRuler = LogicalRulers()
-    
+    private let selection = PassthroughSubject<Int, Never>()
+
     // MARK: - Data Elements
     
     private lazy var dataSource = makeDataSource()
     private let viewModel: ProductsViewModelType
-    
+    private var logicalRuler = LogicalRulers()
+    private var alertViewController: NoContentViewController?
+
     // MARK: - Initialization
     
     init(viewModel: ProductsViewModelType) {
@@ -108,8 +133,6 @@ extension ProductsViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         search.send(logicalRuler)
-        /*viewModel.loadMockData()
-        productsCV.reloadData()*/
     }
 }
 
@@ -156,15 +179,6 @@ extension ProductsViewController {
     }
     
     private func configureTopScreen() {
-        
-        if let searchImage = UIImage(named: "icon-search")?.withTintColor(.gray) {
-            searchField.setImage(searchImage, for: .search, state: .normal)
-        }
-        searchField.backgroundImage = UIImage()
-        searchField.setTextField(color: .black.withAlphaComponent(0.1))
-        searchField.set(textColor: .gray)
-        searchField.searchTextField.attributedPlaceholder = NSAttributedString(string: String(localized: "Search"),
-                                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         searchField.delegate = self
         
         resetButton.addTarget(self, action: #selector(resetPressed), for: .touchUpInside)
@@ -186,12 +200,6 @@ extension ProductsViewController {
     }
     
     private func configureSeparatorAndLabel() {
-        separator.backgroundColor = .lightGray.withAlphaComponent(0.2)
-        searchResultLabel.textColor = .lightGray
-        searchResultLabel.font = .systemFont(ofSize: 12.0)
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        searchResultLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(separator)
         view.addSubview(searchResultLabel)
         
@@ -301,7 +309,8 @@ extension ProductsViewController {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         
-        let input = ProductsViewModelInput(search: search.eraseToAnyPublisher())
+        let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(),
+                                           selection: selection.eraseToAnyPublisher())
 
         let output = viewModel.transform(input: input)
 
@@ -335,6 +344,8 @@ extension ProductsViewController {
             productsCV.isHidden = false
             hideNoContentController()
             update(with: products, animate: true)
+        case .details(let id):
+            showDetailView(with: id)
         }
     }
     
@@ -382,6 +393,12 @@ extension ProductsViewController {
             sortByButton.setTitle("\(String(localized: "Price")) Desc", for: .normal)
         }
     }
+    
+    private func showDetailView(with id: Int) {
+        if let vm = (viewModel as? ProductsViewModel) {
+            vm.showDetailView(with: id, vc: self)
+        }
+    }
 }
 
 // MARK: - UI Actions
@@ -392,6 +409,33 @@ extension ProductsViewController {
         searchField.text = ""
         logicalRuler.searchString = ""
         search.send(logicalRuler)
+    }
+    
+    @objc func cellLongPressed(sender: UILongPressGestureRecognizer) {
+        if sender.state == .ended {
+            // Animate the button to a larger size
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+               
+                sender.view?.transform = CGAffineTransform.identity
+            }, completion: { _ in
+                if let cell = sender.view as? ProductCollectionViewCell {
+                    self.selection.send(cell.id)
+                }
+            })
+        } else {
+            UIView.animate(withDuration: 0.1) {
+                sender.view?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            }
+        }
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension ProductsViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 
@@ -417,6 +461,10 @@ extension ProductsViewController: UICollectionViewDelegate {
             cellProvider: {  collectionView, indexPath, product in
                 let cell = collectionView.dequeueReusableCell(withClass: ProductCollectionViewCell.self,
                                                               forIndexPath: indexPath)
+                cell.tag = product.id
+                let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self,
+                                                                              action: #selector(self.cellLongPressed(sender:)))
+                cell.addGestureRecognizer(longPressGestureRecognizer)
                 cell.bind(from: product)
                 return cell
             }

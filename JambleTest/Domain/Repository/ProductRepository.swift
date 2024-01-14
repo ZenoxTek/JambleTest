@@ -13,4 +13,5 @@ import Combine
 protocol ProductRepository {
     
     func searchProduct(with query: String) -> AnyPublisher<Result<[Product], Error>, Never>
+    func getProductDetails(with productId: Int) -> AnyPublisher<Result<Product, Error>, Never>
 }

@@ -21,6 +21,17 @@ struct Product: Identifiable, Codable {
     let currency: String
     let size: String
     
+    // MARK: - Default Product
+        
+    static let `default`: Product = Product(
+        id: -1,
+        color: "Default Color",
+        title: "Default Title",
+        price: 0.0,
+        currency: "Default Currency",
+        size: "Default Size"
+    )
+    
     // MARK: - Computed Properties
     
     /// UIColor representation of the product color.

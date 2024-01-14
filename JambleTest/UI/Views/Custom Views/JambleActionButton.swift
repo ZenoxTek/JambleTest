@@ -15,6 +15,7 @@ class JambleActionButton: UIButton {
     // MARK: - Custom Variables
     
     private var myConfiguration = UIButton.Configuration.filled()
+    private var backgroundConfig = UIBackgroundConfiguration.clear()
     var linkedToMenuBehavior = false
     
     // MARK: - Initialization
@@ -31,11 +32,10 @@ class JambleActionButton: UIButton {
 
     private func commonInit() {
         myConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-        var background = UIBackgroundConfiguration.clear()
-        background.backgroundColor = .black
-        background.cornerRadius = 16.0
-        myConfiguration.background = background
-        self.configuration = configuration
+        backgroundConfig.backgroundColor = .black
+        backgroundConfig.cornerRadius = 16.0
+        myConfiguration.background = backgroundConfig
+        self.configuration = myConfiguration
         self.setTitleColor(.white, for: .normal)
         
         // Add targets for touch events
@@ -72,6 +72,12 @@ class JambleActionButton: UIButton {
         if isMirror {
             self.semanticContentAttribute = .forceRightToLeft
         }
+        self.configuration = myConfiguration
+    }
+    
+    func setCustomBackgroundColor(with color: UIColor) {
+        backgroundConfig.backgroundColor = color
+        myConfiguration.background = backgroundConfig
         self.configuration = myConfiguration
     }
     

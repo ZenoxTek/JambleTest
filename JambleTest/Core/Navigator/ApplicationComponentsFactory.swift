@@ -12,6 +12,7 @@ import UIKit
 /// The ApplicationComponentsFactory takes responsibility for creating application components and establishing dependencies between them.
 final class ApplicationComponentsFactory {
     @Inject var productsUeCase: ProductUseCase
+    @Inject var productDetailsUseCase: ProductDetailsUseCase
     
     init() {
     }
@@ -22,12 +23,12 @@ final class ApplicationComponentsFactory {
 extension ApplicationComponentsFactory: ApplicationCoordinatorDependencyProvider {
     
     func productDetailsController(_ productId: Int) -> UIViewController {
-        /// TODO: Implement it if I have time
-        return UIViewController()
+        let viewModel = ProductDetailsViewModel(productId: productId, useCase: productDetailsUseCase)
+        return ProductDetailsViewController(viewModel: viewModel)
     }
 
     func productsNavigationController(navigator: ProductsViewNavigator) -> UINavigationController {
-        let viewModel = ProductsViewModel(useCase: productsUeCase)//, navigator: productsNavigator)
+        let viewModel = ProductsViewModel(useCase: productsUeCase)
         let productsViewController = ProductsViewController(viewModel: viewModel)
         let productsNavigationController = UINavigationController(rootViewController: productsViewController)
         productsNavigationController.navigationBar.tintColor = UIColor.label

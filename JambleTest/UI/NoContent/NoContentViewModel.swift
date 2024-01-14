@@ -30,4 +30,11 @@ struct NoContentViewModel {
         let image = UIImage(systemName: "exclamationmark.triangle.fill") ?? UIImage()
         return NoContentViewModel(title: title, description: description, image: image.withTintColor(.red))
     }
+    
+    static var detailViewError: NoContentViewModel {
+        let title = String(localized: "ErrorProductDetails")
+        let description = String(localized: "ErrorProductDetailsDescription")
+        let image = UIImage(systemName: "exclamationmark.triangle.fill") ?? UIImage()
+        return NoContentViewModel(title: title, description: description, image: image.withTintColor(.red))
+    }
 }

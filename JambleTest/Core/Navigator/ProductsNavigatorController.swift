@@ -14,6 +14,7 @@ class ProductsNavigatorController: NavigatorCoordinator {
     
     fileprivate var searchNavigationController: UINavigationController?
     fileprivate var dependencyProvider: ProductNavigatorCoordinatorDependencyProvider
+    fileprivate var window: UIWindow?
     
     init(provider: ProductNavigatorCoordinatorDependencyProvider) {
         dependencyProvider = provider
@@ -23,6 +24,11 @@ class ProductsNavigatorController: NavigatorCoordinator {
         let searchNavigationController = dependencyProvider.productsNavigationController(navigator: self)
         window.rootViewController = searchNavigationController
         self.searchNavigationController = searchNavigationController
+        print(self.searchNavigationController ?? "Already nil")
+    }
+    
+    deinit {
+        print(self.searchNavigationController ?? "Already nil")
     }
 }
 
@@ -31,8 +37,9 @@ class ProductsNavigatorController: NavigatorCoordinator {
 extension ProductsNavigatorController: ProductsViewNavigator {
     
     func showDetails(forProduct productId: Int) {
-        /*let controller = self.dependencyProvider.productDetailsController(productId)
-        searchNavigationController?.pushViewController(controller, animated: true)*/
+        print(self.searchNavigationController ?? "Already nil")
+        let controller = self.dependencyProvider.productDetailsController(productId)
+        searchNavigationController?.modalPresentationStyle = .formSheet
+        searchNavigationController?.pushViewController(controller, animated: true)
     }
 }
-

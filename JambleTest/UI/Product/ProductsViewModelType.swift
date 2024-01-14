@@ -14,6 +14,8 @@ struct ProductsViewModelInput {
     /// Called when a screen becomes visible or when the search query is updated.
     let search: AnyPublisher<LogicalRulers, Never>
     
+    /// called when the user selected an item from the list
+    let selection: AnyPublisher<Int, Never>
 }
 
 // MARK: - LogicalRulers
@@ -56,6 +58,7 @@ enum ProductsState {
     case success([Product])
     case noResults
     case failure(Error)
+    case details(Int)
 }
 
 extension ProductsState: Equatable {
@@ -66,6 +69,7 @@ extension ProductsState: Equatable {
         case (.success(let lhsProduct), .success(let rhsProduct)): return lhsProduct == rhsProduct
         case (.noResults, .noResults): return true
         case (.failure(let lhsError), .failure(let rhsError)): return lhsError.localizedDescription == rhsError.localizedDescription
+        case (.details(let lid), .details(let rid)): return lid == rid
         default: return false
         }
     }

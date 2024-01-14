@@ -35,4 +35,28 @@ final class ProductRepositoryImpl: ProductRepository {
             return .empty()
         }
     }
+    
+    func getProductDetails(with productId: Int) -> AnyPublisher<Result<Product, Error>, Never> {
+        switch self.service {
+        case is JsonServiceType:
+            if let jsonService: JsonServiceType = service as? JsonServiceType {
+                return jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
+                    .map({ dataDTO in
+                        guard let product = dataDTO.filter({ $0.id == productId }).first?.toProduct() else {
+                            return .failure(JsonError.invalidResponse)
+                        }
+                        return .success(product)
+                    })
+                    .catch { error -> AnyPublisher<Result<Product, Error>, Never> in .just(.failure(error)) }
+                    .subscribe(on: Scheduler.backgroundWorkScheduler)
+                    .receive(on: Scheduler.mainScheduler)
+                    .eraseToAnyPublisher()
+            }
+            return .empty()
+        case is NetworkServiceType:
+            return .empty()
+        default:
+            return .empty()
+        }
+    }
 }
