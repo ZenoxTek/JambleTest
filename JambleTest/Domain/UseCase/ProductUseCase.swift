@@ -7,45 +7,56 @@
 
 import Foundation
 import Combine
+import Swinject
 
 // MARK: - ProductUseCaseType
 
 protocol ProductUseCaseType: AutoMockable {
     
+    // MARK: Search Products
+    
+    /// Searches for products based on the provided logical rulers.
+    /// - Parameter query: The logical rulers to apply during the search.
+    /// - Returns: A publisher emitting the search result as an array of products or an error.
     func searchProduct(with query: LogicalRulers) -> AnyPublisher<Result<[Product], Error>, Never>
-
 }
 
 // MARK: - ProductUseCase
 
 final class ProductUseCase: ProductUseCaseType {
     
-    private let service: ServiceType
+    private let repository: ProductRepository
 
-    init(service: ServiceType) {
-        self.service = service
+    // MARK: Initialization
+    
+    /// Initializes the ProductUseCase with the provided service.
+    /// - Parameter service: The service responsible for retrieving product data.
+    init(repository: ProductRepository) {
+        self.repository = repository
     }
 
+    // MARK: Search Products Implementation
+    
     func searchProduct(with query: LogicalRulers) -> AnyPublisher<Result<[Product], Error>, Never> {
-       switch self.service {
-       case is JsonServiceType:
-           let jsonService: JsonServiceType = service as! JsonServiceType
-           return jsonService.load(JsonResource<[Product]>(file: Constants.jsonFile))
-               .map { data in
-                   return .success(self.determineProducts(with: data, and: query))
-               }
-               .catch { error -> AnyPublisher<Result<[Product], Error>, Never> in .just(.failure(error)) }
-               .subscribe(on: Scheduler.backgroundWorkScheduler)
-               .receive(on: Scheduler.mainScheduler)
-               .eraseToAnyPublisher()
-       case is NetworkServiceType:
-           return .empty()
-       default:
-           return .empty()
-       }
+        return repository.searchProduct(with: query.searchString)
+            .map { data in
+                return .success(self.determineProducts(with: try? data.get(), and: query))
+            }
+            .eraseToAnyPublisher()
     }
 
-   func determineProducts(with data: [Product], and ruler: LogicalRulers) -> [Product] {
+   // MARK: Determine Filtered and Sorted Products
+
+   /// Determines and returns products based on the provided data and logical rulers.
+   /// - Parameters:
+   ///   - data: The array of products to filter and sort.
+   ///   - ruler: The logical rulers to apply during filtering and sorting.
+   /// - Returns: An array of filtered and sorted products.
+   func determineProducts(with data: [Product]?, and ruler: LogicalRulers) -> [Product] {
+       guard let data else {
+           return []
+       }
+
        var filteredData = (ruler.searchString.isEmpty) ? data : data.filter { product in
            product.title.lowercased().contains(ruler.searchString.lowercased())
        }

@@ -11,22 +11,16 @@ import UIKit
 
 /// The application flow coordinator. Takes responsibility for coordinating view controllers and driving the flow.
 class ApplicationNavigatorCoordinator: NavigatorCoordinator {
-
-    typealias DependencyProvider = ApplicationCoordinatorDependencyProvider
-
-    private let window: UIWindow
-    private let dependencyProvider: DependencyProvider
+    
+    @Inject var productsNavigator: ProductsNavigatorController
     private var childCoordinators = [NavigatorCoordinator]()
 
-    init(window: UIWindow, dependencyProvider: DependencyProvider) {
-        self.window = window
-        self.dependencyProvider = dependencyProvider
+    init() {
     }
 
     /// Creates all necessary dependencies and starts the flow.
-    func start() {
-        let searchFlowCoordinator = ProductsNavigatorController(window: window, dependencyProvider: self.dependencyProvider)
-        childCoordinators = [searchFlowCoordinator]
-        searchFlowCoordinator.start()
+    func start(window: UIWindow) {
+        childCoordinators = [productsNavigator]
+        productsNavigator.start(window: window)
     }
 }

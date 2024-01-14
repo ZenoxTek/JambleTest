@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - NavigatorCoordinator
 
@@ -13,5 +14,5 @@ import Foundation
 protocol NavigatorCoordinator: AnyObject {
 
     /// Starts the flow.
-    func start()
+    func start(window: UIWindow)
 }

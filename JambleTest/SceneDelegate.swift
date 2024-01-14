@@ -6,10 +6,31 @@
 //
 
 import UIKit
+import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let container: Container = {
+        let container = Container()
+        
+        // Product
+        
+        container.register(ProductRepositoryImpl.self) { _ in
+            let serviceJsonProvider = ServicesProvider.defaultJsonProvider()
+            return ProductRepositoryImpl(service: serviceJsonProvider.service)
+        }
+        
+        container.register(ProductUseCase.self) { r in
+            ProductUseCase(repository: r.resolve(ProductRepositoryImpl.self)!)
+        }
+        
+        container.register(ProductsNavigatorController.self) { r in
+            ProductsNavigatorController(provider: ApplicationComponentsFactory())
+        }
+        return container
+    }()
+    
     var appCoordinator: ApplicationNavigatorCoordinator!
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -22,10 +43,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window.windowScene = windowScene
         // Create your initial view controller
+        InjectSettings.resolver = container
         
-        self.appCoordinator = ApplicationNavigatorCoordinator(window: window,
-                                                              dependencyProvider: ApplicationComponentsFactory())
-        self.appCoordinator.start()
+        self.appCoordinator = ApplicationNavigatorCoordinator()
+        self.appCoordinator.start(window: window)
 
         self.window = window
         self.window?.makeKeyAndVisible()

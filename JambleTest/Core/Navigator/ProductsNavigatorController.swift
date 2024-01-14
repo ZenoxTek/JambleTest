@@ -11,16 +11,15 @@ import UIKit
 
 /// The `ProductsNavigatorController` takes control over the flows on the products search screen
 class ProductsNavigatorController: NavigatorCoordinator {
-    fileprivate let window: UIWindow
+    
     fileprivate var searchNavigationController: UINavigationController?
-    fileprivate let dependencyProvider: ProductNavigatorCoordinatorDependencyProvider
-
-    init(window: UIWindow, dependencyProvider: ProductNavigatorCoordinatorDependencyProvider) {
-        self.window = window
-        self.dependencyProvider = dependencyProvider
+    fileprivate var dependencyProvider: ProductNavigatorCoordinatorDependencyProvider
+    
+    init(provider: ProductNavigatorCoordinatorDependencyProvider) {
+        dependencyProvider = provider
     }
 
-    func start() {
+    func start(window: UIWindow) {
         let searchNavigationController = dependencyProvider.productsNavigationController(navigator: self)
         window.rootViewController = searchNavigationController
         self.searchNavigationController = searchNavigationController
@@ -32,8 +31,8 @@ class ProductsNavigatorController: NavigatorCoordinator {
 extension ProductsNavigatorController: ProductsViewNavigator {
     
     func showDetails(forProduct productId: Int) {
-        let controller = self.dependencyProvider.productDetailsController(productId)
-        searchNavigationController?.pushViewController(controller, animated: true)
+        /*let controller = self.dependencyProvider.productDetailsController(productId)
+        searchNavigationController?.pushViewController(controller, animated: true)*/
     }
 }
 

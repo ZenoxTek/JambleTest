@@ -14,7 +14,7 @@ final class ProductsViewModel: ProductsViewModelType {
     
     // MARK: - Properties
     
-    private weak var navigator: ProductsViewNavigator?
+    //private weak var navigator: ProductsViewNavigator?
     private let useCase: ProductUseCaseType
     private var cancellables = Set<AnyCancellable>()
     
@@ -25,9 +25,9 @@ final class ProductsViewModel: ProductsViewModelType {
     
     // MARK: - Initialization
     
-    init(useCase: ProductUseCaseType, navigator: ProductsViewNavigator) {
+    init(useCase: ProductUseCaseType) {
         self.useCase = useCase
-        self.navigator = navigator
+        //self.navigator = navigator
     }
     
     // MARK: - Transform Input

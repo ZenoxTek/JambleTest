@@ -57,6 +57,16 @@
 		B22B6FFE2B5328C80044E0F7 /* NoContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FFD2B5328C80044E0F7 /* NoContentViewController.swift */; };
 		B22B70002B53295C0044E0F7 /* NoContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FFF2B53295C0044E0F7 /* NoContentViewModel.swift */; };
 		B22B70022B532AB20044E0F7 /* UIViewController+Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70012B532AB20044E0F7 /* UIViewController+Child.swift */; };
+		B22B70062B5450C20044E0F7 /* ProductDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70052B5450C20044E0F7 /* ProductDTO.swift */; };
+		B22B70092B5451880044E0F7 /* ProductMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70082B5451880044E0F7 /* ProductMapper.swift */; };
+		B22B700C2B5453B70044E0F7 /* ProductRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B700B2B5453B70044E0F7 /* ProductRepository.swift */; };
+		B22B700F2B5454380044E0F7 /* ProductRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B700E2B5454380044E0F7 /* ProductRepositoryImpl.swift */; };
+		B22B70152B5466480044E0F7 /* Inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70142B5466480044E0F7 /* Inject.swift */; };
+		B22B70172B5466770044E0F7 /* InjectSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70162B5466770044E0F7 /* InjectSettings.swift */; };
+		B22B70192B5466890044E0F7 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70182B5466890044E0F7 /* Resolver.swift */; };
+		B22B70202B546A330044E0F7 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = B22B701F2B546A330044E0F7 /* Swinject */; };
+		B22B70222B546A360044E0F7 /* Swinject-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B22B70212B546A360044E0F7 /* Swinject-Dynamic */; };
+		B22B70242B546A360044E0F7 /* Swinject-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B22B70212B546A360044E0F7 /* Swinject-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +85,20 @@
 			remoteInfo = JambleTest;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B22B70232B546A360044E0F7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B22B70242B546A360044E0F7 /* Swinject-Dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B22B6EFE2B516CD20044E0F7 /* JambleTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JambleTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +155,13 @@
 		B22B6FFD2B5328C80044E0F7 /* NoContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentViewController.swift; sourceTree = "<group>"; };
 		B22B6FFF2B53295C0044E0F7 /* NoContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentViewModel.swift; sourceTree = "<group>"; };
 		B22B70012B532AB20044E0F7 /* UIViewController+Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Child.swift"; sourceTree = "<group>"; };
+		B22B70052B5450C20044E0F7 /* ProductDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDTO.swift; sourceTree = "<group>"; };
+		B22B70082B5451880044E0F7 /* ProductMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductMapper.swift; sourceTree = "<group>"; };
+		B22B700B2B5453B70044E0F7 /* ProductRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepository.swift; sourceTree = "<group>"; };
+		B22B700E2B5454380044E0F7 /* ProductRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRepositoryImpl.swift; sourceTree = "<group>"; };
+		B22B70142B5466480044E0F7 /* Inject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inject.swift; sourceTree = "<group>"; };
+		B22B70162B5466770044E0F7 /* InjectSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectSettings.swift; sourceTree = "<group>"; };
+		B22B70182B5466890044E0F7 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +169,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B22B70202B546A330044E0F7 /* Swinject in Frameworks */,
+				B22B70222B546A360044E0F7 /* Swinject-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +198,7 @@
 				B22B6F172B516CD30044E0F7 /* JambleTestTests */,
 				B22B6F212B516CD30044E0F7 /* JambleTestUITests */,
 				B22B6EFF2B516CD20044E0F7 /* Products */,
+				B22B701E2B546A330044E0F7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,6 +215,7 @@
 		B22B6F002B516CD20044E0F7 /* JambleTest */ = {
 			isa = PBXGroup;
 			children = (
+				B22B70132B5466310044E0F7 /* Di */,
 				B22B6F8A2B517E0E0044E0F7 /* Resource */,
 				B22B6F342B516D810044E0F7 /* UI */,
 				B22B6F332B516D7B0044E0F7 /* Domain */,
@@ -225,6 +260,9 @@
 		B22B6F322B516D770044E0F7 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B22B700D2B5454220044E0F7 /* Repository */,
+				B22B70072B5451710044E0F7 /* Mapper */,
+				B22B70032B5450AA0044E0F7 /* Dtos */,
 				B22B6F5E2B517A030044E0F7 /* Services */,
 			);
 			path = Data;
@@ -233,6 +271,7 @@
 		B22B6F332B516D7B0044E0F7 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				B22B700A2B54539B0044E0F7 /* Repository */,
 				B22B6F432B5175F60044E0F7 /* UseCase */,
 				B22B6F3A2B516DFA0044E0F7 /* Model */,
 			);
@@ -410,6 +449,63 @@
 			path = NoContent;
 			sourceTree = "<group>";
 		};
+		B22B70032B5450AA0044E0F7 /* Dtos */ = {
+			isa = PBXGroup;
+			children = (
+				B22B70042B5450B10044E0F7 /* Products */,
+			);
+			path = Dtos;
+			sourceTree = "<group>";
+		};
+		B22B70042B5450B10044E0F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B22B70052B5450C20044E0F7 /* ProductDTO.swift */,
+			);
+			path = Products;
+			sourceTree = "<group>";
+		};
+		B22B70072B5451710044E0F7 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				B22B70082B5451880044E0F7 /* ProductMapper.swift */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
+		B22B700A2B54539B0044E0F7 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				B22B700B2B5453B70044E0F7 /* ProductRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		B22B700D2B5454220044E0F7 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				B22B700E2B5454380044E0F7 /* ProductRepositoryImpl.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		B22B70132B5466310044E0F7 /* Di */ = {
+			isa = PBXGroup;
+			children = (
+				B22B70142B5466480044E0F7 /* Inject.swift */,
+				B22B70162B5466770044E0F7 /* InjectSettings.swift */,
+				B22B70182B5466890044E0F7 /* Resolver.swift */,
+			);
+			path = Di;
+			sourceTree = "<group>";
+		};
+		B22B701E2B546A330044E0F7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -420,12 +516,19 @@
 				B22B6EFA2B516CD20044E0F7 /* Sources */,
 				B22B6EFB2B516CD20044E0F7 /* Frameworks */,
 				B22B6EFC2B516CD20044E0F7 /* Resources */,
+				B22B70232B546A360044E0F7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B22B701D2B5468370044E0F7 /* PBXTargetDependency */,
+				B22B701B2B5468340044E0F7 /* PBXTargetDependency */,
 			);
 			name = JambleTest;
+			packageProductDependencies = (
+				B22B701F2B546A330044E0F7 /* Swinject */,
+				B22B70212B546A360044E0F7 /* Swinject-Dynamic */,
+			);
 			productName = JambleTest;
 			productReference = B22B6EFE2B516CD20044E0F7 /* JambleTest.app */;
 			productType = "com.apple.product-type.application";
@@ -499,6 +602,9 @@
 				fr,
 			);
 			mainGroup = B22B6EF52B516CD20044E0F7;
+			packageReferences = (
+				B22B70102B545A610044E0F7 /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
 			productRefGroup = B22B6EFF2B516CD20044E0F7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -544,17 +650,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B22B70092B5451880044E0F7 /* ProductMapper.swift in Sources */,
 				B22B6FF92B5314D30044E0F7 /* JambleActionButton.swift in Sources */,
 				B22B6F772B517A030044E0F7 /* NetworkServiceType.swift in Sources */,
 				B22B6F892B517C200044E0F7 /* JsonResource.swift in Sources */,
 				B22B6FFE2B5328C80044E0F7 /* NoContentViewController.swift in Sources */,
+				B22B70192B5466890044E0F7 /* Resolver.swift in Sources */,
 				B22B6F7D2B517A030044E0F7 /* ImageLoaderServiceType.swift in Sources */,
 				B22B6F7C2B517A030044E0F7 /* ImageLoaderService.swift in Sources */,
 				B22B6FF02B52DF420044E0F7 /* Size.swift in Sources */,
 				B22B6F782B517A030044E0F7 /* NetworkService.swift in Sources */,
 				B22B6FDD2B51AF750044E0F7 /* MockData.swift in Sources */,
 				B22B6FE22B51C6260044E0F7 /* NavigatorCoordinator.swift in Sources */,
+				B22B700C2B5453B70044E0F7 /* ProductRepository.swift in Sources */,
 				B22B6F7A2B517A030044E0F7 /* ServicesProvider.swift in Sources */,
+				B22B70172B5466770044E0F7 /* InjectSettings.swift in Sources */,
 				B22B6F3E2B516FE00044E0F7 /* Currency.swift in Sources */,
 				B22B6F3C2B516E4E0044E0F7 /* Product.swift in Sources */,
 				B22B6FF52B52F6EF0044E0F7 /* Color.swift in Sources */,
@@ -569,6 +679,7 @@
 				B22B6FE42B51C65A0044E0F7 /* ApplicationNavigatorCoordinator.swift in Sources */,
 				B22B70022B532AB20044E0F7 /* UIViewController+Child.swift in Sources */,
 				B22B6F912B517F690044E0F7 /* JsonService.swift in Sources */,
+				B22B700F2B5454380044E0F7 /* ProductRepositoryImpl.swift in Sources */,
 				B22B6F4C2B5178E50044E0F7 /* AutoMockable.swift in Sources */,
 				B22B6FE62B51C68C0044E0F7 /* ApplicationComponentsFactory.swift in Sources */,
 				B22B6F472B51765F0044E0F7 /* Products.swift in Sources */,
@@ -580,8 +691,10 @@
 				B22B6F7E2B517A030044E0F7 /* Scheduler.swift in Sources */,
 				B22B6FF32B52F1960044E0F7 /* RoundedCornerButton.swift in Sources */,
 				B22B70002B53295C0044E0F7 /* NoContentViewModel.swift in Sources */,
+				B22B70152B5466480044E0F7 /* Inject.swift in Sources */,
 				B22B6F042B516CD20044E0F7 /* SceneDelegate.swift in Sources */,
 				B22B6F7B2B517A030044E0F7 /* ImageCache.swift in Sources */,
+				B22B70062B5450C20044E0F7 /* ProductDTO.swift in Sources */,
 				B22B6F412B5175A80044E0F7 /* Color+Ext.swift in Sources */,
 				B22B6F8F2B517E3B0044E0F7 /* Constants.swift in Sources */,
 				B22B6F842B517B700044E0F7 /* ServiceType.swift in Sources */,
@@ -619,6 +732,14 @@
 			target = B22B6EFD2B516CD20044E0F7 /* JambleTest */;
 			targetProxy = B22B6F1F2B516CD30044E0F7 /* PBXContainerItemProxy */;
 		};
+		B22B701B2B5468340044E0F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = B22B701A2B5468340044E0F7 /* Swinject */;
+		};
+		B22B701D2B5468370044E0F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = B22B701C2B5468370044E0F7 /* Swinject-Dynamic */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -638,6 +759,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -701,6 +823,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -922,6 +1045,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B22B70102B545A610044E0F7 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B22B701A2B5468340044E0F7 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B22B70102B545A610044E0F7 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		B22B701C2B5468370044E0F7 /* Swinject-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B22B70102B545A610044E0F7 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = "Swinject-Dynamic";
+		};
+		B22B701F2B546A330044E0F7 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B22B70102B545A610044E0F7 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		B22B70212B546A360044E0F7 /* Swinject-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B22B70102B545A610044E0F7 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = "Swinject-Dynamic";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B22B6EF62B516CD20044E0F7 /* Project object */;
 }

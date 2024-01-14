@@ -11,12 +11,9 @@ import UIKit
 
 /// The ApplicationComponentsFactory takes responsibility for creating application components and establishing dependencies between them.
 final class ApplicationComponentsFactory {
-    fileprivate lazy var useCase: ProductUseCaseType = ProductUseCase(service: servicesProvider.service)
-
-    private let servicesProvider: ServicesProvider
-
-    init(servicesProvider: ServicesProvider = ServicesProvider.defaultJsonProvider()) {
-        self.servicesProvider = servicesProvider
+    @Inject var productsUeCase: ProductUseCase
+    
+    init() {
     }
 }
 
@@ -30,7 +27,7 @@ extension ApplicationComponentsFactory: ApplicationCoordinatorDependencyProvider
     }
 
     func productsNavigationController(navigator: ProductsViewNavigator) -> UINavigationController {
-        let viewModel = ProductsViewModel(useCase: useCase, navigator: navigator)
+        let viewModel = ProductsViewModel(useCase: productsUeCase)//, navigator: productsNavigator)
         let productsViewController = ProductsViewController(viewModel: viewModel)
         let productsNavigationController = UINavigationController(rootViewController: productsViewController)
         productsNavigationController.navigationBar.tintColor = UIColor.label
