@@ -23,16 +23,16 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
     
     // MARK: - Properties
     
-    private var isBookmarked = false
-    private var numberBookmark = 0
+    private weak var productsDelegate: ProductsCellDelegate?
     private var productId = -1
+    private var hasLiked = false
     var id: Int {
         productId
     }
     
     // MARK: - Cell Binding
     
-    func bind(from product: Product) {
+    func bind(from product: Product, delegate: ProductsCellDelegate) {
         price.text = product.price(with: product.currency)
         price.textColor = .black
         title.text = product.title
@@ -42,27 +42,27 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
         productImg.isHidden = true
         productColor.backgroundColor = product.uiColor
         productId = product.id
-        setupBookmarkButton()
+        productsDelegate = delegate
+        setupBookmarkButton(product)
     }
     
     // MARK: - Setup UI
     
-    private func setupBookmarkButton() {
+    private func setupBookmarkButton(_ product: Product) {
         bookmarkBtn.tintColor = .white
-        if let heartImg = UIImage(named: "icon-heart")?.withTintColor(.white) {
+        if let heartImg = UIImage(named: "icon-heart")?.withTintColor((product.hasLiked) ? .red : .white) {
             bookmarkBtn.setImage(heartImg, for: .normal)
         }
-        bookmarkBtn.setTitle("\(numberBookmark)", for: .normal)
+        bookmarkBtn.setTitle("\(product.currentNumberOfFavs)", for: .normal)
         bookmarkBtn.addTarget(self, action: #selector(bookmarkPressed), for: .touchDown)
         bookmarkBtn.addTarget(self, action: #selector(bookmarkReleased), for: .touchUpOutside)
         bookmarkBtn.addTarget(self, action: #selector(bookmarkReleased), for: .touchUpInside)
+        hasLiked = product.hasLiked
     }
     
     // MARK: - Bookmark Button Actions
     
     @objc func bookmarkPressed() {
-        isBookmarked.toggle()
-        numberBookmark += (isBookmarked) ? 1 : -1
         
         UIView.animate(withDuration: 0.1) {
             // Animate the button to a smaller size
@@ -81,12 +81,7 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
                 self.bookmarkBtn.transform = CGAffineTransform.identity
             }, completion: { _ in
-               
-                // Update the button appearance
-                if let heartImg = UIImage(named: "icon-heart")?.withTintColor((self.isBookmarked) ? .red : .white) {
-                    self.bookmarkBtn.setImage(heartImg, for: .normal)
-                }
-                self.bookmarkBtn.setTitle("\(self.numberBookmark)", for: .normal)
+                self.productsDelegate?.hasLiked(with: self.id, hasLiked: !self.hasLiked)
             })
         })
     }

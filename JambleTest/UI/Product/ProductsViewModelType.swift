@@ -14,8 +14,11 @@ struct ProductsViewModelInput {
     /// Called when a screen becomes visible or when the search query is updated.
     let search: AnyPublisher<LogicalRulers, Never>
     
-    /// called when the user selected an item from the list
+    /// Called when the user selected an item from the list
     let selection: AnyPublisher<Int, Never>
+    
+    /// Called when the user liked the product from list
+    let liked: AnyPublisher<(Int, Bool), Never>
 }
 
 // MARK: - LogicalRulers
@@ -48,6 +51,7 @@ enum FilteringType: Int {
     case none = 0
     case size = 1
     case color = 2
+    case bookmarked = 3
 }
 
 // MARK: - ProductsState
@@ -56,6 +60,7 @@ enum ProductsState {
     case idle
     case loading
     case success([Product])
+    case successLiked(Product)
     case noResults
     case failure(Error)
     case details(Int)
@@ -67,6 +72,7 @@ extension ProductsState: Equatable {
         case (.idle, .idle): return true
         case (.loading, .loading): return true
         case (.success(let lhsProduct), .success(let rhsProduct)): return lhsProduct == rhsProduct
+        case (.successLiked(let lhsProduct), .successLiked(let rhsProduct)): return lhsProduct == rhsProduct
         case (.noResults, .noResults): return true
         case (.failure(let lhsError), .failure(let rhsError)): return lhsError.localizedDescription == rhsError.localizedDescription
         case (.details(let lid), .details(let rid)): return lid == rid

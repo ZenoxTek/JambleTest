@@ -79,16 +79,21 @@ final class ProductDetailsViewController: UIViewController {
     
     private var cancellables = Set<AnyCancellable>()
     private let appear = PassthroughSubject<Void, Never>()
-    
+    private let liked = CurrentValueSubject<(productId: Int, hasLiked: Bool), Never>((-1, false))
+
     // MARK: - Data Elements
     
     private let viewModel: ProductDetailsViewModelType
     private var alertViewController: NoContentViewController?
-    
+    private var productId = -1
+    private var hasLiked = false
+    private weak var productsDelegate: ProductsCellDelegate?
+
     // MARK: - Initialization
     
-    init(viewModel: ProductDetailsViewModelType) {
+    init(viewModel: ProductDetailsViewModelType, delegate: ProductsCellDelegate) {
         self.viewModel = viewModel
+        self.productsDelegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -103,7 +108,6 @@ extension ProductDetailsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
         
         setupViews()
@@ -114,7 +118,7 @@ extension ProductDetailsViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        appear.send(())
+        initialCall()
     }
 }
 
@@ -142,6 +146,7 @@ extension ProductDetailsViewController {
         
         view.addSubview(favoriteButton)
         view.addSubview(closeButton)
+        favoriteButton.isHidden = true
     }
     
     private func layoutViews() {
@@ -197,11 +202,19 @@ extension ProductDetailsViewController {
 
 extension ProductDetailsViewController {
     
+    private func initialCall() {
+        view.showActivityIndicator()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.appear.send(())
+        }
+    }
+    
     private func bind(to viewModel: ProductDetailsViewModelType) {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         
-        let input = ProductDetailsViewModelInput(appear: appear.eraseToAnyPublisher())
+        let input = ProductDetailsViewModelInput(appear: appear.eraseToAnyPublisher(),
+                                                 liked: liked.eraseToAnyPublisher())
         
         let output = viewModel.transform(input: input)
         
@@ -211,7 +224,10 @@ extension ProductDetailsViewController {
     }
     
     private func render(_ state: ProductDetailsState) {
+        view.hideActivityIndicator()
         switch state {
+        case .nothing:
+            return
         case .loading:
             /// TODO Display a loadingView if you have some logics that take some times
             //update(with: [], animate: true)
@@ -219,11 +235,12 @@ extension ProductDetailsViewController {
         case .failure:
             setupNoContentController()
             alertViewController?.showDataLoadingError()
-            //update(with: [], animate: true)
             return
         case .success(let product):
             hideNoContentController()
             update(with: product)
+        case .successLiked(let product):
+            updateLiked(with: product)
         }
     }
     
@@ -237,11 +254,26 @@ extension ProductDetailsViewController {
     }
     
     private func updateLayout(with product: Product) {
+        productId = product.id
+        liked.value.hasLiked = product.hasLiked
         productImageView.isHidden = true
         productColorView.backgroundColor = product.uiColor
         productNameLabel.text = product.title
         priceLabel.text = product.price(with: product.currency)
         sizeLabel.text = product.size
+        favoriteButton.isHidden = false
+        favoriteButton.setCustomBackgroundColor(with: (product.hasLiked) ? .red : .black)
+    }
+    
+    private func updateLiked(with product: Product) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {
+                return
+            }
+            favoriteButton.setCustomBackgroundColor(with: (product.hasLiked) ? .red : .black)
+            hasLiked = product.hasLiked
+            productsDelegate?.hasLikedOnDetail(with: product)
+        }
     }
 }
 
@@ -251,7 +283,9 @@ extension ProductDetailsViewController {
     
     // Action when the favorite button is tapped
     @objc private func favoriteButtonTapped() {
-        favoriteButton.setCustomBackgroundColor(with: .red)
+        if productId > 0 {
+            liked.send((productId, !liked.value.hasLiked))
+        }
     }
 
     // Action when the close button is tapped

@@ -60,14 +60,26 @@ final class ProductsViewModel: ProductsViewModelType {
             })
             .eraseToAnyPublisher()
         
-        return Publishers.Merge(showDetails, productsSearch).eraseToAnyPublisher()
+        let likes = input.liked
+            .flatMapLatest({ [unowned self] (id, hasLike) in self.useCase.likedProduct(with: id, hasLike: hasLike) })
+            .map({ result -> ProductsState in
+                switch result {
+                case .success(let product): return .successLiked(product)
+                case .failure(_): return .idle
+                }
+            })
+            .eraseToAnyPublisher()
+        
+        let products = Publishers.Merge(likes, productsSearch).eraseToAnyPublisher()
+        
+        return Publishers.Merge(showDetails, products).eraseToAnyPublisher()
     }
     
     // MARK: - Navigation
     
     func showDetailView(with id: Int, vc: UIViewController) {
         let detailViewModel = ProductDetailsViewModel(productId: id, useCase: detailsUseCase)
-        let detailViewController = ProductDetailsViewController(viewModel: detailViewModel)
+        let detailViewController = ProductDetailsViewController(viewModel: detailViewModel, delegate: vc as! ProductsCellDelegate)
         detailViewController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         vc.present(detailViewController, animated: true, completion: nil)
     }

@@ -22,10 +22,10 @@ final class ApplicationComponentsFactory {
 
 extension ApplicationComponentsFactory: ApplicationCoordinatorDependencyProvider {
     
-    func productDetailsController(_ productId: Int) -> UIViewController {
+    /*func productDetailsController(_ productId: Int) -> UIViewController {
         let viewModel = ProductDetailsViewModel(productId: productId, useCase: productDetailsUseCase)
         return ProductDetailsViewController(viewModel: viewModel)
-    }
+    }*/
 
     func productsNavigationController(navigator: ProductsViewNavigator) -> UINavigationController {
         let viewModel = ProductsViewModel(useCase: productsUeCase)

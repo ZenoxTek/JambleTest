@@ -38,7 +38,7 @@ class JambleActionButton: UIButton {
         myConfiguration.cornerStyle = .capsule
         self.configuration = myConfiguration
         self.setTitleColor(.white, for: .normal)
-        
+
         // Add targets for touch events
         addTarget(self, action: #selector(buttonPressed), for: .touchDown)
         addTarget(self, action: #selector(buttonReleased), for: .touchUpInside)
@@ -49,6 +49,7 @@ class JambleActionButton: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         // Perform any additional layout customization
     }
 

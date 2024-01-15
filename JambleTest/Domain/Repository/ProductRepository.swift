@@ -17,4 +17,5 @@ protocol ProductRepository {
                        page: Int, numberOfItems:
                        Int) -> AnyPublisher<Result<[Product], Error>, Never>
     func getProductDetails(with productId: Int, forceNetworkCall: Bool) -> AnyPublisher<Result<Product, Error>, Never>
+    func hasLiked(with productId: Int, hasLiked: Bool) -> AnyPublisher<Result<Product, Error>, Never>
 }

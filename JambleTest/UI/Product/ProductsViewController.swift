@@ -72,7 +72,7 @@ final class ProductsViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 12
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -98,7 +98,8 @@ final class ProductsViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private let search = PassthroughSubject<LogicalRulers, Never>()
     private let selection = PassthroughSubject<Int, Never>()
-
+    private let liked = PassthroughSubject<(Int, Bool), Never>()
+    
     // MARK: - Data Elements
     
     private lazy var dataSource = makeDataSource()
@@ -157,10 +158,10 @@ extension ProductsViewController {
         alertView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            alertView.widthAnchor.constraint(equalToConstant: 200),
-            alertView.heightAnchor.constraint(equalToConstant: 300),
-            alertView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            alertView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            alertView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
+            alertView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32),
+            alertView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            alertView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
     
@@ -177,6 +178,7 @@ extension ProductsViewController {
     
     private func configureTopScreen() {
         searchField.delegate = self
+        searchField.searchTextField.delegate = self
         
         resetButton.addTarget(self, action: #selector(resetPressed), for: .touchUpInside)
         
@@ -220,8 +222,8 @@ extension ProductsViewController {
         
         NSLayoutConstraint.activate([
             productsCV.topAnchor.constraint(equalTo: searchResultLabel.bottomAnchor, constant: 16),
-            productsCV.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 2),
-            productsCV.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -2),
+            productsCV.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            productsCV.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             productsCV.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -280,14 +282,24 @@ extension ProductsViewController {
             })
         }
         
+        let favoritesActions = Bookmarked.allCases.filter { bookmark in bookmark != .unknown }.map { index -> UIAction in
+            return UIAction(title: index.description, handler: { _ in
+                self.logicalRuler.filtering = (FilteringType.bookmarked, index.description)
+                self.search.send(self.logicalRuler)
+            })
+        }
+        
         let sizeMenu = UIMenu(title: String(localized: "Size"), options: .displayAsPalette, children: sizeMenuActions)
         
         let colorMenu = UIMenu(title: String(localized: "Color"), options: .displayAsPalette, children: colorMenuActions)
         
+        let bookmarkedMenu = UIMenu(title: String(localized: "Bookmarked"), options: .displayInline, children: favoritesActions)
+        
         let itemsFiltering = UIMenu(title: String(localized: "Filter"), image: UIImage(named: "icon-filter"),
                                     options: .displayInline, children: [
                                         sizeMenu,
-                                        colorMenu
+                                        colorMenu,
+                                        bookmarkedMenu
                                     ])
         sortByButton.linkedToMenuBehavior = true
         sortByButton.menu = UIMenu(title: "", children: [itemsOrdering, resetOrdering])
@@ -307,7 +319,8 @@ extension ProductsViewController {
         cancellables.removeAll()
         
         let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(),
-                                           selection: selection.eraseToAnyPublisher())
+                                           selection: selection.eraseToAnyPublisher(),
+                                           liked: liked.eraseToAnyPublisher())
 
         let output = viewModel.transform(input: input)
 
@@ -341,6 +354,8 @@ extension ProductsViewController {
             productsCV.isHidden = false
             hideNoContentController()
             update(with: products, animate: true)
+        case .successLiked(let product):
+            updateLiked(with: product)
         case .details(let id):
             showDetailView(with: id)
         }
@@ -356,6 +371,24 @@ extension ProductsViewController {
             snapshot.appendSections(Section.allCases)
             snapshot.appendItems(products, toSection: .products)
             self.dataSource.apply(snapshot, animatingDifferences: animate)
+        }
+    }
+    
+    private func updateLiked(with product: Product) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {
+                return
+            }
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections(Section.allCases)
+            let items = self.dataSource.snapshot().itemIdentifiers.map { prod in
+                if prod.id == product.id && prod.hasLiked != product.hasLiked {
+                    return product
+                }
+                return prod
+            }
+            snapshot.appendItems(items)
+            self.dataSource.applySnapshotUsingReloadData(snapshot)
         }
     }
     
@@ -377,6 +410,12 @@ extension ProductsViewController {
             filterButton.setTitle("\(String(localized: "Color")) - \(logicalRuler.filtering.1)", for: .normal)
         case .size:
             filterButton.setTitle("\(String(localized: "Size")) - \(logicalRuler.filtering.1)", for: .normal)
+        case .bookmarked:
+            if logicalRuler.filtering.1 == Bookmarked.bookmarked.description {
+                filterButton.setTitle("\(String(localized: "Bookmarked")) - \(Bookmarked.bookmarked.displayedButton)", for: .normal)
+            } else {
+                filterButton.setTitle("\(String(localized: "Bookmarked")) - \(Bookmarked.unbookmarked.displayedButton)", for: .normal)
+            }
         }
     }
     
@@ -459,7 +498,7 @@ extension ProductsViewController: UICollectionViewDelegate {
                 let tapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                   action: #selector(self.cellPressed(sender:)))
                 cell.addGestureRecognizer(tapGestureRecognizer)
-                cell.bind(from: product)
+                cell.bind(from: product, delegate: self)
                 return cell
             }
         )
@@ -486,7 +525,11 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProductsViewController: ProductsCellDelegate {
     
-    func hasLiked(with productId: Int) {
-        return
+    func hasLiked(with productId: Int, hasLiked: Bool) {
+        liked.send((productId, hasLiked))
+    }
+    
+    func hasLikedOnDetail(with product: Product) {
+        updateLiked(with: product)
     }
 }

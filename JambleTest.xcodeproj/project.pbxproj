@@ -74,6 +74,8 @@
 		B22B702F2B55596A0044E0F7 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B702E2B55596A0044E0F7 /* UIViewController+Keyboard.swift */; };
 		B22B70332B556F010044E0F7 /* Resource+Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70322B556F010044E0F7 /* Resource+Products.swift */; };
 		B22B70352B5575FC0044E0F7 /* ProductsCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70342B5575FC0044E0F7 /* ProductsCellDelegate.swift */; };
+		B22B70372B55A8350044E0F7 /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70362B55A8350044E0F7 /* Bookmarks.swift */; };
+		B22B70392B55B5C50044E0F7 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70382B55B5C50044E0F7 /* UIView+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +178,8 @@
 		B22B702E2B55596A0044E0F7 /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		B22B70322B556F010044E0F7 /* Resource+Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resource+Products.swift"; sourceTree = "<group>"; };
 		B22B70342B5575FC0044E0F7 /* ProductsCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsCellDelegate.swift; sourceTree = "<group>"; };
+		B22B70362B55A8350044E0F7 /* Bookmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmarks.swift; sourceTree = "<group>"; };
+		B22B70382B55B5C50044E0F7 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -341,6 +345,7 @@
 				B22B6F462B51765F0044E0F7 /* Products.swift */,
 				B22B6FEF2B52DF420044E0F7 /* Size.swift */,
 				B22B6FF42B52F6EF0044E0F7 /* Color.swift */,
+				B22B70362B55A8350044E0F7 /* Bookmarks.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 				B22B6FDE2B51BBB50044E0F7 /* SearchField+Ext.swift */,
 				B22B70012B532AB20044E0F7 /* UIViewController+Child.swift */,
 				B22B702E2B55596A0044E0F7 /* UIViewController+Keyboard.swift */,
+				B22B70382B55B5C50044E0F7 /* UIView+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -727,6 +733,7 @@
 				B22B6F022B516CD20044E0F7 /* AppDelegate.swift in Sources */,
 				B22B6FE42B51C65A0044E0F7 /* ApplicationNavigatorCoordinator.swift in Sources */,
 				B22B70022B532AB20044E0F7 /* UIViewController+Child.swift in Sources */,
+				B22B70372B55A8350044E0F7 /* Bookmarks.swift in Sources */,
 				B22B702F2B55596A0044E0F7 /* UIViewController+Keyboard.swift in Sources */,
 				B22B6F912B517F690044E0F7 /* JsonService.swift in Sources */,
 				B22B700F2B5454380044E0F7 /* ProductRepositoryImpl.swift in Sources */,
@@ -738,6 +745,7 @@
 				B22B6F492B51789A0044E0F7 /* ProductUseCase.swift in Sources */,
 				B22B6F9C2B518DE90044E0F7 /* ProductCollectionViewCell.swift in Sources */,
 				B22B6F992B518C600044E0F7 /* ProductsViewModel.swift in Sources */,
+				B22B70392B55B5C50044E0F7 /* UIView+Ext.swift in Sources */,
 				B22B6F872B517BE20044E0F7 /* JsonServiceType.swift in Sources */,
 				B22B6F7E2B517A030044E0F7 /* Scheduler.swift in Sources */,
 				B22B6FF32B52F1960044E0F7 /* RoundedCornerButton.swift in Sources */,

@@ -18,6 +18,12 @@ protocol ProductDetailsUseCaseType: AutoMockable {
     /// - Parameter query: The logical rulers to apply during the search.
     /// - Returns: A publisher emitting the search result as an array of products or an error.
     func getProductDetail(with productId: Int) -> AnyPublisher<Result<Product, Error>, Never>
+    
+    /// Action to like/unliked a product
+    /// - Parameter productId: Id of the product liked or unliked
+    /// - Parameter hasLike: Bool representing the action to either like or unliked a product
+    /// - Returns: A publisher emitting the search result as an array of products or an error.
+    func likedProduct(with productId: Int, hasLike: Bool) -> AnyPublisher<Result<Product, Error>, Never>
 }
 
 // MARK: - ProductDetailsUseCase
@@ -36,5 +42,9 @@ final class ProductDetailsUseCase: ProductDetailsUseCaseType {
     
     func getProductDetail(with productId: Int) -> AnyPublisher<Result<Product, Error>, Never> {
         repository.getProductDetails(with: productId)
+    }
+    
+    func likedProduct(with productId: Int, hasLike: Bool) -> AnyPublisher<Result<Product, Error>, Never> {
+        repository.hasLiked(with: productId, hasLiked: hasLike)
     }
 }

@@ -37,8 +37,20 @@ final class ProductDetailsViewModel: ProductDetailsViewModelType {
             })
             .eraseToAnyPublisher()
         
+        let likes = input.liked
+            .flatMapLatest({ [unowned self] (id, hasLike) in self.useCase.likedProduct(with: id, hasLike: hasLike) })
+            .map({ result -> ProductDetailsState in
+                switch result {
+                case .success(let product): return.successLiked(product)
+                case .failure(_): return .nothing
+                }
+            })
+            .eraseToAnyPublisher()
+        
         let loading: ProductDetailsViewModelOutput = input.appear.map({_ in .loading }).eraseToAnyPublisher()
 
-        return Publishers.Merge(loading, productDetails).removeDuplicates().eraseToAnyPublisher()
+        let product = Publishers.Merge(likes, productDetails).eraseToAnyPublisher()
+        
+        return Publishers.Merge(loading, product).eraseToAnyPublisher()
     }
 }

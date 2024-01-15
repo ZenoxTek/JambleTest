@@ -20,6 +20,6 @@ protocol ProductNavigatorCoordinatorDependencyProvider: AnyObject {
     func productsNavigationController(navigator: ProductsViewNavigator) -> UINavigationController
 
     // Creates UIViewController to show the details of the product with the specified identifier
-    func productDetailsController(_ productId: Int) -> UIViewController
+    //func productDetailsController(_ productId: Int) -> UIViewController
 }
 

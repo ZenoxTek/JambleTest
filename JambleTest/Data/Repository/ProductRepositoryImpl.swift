@@ -20,7 +20,7 @@ final class ProductRepositoryImpl: ProductRepository {
         self.jsonService = jsonService
         self.networkService = networkService
     }
-    
+        
     func searchProduct(with query: String,
                        forceNetworkCall: Bool = false,
                        page: Int = 1, numberOfItems:
@@ -34,7 +34,6 @@ final class ProductRepositoryImpl: ProductRepository {
         }
         return jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
             .map { dataDTO in
-                self.products.removeAll()
                 let productData = dataDTO.map { prod in
                     let product = prod.toProduct()
                     self.products.append(product)
@@ -60,7 +59,11 @@ final class ProductRepositoryImpl: ProductRepository {
         }
         return jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
             .map({ dataDTO in
-                guard let product = dataDTO.filter({ $0.id == productId }).first?.toProduct() else {
+                dataDTO.forEach { prod in
+                    let product = prod.toProduct()
+                    self.products.append(product)
+                }
+                guard let product = self.products.filter({ $0.id == productId }).first else {
                     return .failure(JsonError.invalidResponse)
                 }
                 return .success(product)
@@ -69,5 +72,15 @@ final class ProductRepositoryImpl: ProductRepository {
             .subscribe(on: Scheduler.backgroundWorkScheduler)
             .receive(on: Scheduler.mainScheduler)
             .eraseToAnyPublisher()
+    }
+    
+    func hasLiked(with productId: Int, hasLiked: Bool) -> AnyPublisher<Result<Product, Error>, Never> {
+        if !products.isEmpty && products.contains(where: { $0.id == productId }) {
+            if let index = products.lastIndex(where: { $0.id == productId }) {
+                products[index].hasLiked = hasLiked
+                return .just(.success(products[index]))
+            }
+        }
+        return .just(.failure(JsonError.invalidResponse))
     }
 }

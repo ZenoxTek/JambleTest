@@ -19,6 +19,22 @@
         }
       }
     },
+    "Bookmarked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoris"
+          }
+        }
+      }
+    },
     "Color" : {
       "comment" : "Color label used on UIMenu",
       "extractionState" : "manual",
@@ -139,6 +155,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vert"
+          }
+        }
+      }
+    },
+    "No" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non"
           }
         }
       }
@@ -401,6 +433,22 @@
         }
       }
     },
+    "Unbookmarked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbookmarked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non Favoris"
+          }
+        }
+      }
+    },
     "Unknown" : {
       "comment" : "Unknown default enum",
       "extractionState" : "manual",
@@ -433,6 +481,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Jaune"
+          }
+        }
+      }
+    },
+    "Yes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oui"
           }
         }
       }

@@ -36,10 +36,10 @@ class ProductsNavigatorController: NavigatorCoordinator {
 
 extension ProductsNavigatorController: ProductsViewNavigator {
     
-    func showDetails(forProduct productId: Int) {
+    /*func showDetails(forProduct productId: Int) {
         print(self.searchNavigationController ?? "Already nil")
         let controller = self.dependencyProvider.productDetailsController(productId)
         searchNavigationController?.modalPresentationStyle = .formSheet
         searchNavigationController?.pushViewController(controller, animated: true)
-    }
+    }*/
 }

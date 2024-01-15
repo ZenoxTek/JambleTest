@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+// MARK: - UIViewController extension
+
 extension UIViewController {
     
     func hideKeyboardWhenTappedAround() {
@@ -21,4 +23,12 @@ extension UIViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate for UIViewController
 
+extension UIViewController: UITextFieldDelegate {
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+}

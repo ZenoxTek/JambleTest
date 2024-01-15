@@ -7,7 +7,9 @@
 
 import Foundation
 
-protocol ProductsCellDelegate {
+protocol ProductsCellDelegate: AnyObject {
     
-    func hasLiked(with productId: Int)
+    func hasLiked(with productId: Int, hasLiked: Bool)
+    
+    func hasLikedOnDetail(with product: Product)
 }
