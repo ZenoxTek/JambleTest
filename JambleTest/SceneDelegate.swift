@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return ProductRepositoryImpl(jsonService: serviceJsonProvider, networkService: serviceNetworkProvider)
         }.inObjectScope(.container)
         
-        container.register(ProductUseCase.self) { r in
+        container.register(ProductUseCaseType.self) { r in
             ProductUseCase(repository: r.resolve(ProductRepositoryImpl.self)!)
         }
         

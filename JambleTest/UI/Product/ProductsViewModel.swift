@@ -15,8 +15,8 @@ final class ProductsViewModel: ProductsViewModelType {
     
     // MARK: - Properties
     
-    private var navigator: ProductsNavigatorCoordinator
-    @Inject private var useCase: ProductUseCase
+    private var navigator: ProductsViewNavigator
+    @Inject private var useCase: ProductUseCaseType
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -27,7 +27,7 @@ final class ProductsViewModel: ProductsViewModelType {
     
     // MARK: - Initialization
     
-    init(navigator: ProductsNavigatorCoordinator) {
+    init(navigator: ProductsViewNavigator) {
         self.navigator = navigator
     }
     

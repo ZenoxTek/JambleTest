@@ -11,9 +11,7 @@
 		B22B6F042B516CD20044E0F7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6F032B516CD20044E0F7 /* SceneDelegate.swift */; };
 		B22B6F0B2B516CD30044E0F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B22B6F0A2B516CD30044E0F7 /* Assets.xcassets */; };
 		B22B6F0E2B516CD30044E0F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B22B6F0C2B516CD30044E0F7 /* LaunchScreen.storyboard */; };
-		B22B6F192B516CD30044E0F7 /* JambleTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6F182B516CD30044E0F7 /* JambleTestTests.swift */; };
-		B22B6F232B516CD30044E0F7 /* JambleTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6F222B516CD30044E0F7 /* JambleTestUITests.swift */; };
-		B22B6F252B516CD30044E0F7 /* JambleTestUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6F242B516CD30044E0F7 /* JambleTestUITestsLaunchTests.swift */; };
+		B22B6F192B516CD30044E0F7 /* ApplicationNavigatorCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6F182B516CD30044E0F7 /* ApplicationNavigatorCoordinatorTests.swift */; };
 		B22B6F3C2B516E4E0044E0F7 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6F3B2B516E4E0044E0F7 /* Product.swift */; };
 		B22B6F3E2B516FE00044E0F7 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6F3D2B516FE00044E0F7 /* Currency.swift */; };
 		B22B6F412B5175A80044E0F7 /* Color+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6F402B5175A80044E0F7 /* Color+Ext.swift */; };
@@ -78,18 +76,13 @@
 		B22B70392B55B5C50044E0F7 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70382B55B5C50044E0F7 /* UIView+Ext.swift */; };
 		B22B703C2B55C7650044E0F7 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = B22B703B2B55C7650044E0F7 /* Podfile */; };
 		B2F8DCD22B55D24700FAF4D8 /* sourcery_automockable_config.yml in Resources */ = {isa = PBXBuildFile; fileRef = B2F8DCD12B55D24700FAF4D8 /* sourcery_automockable_config.yml */; };
-		B2F8DCDF2B55E5D600FAF4D8 /* AutoMockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCDE2B55E5D600FAF4D8 /* AutoMockable.swift */; };
+		B2F8DCE22B55EF5900FAF4D8 /* ProductsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCE12B55EF5900FAF4D8 /* ProductsViewModelTests.swift */; };
+		B2F8DCE62B55F49300FAF4D8 /* AutoMockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCE52B55F49300FAF4D8 /* AutoMockable.swift */; };
+		B2F8DCEA2B55FA2500FAF4D8 /* JsonReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCE92B55FA2500FAF4D8 /* JsonReader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		B22B6F152B516CD30044E0F7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B22B6EF62B516CD20044E0F7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B22B6EFD2B516CD20044E0F7;
-			remoteInfo = JambleTest;
-		};
-		B22B6F1F2B516CD30044E0F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B22B6EF62B516CD20044E0F7 /* Project object */;
 			proxyType = 1;
@@ -122,10 +115,7 @@
 		B22B6F0D2B516CD30044E0F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B22B6F0F2B516CD30044E0F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B22B6F142B516CD30044E0F7 /* JambleTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JambleTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B22B6F182B516CD30044E0F7 /* JambleTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JambleTestTests.swift; sourceTree = "<group>"; };
-		B22B6F1E2B516CD30044E0F7 /* JambleTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JambleTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B22B6F222B516CD30044E0F7 /* JambleTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JambleTestUITests.swift; sourceTree = "<group>"; };
-		B22B6F242B516CD30044E0F7 /* JambleTestUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JambleTestUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B22B6F182B516CD30044E0F7 /* ApplicationNavigatorCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationNavigatorCoordinatorTests.swift; sourceTree = "<group>"; };
 		B22B6F3B2B516E4E0044E0F7 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		B22B6F3D2B516FE00044E0F7 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		B22B6F402B5175A80044E0F7 /* Color+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Ext.swift"; sourceTree = "<group>"; };
@@ -187,7 +177,9 @@
 		B22B70382B55B5C50044E0F7 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		B22B703B2B55C7650044E0F7 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		B2F8DCD12B55D24700FAF4D8 /* sourcery_automockable_config.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = sourcery_automockable_config.yml; sourceTree = "<group>"; };
-		B2F8DCDE2B55E5D600FAF4D8 /* AutoMockable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoMockable.swift; sourceTree = "<group>"; };
+		B2F8DCE12B55EF5900FAF4D8 /* ProductsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModelTests.swift; sourceTree = "<group>"; };
+		B2F8DCE52B55F49300FAF4D8 /* AutoMockable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoMockable.swift; sourceTree = "<group>"; };
+		B2F8DCE92B55FA2500FAF4D8 /* JsonReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonReader.swift; sourceTree = "<group>"; };
 		C821E5DA316B5E6E3E4E1DFD /* Pods-JambleTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JambleTest.release.xcconfig"; path = "Target Support Files/Pods-JambleTest/Pods-JambleTest.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -202,13 +194,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B22B6F112B516CD30044E0F7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B22B6F1B2B516CD30044E0F7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -233,7 +218,6 @@
 				B22B703B2B55C7650044E0F7 /* Podfile */,
 				B22B6F002B516CD20044E0F7 /* JambleTest */,
 				B22B6F172B516CD30044E0F7 /* JambleTestTests */,
-				B22B6F212B516CD30044E0F7 /* JambleTestUITests */,
 				B22B6EFF2B516CD20044E0F7 /* Products */,
 				B22B701E2B546A330044E0F7 /* Frameworks */,
 				21D8090B60A295AD39B1ECEF /* Pods */,
@@ -245,7 +229,6 @@
 			children = (
 				B22B6EFE2B516CD20044E0F7 /* JambleTest.app */,
 				B22B6F142B516CD30044E0F7 /* JambleTestTests.xctest */,
-				B22B6F1E2B516CD30044E0F7 /* JambleTestUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -271,19 +254,10 @@
 		B22B6F172B516CD30044E0F7 /* JambleTestTests */ = {
 			isa = PBXGroup;
 			children = (
+				B2F8DCE02B55EEA000FAF4D8 /* UnitTests */,
 				B2F8DCD32B55D2B900FAF4D8 /* Mocks */,
-				B22B6F182B516CD30044E0F7 /* JambleTestTests.swift */,
 			);
 			path = JambleTestTests;
-			sourceTree = "<group>";
-		};
-		B22B6F212B516CD30044E0F7 /* JambleTestUITests */ = {
-			isa = PBXGroup;
-			children = (
-				B22B6F222B516CD30044E0F7 /* JambleTestUITests.swift */,
-				B22B6F242B516CD30044E0F7 /* JambleTestUITestsLaunchTests.swift */,
-			);
-			path = JambleTestUITests;
 			sourceTree = "<group>";
 		};
 		B22B6F312B516D720044E0F7 /* Core */ = {
@@ -382,6 +356,7 @@
 				B22B70012B532AB20044E0F7 /* UIViewController+Child.swift */,
 				B22B702E2B55596A0044E0F7 /* UIViewController+Keyboard.swift */,
 				B22B70382B55B5C50044E0F7 /* UIView+Ext.swift */,
+				B2F8DCE92B55FA2500FAF4D8 /* JsonReader.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -591,9 +566,18 @@
 		B2F8DCD32B55D2B900FAF4D8 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				B2F8DCDE2B55E5D600FAF4D8 /* AutoMockable.swift */,
+				B2F8DCE52B55F49300FAF4D8 /* AutoMockable.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		B2F8DCE02B55EEA000FAF4D8 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				B22B6F182B516CD30044E0F7 /* ApplicationNavigatorCoordinatorTests.swift */,
+				B2F8DCE12B55EF5900FAF4D8 /* ProductsViewModelTests.swift */,
+			);
+			path = UnitTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -642,24 +626,6 @@
 			productReference = B22B6F142B516CD30044E0F7 /* JambleTestTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		B22B6F1D2B516CD30044E0F7 /* JambleTestUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B22B6F2E2B516CD30044E0F7 /* Build configuration list for PBXNativeTarget "JambleTestUITests" */;
-			buildPhases = (
-				B22B6F1A2B516CD30044E0F7 /* Sources */,
-				B22B6F1B2B516CD30044E0F7 /* Frameworks */,
-				B22B6F1C2B516CD30044E0F7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B22B6F202B516CD30044E0F7 /* PBXTargetDependency */,
-			);
-			name = JambleTestUITests;
-			productName = JambleTestUITests;
-			productReference = B22B6F1E2B516CD30044E0F7 /* JambleTestUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -674,10 +640,6 @@
 						CreatedOnToolsVersion = 15.0.1;
 					};
 					B22B6F132B516CD30044E0F7 = {
-						CreatedOnToolsVersion = 15.0.1;
-						TestTargetID = B22B6EFD2B516CD20044E0F7;
-					};
-					B22B6F1D2B516CD30044E0F7 = {
 						CreatedOnToolsVersion = 15.0.1;
 						TestTargetID = B22B6EFD2B516CD20044E0F7;
 					};
@@ -702,7 +664,6 @@
 			targets = (
 				B22B6EFD2B516CD20044E0F7 /* JambleTest */,
 				B22B6F132B516CD30044E0F7 /* JambleTestTests */,
-				B22B6F1D2B516CD30044E0F7 /* JambleTestUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -723,13 +684,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B22B6F122B516CD30044E0F7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B22B6F1C2B516CD30044E0F7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -773,6 +727,7 @@
 				B22B6F772B517A030044E0F7 /* NetworkServiceType.swift in Sources */,
 				B22B6F892B517C200044E0F7 /* JsonResource.swift in Sources */,
 				B22B6FFE2B5328C80044E0F7 /* NoContentViewController.swift in Sources */,
+				B2F8DCEA2B55FA2500FAF4D8 /* JsonReader.swift in Sources */,
 				B22B70192B5466890044E0F7 /* Resolver.swift in Sources */,
 				B22B6F7D2B517A030044E0F7 /* ImageLoaderServiceType.swift in Sources */,
 				B22B6F7C2B517A030044E0F7 /* ImageLoaderService.swift in Sources */,
@@ -833,17 +788,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2F8DCDF2B55E5D600FAF4D8 /* AutoMockable.swift in Sources */,
-				B22B6F192B516CD30044E0F7 /* JambleTestTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B22B6F1A2B516CD30044E0F7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B22B6F232B516CD30044E0F7 /* JambleTestUITests.swift in Sources */,
-				B22B6F252B516CD30044E0F7 /* JambleTestUITestsLaunchTests.swift in Sources */,
+				B2F8DCE22B55EF5900FAF4D8 /* ProductsViewModelTests.swift in Sources */,
+				B2F8DCE62B55F49300FAF4D8 /* AutoMockable.swift in Sources */,
+				B22B6F192B516CD30044E0F7 /* ApplicationNavigatorCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,11 +801,6 @@
 			isa = PBXTargetDependency;
 			target = B22B6EFD2B516CD20044E0F7 /* JambleTest */;
 			targetProxy = B22B6F152B516CD30044E0F7 /* PBXContainerItemProxy */;
-		};
-		B22B6F202B516CD30044E0F7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B22B6EFD2B516CD20044E0F7 /* JambleTest */;
-			targetProxy = B22B6F1F2B516CD30044E0F7 /* PBXContainerItemProxy */;
 		};
 		B22B701B2B5468340044E0F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1099,42 +1041,6 @@
 			};
 			name = Release;
 		};
-		B22B6F2F2B516CD30044E0F7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 227LV95S87;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ben.practice.JambleTestUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = JambleTest;
-			};
-			name = Debug;
-		};
-		B22B6F302B516CD30044E0F7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 227LV95S87;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ben.practice.JambleTestUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = JambleTest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1161,15 +1067,6 @@
 			buildConfigurations = (
 				B22B6F2C2B516CD30044E0F7 /* Debug */,
 				B22B6F2D2B516CD30044E0F7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B22B6F2E2B516CD30044E0F7 /* Build configuration list for PBXNativeTarget "JambleTestUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B22B6F2F2B516CD30044E0F7 /* Debug */,
-				B22B6F302B516CD30044E0F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
