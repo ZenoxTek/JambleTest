@@ -11,4 +11,8 @@ import Foundation
 
 struct Constants {
     static let jsonFile = "products"
+    static let apiKey = "randomkey"
+    static let baseUrl = URL(string: "https://www.google.com")!
+    static let originalImageUrl = URL(string: "https://www.google.com/imghp")!
+    static let smallImageUrl = URL(string: "https://www.google.com/imghp")!
 }

@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Product
 
-struct Product: Identifiable, Codable {
+struct Product: Identifiable {
 
     // MARK: - Properties
     
@@ -20,6 +20,15 @@ struct Product: Identifiable, Codable {
     let price: Double
     let currency: String
     let size: String
+    
+    var numberOfFavorites: Int = {
+        let randomNumber = Int.random(in: 0...50)
+        return randomNumber
+    }()
+    var hasLiked: Bool = false
+    var currentNumberOfFavs: Int {
+        (hasLiked) ? numberOfFavorites + 1 : numberOfFavorites
+    }
     
     // MARK: - Default Product
         
@@ -54,7 +63,7 @@ struct Product: Identifiable, Codable {
     /// Formatted price string with the given currency.
     func price(with currency: String) -> String {
         if let currencyType: CurrencyType = CurrencyType(rawValue: currency) {
-            return "\(currencyType.symbol) \(price.description)"
+            return "\(currencyType.symbol)\(price.description)"
         }
         return currency
     }

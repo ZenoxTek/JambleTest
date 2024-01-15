@@ -30,7 +30,6 @@ class ProductCollectionViewCell: UICollectionViewCell, NibProvidable, ReusableVi
         productId
     }
     
-    
     // MARK: - Cell Binding
     
     func bind(from product: Product) {

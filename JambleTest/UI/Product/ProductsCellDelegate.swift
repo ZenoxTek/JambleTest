@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+protocol ProductsCellDelegate {
+    
+    func hasLiked(with productId: Int)
+}

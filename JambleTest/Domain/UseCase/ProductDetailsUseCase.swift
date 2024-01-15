@@ -24,13 +24,13 @@ protocol ProductDetailsUseCaseType: AutoMockable {
 
 final class ProductDetailsUseCase: ProductDetailsUseCaseType {
     
-    private let repository: ProductRepository
+    private let repository: ProductRepositoryImpl
     
     // MARK: Initialization
     
     /// Initializes the ProductUseCase with the provided service.
     /// - Parameter repository: The repository responsible for retrieving product data.
-    init(repository: ProductRepository) {
+    init(repository: ProductRepositoryImpl) {
         self.repository = repository
     }
     

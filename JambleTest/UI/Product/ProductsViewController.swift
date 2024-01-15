@@ -408,22 +408,19 @@ extension ProductsViewController {
         search.send(logicalRuler)
     }
     
-    @objc func cellLongPressed(sender: UILongPressGestureRecognizer) {
-        if sender.state == .ended {
-            // Animate the button to a larger size
+    @objc func cellPressed(sender: UITapGestureRecognizer) {
+        // Animate the cell before displaying cell detail
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+            sender.view?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }, completion: { _ in
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-               
                 sender.view?.transform = CGAffineTransform.identity
             }, completion: { _ in
                 if let cell = sender.view as? ProductCollectionViewCell {
                     self.selection.send(cell.id)
                 }
             })
-        } else {
-            UIView.animate(withDuration: 0.1) {
-                sender.view?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-            }
-        }
+        })
     }
 }
 
@@ -459,9 +456,9 @@ extension ProductsViewController: UICollectionViewDelegate {
                 let cell = collectionView.dequeueReusableCell(withClass: ProductCollectionViewCell.self,
                                                               forIndexPath: indexPath)
                 cell.tag = product.id
-                let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self,
-                                                                              action: #selector(self.cellLongPressed(sender:)))
-                cell.addGestureRecognizer(longPressGestureRecognizer)
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                  action: #selector(self.cellPressed(sender:)))
+                cell.addGestureRecognizer(tapGestureRecognizer)
                 cell.bind(from: product)
                 return cell
             }
@@ -482,5 +479,14 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
         let itemHeight: CGFloat = 300 // Set the height as needed
 
         return CGSize(width: itemWidth, height: itemHeight)
+    }
+}
+
+// MARK: - ProductsCellDelegate
+
+extension ProductsViewController: ProductsCellDelegate {
+    
+    func hasLiked(with productId: Int) {
+        return
     }
 }

@@ -147,8 +147,8 @@ class MockData {
 
         do {
             let decoder = JSONDecoder()
-            let products = try decoder.decode([Product].self, from: jsonData)
-            return products
+            let products = try decoder.decode([ProductDTO].self, from: jsonData)
+            return products.map { $0.toProduct() }
         } catch {
             fatalError("Failed to decode JSON: \(error)")
         }

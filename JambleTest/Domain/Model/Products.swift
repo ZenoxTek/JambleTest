@@ -7,8 +7,10 @@
 
 import Foundation
 
-// MARK: - ProductSize
+// MARK: - Products
 
-struct Products: Decodable {
+/// May be used in case of Network Calling. Comment it for now
+/*struct Products: Decodable {
     var products: [Product]
 }
+*/
