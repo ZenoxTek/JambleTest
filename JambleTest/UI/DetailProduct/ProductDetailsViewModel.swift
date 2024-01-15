@@ -15,13 +15,12 @@ final class ProductDetailsViewModel: ProductDetailsViewModelType {
     // MARK: - Properties
 
     private let productId: Int
-    private let useCase: ProductDetailsUseCaseType
+    @Inject private var useCase: ProductDetailsUseCase
 
     // MARK: - Initialization
 
-    init(productId: Int, useCase: ProductDetailsUseCaseType) {
+    init(productId: Int) {
         self.productId = productId
-        self.useCase = useCase
     }
 
     // MARK: - Transform Input

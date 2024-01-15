@@ -96,15 +96,15 @@ final class ProductsViewController: UIViewController {
     // MARK: - Combine Elements
     
     private var cancellables = Set<AnyCancellable>()
-    private let search = PassthroughSubject<LogicalRulers, Never>()
-    private let selection = PassthroughSubject<Int, Never>()
+    private let search = CurrentValueSubject<String, Never>("")
+    private let filteringOrder = CurrentValueSubject<LogicalRulers, Never>(LogicalRulers())
+    private let selection = PassthroughSubject<(Int, ProductsViewController), Never>()
     private let liked = PassthroughSubject<(Int, Bool), Never>()
     
     // MARK: - Data Elements
     
     private lazy var dataSource = makeDataSource()
     private let viewModel: ProductsViewModelType
-    private var logicalRuler = LogicalRulers()
     private var alertViewController: NoContentViewController?
 
     // MARK: - Initialization
@@ -133,7 +133,8 @@ extension ProductsViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        search.send(logicalRuler)
+        search.send("")
+        filteringOrder.send(filteringOrder.value)
     }
 }
 
@@ -245,47 +246,40 @@ extension ProductsViewController {
     private func configureMenuOnActionButtons() {
         
         let resetOrdering = UIAction(title: String(localized: "Reset"), attributes: .destructive) { _ in
-            self.logicalRuler.sorting = .none
-            self.search.send(self.logicalRuler)
+            self.filteringOrder.value.sorting = .none
         }
         
         let itemsOrdering = UIMenu(title: String(localized: "SortBy"), image: UIImage(named: "icon-menu-4-dots"),
                                    options: .displayInline, children: [
                                     UIAction(title: String(localized: "PriceAscMenu"), image: UIImage(systemName: "arrow.up"),
                                              handler: { _ in
-                                                 self.logicalRuler.sorting = .asc
-                                                 self.search.send(self.logicalRuler)
+                                                 self.filteringOrder.value.sorting = .asc
                                              }),
                                     UIAction(title: String(localized: "PriceDescMenu"), image: UIImage(systemName: "arrow.down"),
                                              handler: { _ in
-                                                 self.logicalRuler.sorting = .desc
-                                                 self.search.send(self.logicalRuler)
+                                                 self.filteringOrder.value.sorting = .desc
                                              }),
                                    ])
         
         let resetFiltering = UIAction(title: String(localized: "Reset"), attributes: .destructive) { _ in
-            self.logicalRuler.filtering = (FilteringType.none, "")
-            self.search.send(self.logicalRuler)
+            self.filteringOrder.value.filtering = (FilteringType.none, "")
         }
         
         let sizeMenuActions = ProductSize.allCases.filter { size in size != .unknown }.map { index -> UIAction in
             return UIAction(title: index.rawValue, handler: { _ in
-                self.logicalRuler.filtering = (FilteringType.size, index.rawValue)
-                self.search.send(self.logicalRuler)
+                self.filteringOrder.value.filtering = (FilteringType.size, index.rawValue)
             })
         }
         
         let colorMenuActions = CustomColor.allCases.filter { color in color != .unknown }.map { index -> UIAction in
             return UIAction(title: index.description, handler: { _ in
-                self.logicalRuler.filtering = (FilteringType.color, index.description)
-                self.search.send(self.logicalRuler)
+                self.filteringOrder.value.filtering = (FilteringType.color, index.description)
             })
         }
         
         let favoritesActions = Bookmarked.allCases.filter { bookmark in bookmark != .unknown }.map { index -> UIAction in
             return UIAction(title: index.description, handler: { _ in
-                self.logicalRuler.filtering = (FilteringType.bookmarked, index.description)
-                self.search.send(self.logicalRuler)
+                self.filteringOrder.value.filtering = (FilteringType.bookmarked, index.description)
             })
         }
         
@@ -319,6 +313,7 @@ extension ProductsViewController {
         cancellables.removeAll()
         
         let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(),
+                                           filterOrdering: filteringOrder.eraseToAnyPublisher(),
                                            selection: selection.eraseToAnyPublisher(),
                                            liked: liked.eraseToAnyPublisher())
 
@@ -356,8 +351,6 @@ extension ProductsViewController {
             update(with: products, animate: true)
         case .successLiked(let product):
             updateLiked(with: product)
-        case .details(let id):
-            showDetailView(with: id)
         }
     }
     
@@ -403,15 +396,15 @@ extension ProductsViewController {
     }
     
     private func updateFilterButtonLabel() {
-        switch logicalRuler.filtering.0 {
+        switch filteringOrder.value.filtering.0 {
         case .none:
             filterButton.setTitle(String(localized: "Filter"), for: .normal)
         case .color:
-            filterButton.setTitle("\(String(localized: "Color")) - \(logicalRuler.filtering.1)", for: .normal)
+            filterButton.setTitle("\(String(localized: "Color")) - \(filteringOrder.value.filtering.1)", for: .normal)
         case .size:
-            filterButton.setTitle("\(String(localized: "Size")) - \(logicalRuler.filtering.1)", for: .normal)
+            filterButton.setTitle("\(String(localized: "Size")) - \(filteringOrder.value.filtering.1)", for: .normal)
         case .bookmarked:
-            if logicalRuler.filtering.1 == Bookmarked.bookmarked.description {
+            if filteringOrder.value.filtering.1 == Bookmarked.bookmarked.description {
                 filterButton.setTitle("\(String(localized: "Bookmarked")) - \(Bookmarked.bookmarked.displayedButton)", for: .normal)
             } else {
                 filterButton.setTitle("\(String(localized: "Bookmarked")) - \(Bookmarked.unbookmarked.displayedButton)", for: .normal)
@@ -420,19 +413,13 @@ extension ProductsViewController {
     }
     
     private func updateSortingButtonLabel() {
-        switch logicalRuler.sorting {
+        switch filteringOrder.value.sorting {
         case .none:
             sortByButton.setTitle(String(localized: "SortBy"), for: .normal)
         case .asc:
             sortByButton.setTitle("\(String(localized: "Price")) Asc", for: .normal)
         case .desc:
             sortByButton.setTitle("\(String(localized: "Price")) Desc", for: .normal)
-        }
-    }
-    
-    private func showDetailView(with id: Int) {
-        if let vm = (viewModel as? ProductsViewModel) {
-            vm.showDetailView(with: id, vc: self)
         }
     }
 }
@@ -443,8 +430,8 @@ extension ProductsViewController {
     
     @objc func resetPressed() {
         searchField.text = ""
-        logicalRuler.searchString = ""
-        search.send(logicalRuler)
+        //logicalRuler.searchString = ""
+        search.value = ""
     }
     
     @objc func cellPressed(sender: UITapGestureRecognizer) {
@@ -456,7 +443,7 @@ extension ProductsViewController {
                 sender.view?.transform = CGAffineTransform.identity
             }, completion: { _ in
                 if let cell = sender.view as? ProductCollectionViewCell {
-                    self.selection.send(cell.id)
+                    self.selection.send((cell.id, self))
                 }
             })
         })
@@ -476,8 +463,9 @@ extension ProductsViewController: UIGestureRecognizerDelegate {
 
 extension ProductsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        logicalRuler.searchString = searchText
-        search.send(logicalRuler)
+        //logicalRuler.searchString = searchText
+        //search.send(logicalRuler)
+        search.value = searchText
     }
 }
 

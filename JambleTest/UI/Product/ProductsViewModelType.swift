@@ -11,11 +11,14 @@ import Combine
 
 struct ProductsViewModelInput {
     
-    /// Called when a screen becomes visible or when the search query is updated.
-    let search: AnyPublisher<LogicalRulers, Never>
+    /// Called when a searching query is updated or send empty strings otherwise
+    let search: AnyPublisher<String, Never>
+    
+    /// Called when an active filter is selected
+    let filterOrdering: AnyPublisher<LogicalRulers, Never>
     
     /// Called when the user selected an item from the list
-    let selection: AnyPublisher<Int, Never>
+    let selection: AnyPublisher<(Int, ProductsViewController), Never>
     
     /// Called when the user liked the product from list
     let liked: AnyPublisher<(Int, Bool), Never>
@@ -26,14 +29,12 @@ struct ProductsViewModelInput {
 struct LogicalRulers {
     var sorting: SortingType = SortingType.none
     var filtering: (FilteringType, String) = (FilteringType.none, "")
-    var searchString: String = ""
 }
 
 extension LogicalRulers: Equatable {
     static func == (lhs: LogicalRulers, rhs: LogicalRulers) -> Bool {
         return lhs.sorting == rhs.sorting 
             && lhs.filtering == rhs.filtering
-            && lhs.searchString == rhs.searchString
     }
 }
 
@@ -63,7 +64,6 @@ enum ProductsState {
     case successLiked(Product)
     case noResults
     case failure(Error)
-    case details(Int)
 }
 
 extension ProductsState: Equatable {
@@ -75,7 +75,6 @@ extension ProductsState: Equatable {
         case (.successLiked(let lhsProduct), .successLiked(let rhsProduct)): return lhsProduct == rhsProduct
         case (.noResults, .noResults): return true
         case (.failure(let lhsError), .failure(let rhsError)): return lhsError.localizedDescription == rhsError.localizedDescription
-        case (.details(let lid), .details(let rid)): return lid == rid
         default: return false
         }
     }

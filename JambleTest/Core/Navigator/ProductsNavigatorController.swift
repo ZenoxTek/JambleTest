@@ -12,7 +12,6 @@ import UIKit
 /// The `ProductsNavigatorController` takes control over the flows on the products search screen
 class ProductsNavigatorController: NavigatorCoordinator {
     
-    fileprivate var searchNavigationController: UINavigationController?
     fileprivate var dependencyProvider: ProductNavigatorCoordinatorDependencyProvider
     fileprivate var window: UIWindow?
     
@@ -23,12 +22,6 @@ class ProductsNavigatorController: NavigatorCoordinator {
     func start(window: UIWindow) {
         let searchNavigationController = dependencyProvider.productsNavigationController(navigator: self)
         window.rootViewController = searchNavigationController
-        self.searchNavigationController = searchNavigationController
-        print(self.searchNavigationController ?? "Already nil")
-    }
-    
-    deinit {
-        print(self.searchNavigationController ?? "Already nil")
     }
 }
 
@@ -36,10 +29,10 @@ class ProductsNavigatorController: NavigatorCoordinator {
 
 extension ProductsNavigatorController: ProductsViewNavigator {
     
-    /*func showDetails(forProduct productId: Int) {
-        print(self.searchNavigationController ?? "Already nil")
-        let controller = self.dependencyProvider.productDetailsController(productId)
-        searchNavigationController?.modalPresentationStyle = .formSheet
-        searchNavigationController?.pushViewController(controller, animated: true)
-    }*/
+    func showDetails(for productId: Int, with vc: ProductsViewController) {
+        let detailViewModel = ProductDetailsViewModel(productId: productId)
+        let detailViewController = ProductDetailsViewController(viewModel: detailViewModel, delegate: vc as ProductsCellDelegate)
+        detailViewController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        vc.present(detailViewController, animated: true, completion: nil)
+    }
 }

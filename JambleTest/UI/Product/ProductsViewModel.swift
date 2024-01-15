@@ -16,9 +16,8 @@ final class ProductsViewModel: ProductsViewModelType {
     // MARK: - Properties
     
     @Inject private var navigator: ProductsNavigatorController
-    @Inject private var detailsUseCase: ProductDetailsUseCase
+    @Inject private var useCase: ProductUseCase
     
-    private let useCase: ProductUseCaseType
     private var cancellables = Set<AnyCancellable>()
     
     var productItems: [Product] = []
@@ -28,9 +27,7 @@ final class ProductsViewModel: ProductsViewModelType {
     
     // MARK: - Initialization
     
-    init(useCase: ProductUseCaseType) {
-        self.useCase = useCase
-        //self.navigator = navigator
+    init() {
     }
     
     // MARK: - Transform Input
@@ -39,11 +36,9 @@ final class ProductsViewModel: ProductsViewModelType {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         
-        let showDetails = input.selection
-            .map({ id -> ProductsState in
-                .details(id)
-            })
-            .eraseToAnyPublisher()
+        input.selection
+            .sink(receiveValue: { [unowned self] (productId, vc) in self.navigator.showDetails(for: productId, with: vc) })
+            .store(in: &cancellables)
         
         let searchInput = input.search
             .debounce(for: .milliseconds(300), scheduler: Scheduler.mainScheduler)
@@ -51,10 +46,11 @@ final class ProductsViewModel: ProductsViewModelType {
         
         let productsSearch = searchInput
             .flatMapLatest({[unowned self] query in self.useCase.searchProduct(with: query) })
-            .map({ result -> ProductsState in
+            .combineLatest(input.filterOrdering)
+            .map({ result, filter -> ProductsState in
                 switch result {
                 case .success(let products) where products.isEmpty: return .noResults
-                case .success(let products): return .success(products)
+                case .success(let products): return .success(self.determineProducts(with: products, and: filter))
                 case .failure(let error): return .failure(error)
                 }
             })
@@ -69,16 +65,64 @@ final class ProductsViewModel: ProductsViewModelType {
                 }
             })
             .eraseToAnyPublisher()
-        
-        let products = Publishers.Merge(likes, productsSearch).eraseToAnyPublisher()
-        
-        return Publishers.Merge(showDetails, products).eraseToAnyPublisher()
+                
+        return Publishers.Merge(likes, productsSearch).eraseToAnyPublisher()
+    }
+    
+    
+    // MARK: Determine Filtered and Sorted Products
+
+    /// Determines and returns products based on the provided data and logical rulers.
+    /// - Parameters:
+    ///   - data: The array of products to filter and sort.
+    ///   - ruler: The logical rulers to apply during filtering and sorting.
+    /// - Returns: An array of filtered and sorted products.
+    func determineProducts(with data: [Product]?, and ruler: LogicalRulers) -> [Product] {
+        guard let data else {
+            return []
+        }
+
+        var filteredData = data
+
+        switch ruler.filtering.0 {
+        case .none:
+            break // No additional filtering
+        case .size:
+            filteredData = filteredData.filter { product in
+                product.size == ruler.filtering.1
+            }
+        case .color:
+            filteredData = filteredData.filter { product in
+                product.customColor.description == ruler.filtering.1
+            }
+        case .bookmarked:
+            filteredData = filteredData.filter { product in
+                if ruler.filtering.1 == Bookmarked.bookmarked.description {
+                    return product.hasLiked == true
+                } else if ruler.filtering.1 == Bookmarked.unbookmarked.description {
+                    return product.hasLiked == false
+                } else {
+                    return false
+                }
+            }
+        }
+
+       switch ruler.sorting {
+       case .none:
+           break // No additional sorting
+       case .asc:
+           filteredData.sort(by: { $0.price < $1.price })
+       case .desc:
+           filteredData.sort(by: { $0.price > $1.price })
+       }
+
+       return filteredData
     }
     
     // MARK: - Navigation
     
     func showDetailView(with id: Int, vc: UIViewController) {
-        let detailViewModel = ProductDetailsViewModel(productId: id, useCase: detailsUseCase)
+        let detailViewModel = ProductDetailsViewModel(productId: id)
         let detailViewController = ProductDetailsViewController(viewModel: detailViewModel, delegate: vc as! ProductsCellDelegate)
         detailViewController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         vc.present(detailViewController, animated: true, completion: nil)
