@@ -14,5 +14,5 @@ import UIKit
 protocol NavigatorCoordinator: AnyObject {
 
     /// Starts the flow.
-    func start(window: UIWindow)
+    func start()
 }

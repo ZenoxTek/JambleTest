@@ -15,7 +15,7 @@ final class ProductsViewModel: ProductsViewModelType {
     
     // MARK: - Properties
     
-    @Inject private var navigator: ProductsNavigatorController
+    private var navigator: ProductsNavigatorCoordinator
     @Inject private var useCase: ProductUseCase
     
     private var cancellables = Set<AnyCancellable>()
@@ -27,7 +27,8 @@ final class ProductsViewModel: ProductsViewModelType {
     
     // MARK: - Initialization
     
-    init() {
+    init(navigator: ProductsNavigatorCoordinator) {
+        self.navigator = navigator
     }
     
     // MARK: - Transform Input

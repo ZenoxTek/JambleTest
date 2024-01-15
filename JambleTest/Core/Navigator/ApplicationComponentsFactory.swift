@@ -20,8 +20,8 @@ final class ApplicationComponentsFactory {
 
 extension ApplicationComponentsFactory: ApplicationCoordinatorDependencyProvider {
 
-    func productsNavigationController(navigator: ProductsViewNavigator) -> UINavigationController {
-        let viewModel = ProductsViewModel()
+    func productsNavigationController(navigator: ProductsNavigatorCoordinator) -> UINavigationController {
+        let viewModel = ProductsViewModel(navigator: navigator)
         let productsViewController = ProductsViewController(viewModel: viewModel)
         let productsNavigationController = UINavigationController(rootViewController: productsViewController)
         productsNavigationController.navigationBar.tintColor = UIColor.label

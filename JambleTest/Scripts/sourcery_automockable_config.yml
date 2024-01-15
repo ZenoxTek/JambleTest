@@ -1,0 +1,9 @@
+sources:
+ - ../../JambleTest
+templates:
+ - ../../Pods/Sourcery/Templates/AutoMockable.stencil
+output:
+ ../../JambleTestTests/Mocks/AutoMockable.swift
+args:
+ autoMockableTestableImports: ["JambleTest"]
+ autoMockableImports: ["Combine", "Swinject"]

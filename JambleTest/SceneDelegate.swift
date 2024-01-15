@@ -30,9 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ProductDetailsUseCase(repository: r.resolve(ProductRepositoryImpl.self)!)
         }
         
-        container.register(ProductsNavigatorController.self) { r in
-            ProductsNavigatorController(provider: ApplicationComponentsFactory())
-        }
         return container
     }()
     
@@ -50,8 +47,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create your initial view controller
         InjectSettings.resolver = container
         
-        self.appCoordinator = ApplicationNavigatorCoordinator()
-        self.appCoordinator.start(window: window)
+        self.appCoordinator = ApplicationNavigatorCoordinator(window: window, dependencyProvider: ApplicationComponentsFactory())
+        self.appCoordinator.start()
 
         self.window = window
         self.window?.makeKeyAndVisible()

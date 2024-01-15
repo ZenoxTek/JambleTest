@@ -47,7 +47,7 @@
 		B22B6FE62B51C68C0044E0F7 /* ApplicationComponentsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FE52B51C68C0044E0F7 /* ApplicationComponentsFactory.swift */; };
 		B22B6FE82B51C7D60044E0F7 /* ProductsViewNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FE72B51C7D60044E0F7 /* ProductsViewNavigator.swift */; };
 		B22B6FEA2B51C86F0044E0F7 /* ApplicationCoordinatorDependencyProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FE92B51C86F0044E0F7 /* ApplicationCoordinatorDependencyProviders.swift */; };
-		B22B6FEC2B51C9520044E0F7 /* ProductsNavigatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorController.swift */; };
+		B22B6FEC2B51C9520044E0F7 /* ProductsNavigatorCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorCoordinator.swift */; };
 		B22B6FEE2B51CB510044E0F7 /* ProductsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FED2B51CB510044E0F7 /* ProductsViewModelType.swift */; };
 		B22B6FF02B52DF420044E0F7 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FEF2B52DF420044E0F7 /* Size.swift */; };
 		B22B6FF32B52F1960044E0F7 /* RoundedCornerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B6FF22B52F1960044E0F7 /* RoundedCornerButton.swift */; };
@@ -76,6 +76,9 @@
 		B22B70352B5575FC0044E0F7 /* ProductsCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70342B5575FC0044E0F7 /* ProductsCellDelegate.swift */; };
 		B22B70372B55A8350044E0F7 /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70362B55A8350044E0F7 /* Bookmarks.swift */; };
 		B22B70392B55B5C50044E0F7 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70382B55B5C50044E0F7 /* UIView+Ext.swift */; };
+		B22B703C2B55C7650044E0F7 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = B22B703B2B55C7650044E0F7 /* Podfile */; };
+		B2F8DCD22B55D24700FAF4D8 /* sourcery_automockable_config.yml in Resources */ = {isa = PBXBuildFile; fileRef = B2F8DCD12B55D24700FAF4D8 /* sourcery_automockable_config.yml */; };
+		B2F8DCDF2B55E5D600FAF4D8 /* AutoMockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCDE2B55E5D600FAF4D8 /* AutoMockable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +113,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4177D82F396C37BDD5D33789 /* libPods-JambleTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JambleTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		82DD0E2EC1CCA4C048B61EC5 /* Pods-JambleTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JambleTest.debug.xcconfig"; path = "Target Support Files/Pods-JambleTest/Pods-JambleTest.debug.xcconfig"; sourceTree = "<group>"; };
 		B22B6EFE2B516CD20044E0F7 /* JambleTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JambleTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22B6F012B516CD20044E0F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B22B6F032B516CD20044E0F7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -154,7 +159,7 @@
 		B22B6FE52B51C68C0044E0F7 /* ApplicationComponentsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationComponentsFactory.swift; sourceTree = "<group>"; };
 		B22B6FE72B51C7D60044E0F7 /* ProductsViewNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewNavigator.swift; sourceTree = "<group>"; };
 		B22B6FE92B51C86F0044E0F7 /* ApplicationCoordinatorDependencyProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinatorDependencyProviders.swift; sourceTree = "<group>"; };
-		B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsNavigatorController.swift; sourceTree = "<group>"; };
+		B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsNavigatorCoordinator.swift; sourceTree = "<group>"; };
 		B22B6FED2B51CB510044E0F7 /* ProductsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModelType.swift; sourceTree = "<group>"; };
 		B22B6FEF2B52DF420044E0F7 /* Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
 		B22B6FF22B52F1960044E0F7 /* RoundedCornerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerButton.swift; sourceTree = "<group>"; };
@@ -180,6 +185,10 @@
 		B22B70342B5575FC0044E0F7 /* ProductsCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsCellDelegate.swift; sourceTree = "<group>"; };
 		B22B70362B55A8350044E0F7 /* Bookmarks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmarks.swift; sourceTree = "<group>"; };
 		B22B70382B55B5C50044E0F7 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		B22B703B2B55C7650044E0F7 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		B2F8DCD12B55D24700FAF4D8 /* sourcery_automockable_config.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = sourcery_automockable_config.yml; sourceTree = "<group>"; };
+		B2F8DCDE2B55E5D600FAF4D8 /* AutoMockable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoMockable.swift; sourceTree = "<group>"; };
+		C821E5DA316B5E6E3E4E1DFD /* Pods-JambleTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JambleTest.release.xcconfig"; path = "Target Support Files/Pods-JambleTest/Pods-JambleTest.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,14 +218,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21D8090B60A295AD39B1ECEF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				82DD0E2EC1CCA4C048B61EC5 /* Pods-JambleTest.debug.xcconfig */,
+				C821E5DA316B5E6E3E4E1DFD /* Pods-JambleTest.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		B22B6EF52B516CD20044E0F7 = {
 			isa = PBXGroup;
 			children = (
+				B22B703B2B55C7650044E0F7 /* Podfile */,
 				B22B6F002B516CD20044E0F7 /* JambleTest */,
 				B22B6F172B516CD30044E0F7 /* JambleTestTests */,
 				B22B6F212B516CD30044E0F7 /* JambleTestUITests */,
 				B22B6EFF2B516CD20044E0F7 /* Products */,
 				B22B701E2B546A330044E0F7 /* Frameworks */,
+				21D8090B60A295AD39B1ECEF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -233,6 +253,7 @@
 		B22B6F002B516CD20044E0F7 /* JambleTest */ = {
 			isa = PBXGroup;
 			children = (
+				B2F8DCD02B55D21B00FAF4D8 /* Scripts */,
 				B22B70132B5466310044E0F7 /* Di */,
 				B22B6F342B516D810044E0F7 /* UI */,
 				B22B6F332B516D7B0044E0F7 /* Domain */,
@@ -250,6 +271,7 @@
 		B22B6F172B516CD30044E0F7 /* JambleTestTests */ = {
 			isa = PBXGroup;
 			children = (
+				B2F8DCD32B55D2B900FAF4D8 /* Mocks */,
 				B22B6F182B516CD30044E0F7 /* JambleTestTests.swift */,
 			);
 			path = JambleTestTests;
@@ -451,7 +473,7 @@
 				B22B6FE32B51C65A0044E0F7 /* ApplicationNavigatorCoordinator.swift */,
 				B22B6FE52B51C68C0044E0F7 /* ApplicationComponentsFactory.swift */,
 				B22B6FE92B51C86F0044E0F7 /* ApplicationCoordinatorDependencyProviders.swift */,
-				B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorController.swift */,
+				B22B6FEB2B51C9520044E0F7 /* ProductsNavigatorCoordinator.swift */,
 			);
 			path = Navigator;
 			sourceTree = "<group>";
@@ -527,6 +549,7 @@
 		B22B701E2B546A330044E0F7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4177D82F396C37BDD5D33789 /* libPods-JambleTest.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -557,6 +580,22 @@
 			path = Products;
 			sourceTree = "<group>";
 		};
+		B2F8DCD02B55D21B00FAF4D8 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				B2F8DCD12B55D24700FAF4D8 /* sourcery_automockable_config.yml */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		B2F8DCD32B55D2B900FAF4D8 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				B2F8DCDE2B55E5D600FAF4D8 /* AutoMockable.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -564,6 +603,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B22B6F282B516CD30044E0F7 /* Build configuration list for PBXNativeTarget "JambleTest" */;
 			buildPhases = (
+				52ADF6A74E6DD650862EF2BC /* [CP] Check Pods Manifest.lock */,
 				B22B6EFA2B516CD20044E0F7 /* Sources */,
 				B22B6EFB2B516CD20044E0F7 /* Frameworks */,
 				B22B6EFC2B516CD20044E0F7 /* Resources */,
@@ -672,6 +712,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F8DCD22B55D24700FAF4D8 /* sourcery_automockable_config.yml in Resources */,
+				B22B703C2B55C7650044E0F7 /* Podfile in Resources */,
 				B22B6F0E2B516CD30044E0F7 /* LaunchScreen.storyboard in Resources */,
 				B22B6FF72B5304040044E0F7 /* Localizable.xcstrings in Resources */,
 				B22B6F9D2B518DE90044E0F7 /* ProductCollectionViewCell.xib in Resources */,
@@ -695,6 +737,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		52ADF6A74E6DD650862EF2BC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JambleTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B22B6EFA2B516CD20044E0F7 /* Sources */ = {
@@ -720,7 +787,7 @@
 				B22B6F3E2B516FE00044E0F7 /* Currency.swift in Sources */,
 				B22B6F3C2B516E4E0044E0F7 /* Product.swift in Sources */,
 				B22B6FF52B52F6EF0044E0F7 /* Color.swift in Sources */,
-				B22B6FEC2B51C9520044E0F7 /* ProductsNavigatorController.swift in Sources */,
+				B22B6FEC2B51C9520044E0F7 /* ProductsNavigatorCoordinator.swift in Sources */,
 				B22B70272B54739E0044E0F7 /* ProductDetailsViewController.swift in Sources */,
 				B22B6FDF2B51BBB50044E0F7 /* SearchField+Ext.swift in Sources */,
 				B22B702D2B5479920044E0F7 /* ProductDetailsUseCase.swift in Sources */,
@@ -766,6 +833,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F8DCDF2B55E5D600FAF4D8 /* AutoMockable.swift in Sources */,
 				B22B6F192B516CD30044E0F7 /* JambleTestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -937,6 +1005,7 @@
 		};
 		B22B6F292B516CD30044E0F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82DD0E2EC1CCA4C048B61EC5 /* Pods-JambleTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -964,6 +1033,7 @@
 		};
 		B22B6F2A2B516CD30044E0F7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C821E5DA316B5E6E3E4E1DFD /* Pods-JambleTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
