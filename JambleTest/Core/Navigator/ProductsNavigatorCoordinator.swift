@@ -13,6 +13,7 @@ import UIKit
 class ProductsNavigatorCoordinator: NavigatorCoordinator {
     
     fileprivate var dependencyProvider: ProductNavigatorCoordinatorDependencyProvider
+    fileprivate var searchNavigationController: UINavigationController?
     fileprivate let window: UIWindow
 
     init(window: UIWindow, provider: ProductNavigatorCoordinatorDependencyProvider) {
@@ -23,6 +24,7 @@ class ProductsNavigatorCoordinator: NavigatorCoordinator {
     func start() {
         let searchNavigationController = dependencyProvider.productsNavigationController(navigator: self)
         window.rootViewController = searchNavigationController
+        self.searchNavigationController = searchNavigationController
     }
 }
 
@@ -31,9 +33,8 @@ class ProductsNavigatorCoordinator: NavigatorCoordinator {
 extension ProductsNavigatorCoordinator: ProductsViewNavigator {
     
     func showDetails(for productId: Int, with vc: ProductsViewController) {
-        let detailViewModel = ProductDetailsViewModel(productId: productId)
-        let detailViewController = ProductDetailsViewController(viewModel: detailViewModel, delegate: vc as ProductsCellDelegate)
-        detailViewController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        vc.present(detailViewController, animated: true, completion: nil)
+        let detailViewController = dependencyProvider.movieDetailsController(productId, with: vc)
+        detailViewController.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        searchNavigationController?.present(detailViewController, animated: true)
     }
 }

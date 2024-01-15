@@ -27,5 +27,10 @@ extension ApplicationComponentsFactory: ApplicationCoordinatorDependencyProvider
         productsNavigationController.navigationBar.tintColor = UIColor.label
         return productsNavigationController
     }
+    
+    func movieDetailsController(_ productId: Int, with vc: ProductsViewController) -> UIViewController {
+        let detailViewModel = ProductDetailsViewModel(productId: productId)
+        return ProductDetailsViewController(viewModel: detailViewModel, delegate: vc as ProductsCellDelegate)
+    }
 }
 

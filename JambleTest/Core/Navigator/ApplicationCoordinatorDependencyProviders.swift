@@ -18,5 +18,9 @@ protocol ProductNavigatorCoordinatorDependencyProvider: AnyObject, AutoMockable 
     
     /// Creates UIViewController to search for a product
     func productsNavigationController(navigator: ProductsNavigatorCoordinator) -> UINavigationController
+    
+    // Creates UIViewController to show the details of the product with specified identifier
+    func movieDetailsController(_ productId: Int, with vc: ProductsViewController) -> UIViewController
+
 }
 
