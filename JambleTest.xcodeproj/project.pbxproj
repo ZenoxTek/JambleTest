@@ -71,6 +71,7 @@
 		B22B70292B5477410044E0F7 /* ProductDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B70282B5477410044E0F7 /* ProductDetailsViewModel.swift */; };
 		B22B702B2B54776F0044E0F7 /* ProductDetailsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B702A2B54776F0044E0F7 /* ProductDetailsViewModelType.swift */; };
 		B22B702D2B5479920044E0F7 /* ProductDetailsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B702C2B5479920044E0F7 /* ProductDetailsUseCase.swift */; };
+		B22B702F2B55596A0044E0F7 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B702E2B55596A0044E0F7 /* UIViewController+Keyboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,6 +171,7 @@
 		B22B70282B5477410044E0F7 /* ProductDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsViewModel.swift; sourceTree = "<group>"; };
 		B22B702A2B54776F0044E0F7 /* ProductDetailsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsViewModelType.swift; sourceTree = "<group>"; };
 		B22B702C2B5479920044E0F7 /* ProductDetailsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsUseCase.swift; sourceTree = "<group>"; };
+		B22B702E2B55596A0044E0F7 /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +348,7 @@
 				B22B6F9E2B518E910044E0F7 /* UICollectionView+Ext.swift */,
 				B22B6FDE2B51BBB50044E0F7 /* SearchField+Ext.swift */,
 				B22B70012B532AB20044E0F7 /* UIViewController+Child.swift */,
+				B22B702E2B55596A0044E0F7 /* UIViewController+Keyboard.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -370,7 +373,7 @@
 		B22B6F5E2B517A030044E0F7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				B22B6F852B517BD20044E0F7 /* Json */,
+				B22B70302B556A5B0044E0F7 /* Local */,
 				B22B6F5F2B517A030044E0F7 /* Network */,
 				B22B6F642B517A030044E0F7 /* ImageLoader */,
 				B22B6F682B517A030044E0F7 /* Scheduler.swift */,
@@ -524,6 +527,14 @@
 				B22B702A2B54776F0044E0F7 /* ProductDetailsViewModelType.swift */,
 			);
 			path = DetailProduct;
+			sourceTree = "<group>";
+		};
+		B22B70302B556A5B0044E0F7 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				B22B6F852B517BD20044E0F7 /* Json */,
+			);
+			path = Local;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -701,6 +712,7 @@
 				B22B6F022B516CD20044E0F7 /* AppDelegate.swift in Sources */,
 				B22B6FE42B51C65A0044E0F7 /* ApplicationNavigatorCoordinator.swift in Sources */,
 				B22B70022B532AB20044E0F7 /* UIViewController+Child.swift in Sources */,
+				B22B702F2B55596A0044E0F7 /* UIViewController+Keyboard.swift in Sources */,
 				B22B6F912B517F690044E0F7 /* JsonService.swift in Sources */,
 				B22B700F2B5454380044E0F7 /* ProductRepositoryImpl.swift in Sources */,
 				B22B6F4C2B5178E50044E0F7 /* AutoMockable.swift in Sources */,

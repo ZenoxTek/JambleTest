@@ -37,7 +37,7 @@ final class ProductsViewController: UIViewController {
             searchBar.setImage(searchImage, for: .search, state: .normal)
         }
         searchBar.backgroundImage = UIImage()
-        searchBar.setTextField(color: .black.withAlphaComponent(0.1))
+        searchBar.setTextField(color: .black.withAlphaComponent(0.05))
         searchBar.set(textColor: .gray)
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: String(localized: "Search"),
                                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
@@ -148,6 +148,7 @@ extension ProductsViewController {
         configureCollectionView()
         configureBottomScreen()
         configureAlertView()
+        hideKeyboardWhenTappedAround()
     }
     
     private func configureAlertView() {
@@ -165,14 +166,10 @@ extension ProductsViewController {
     
     private func setupNoContentController() {
         alertViewController = NoContentViewController(nibName: nil, bundle: nil)
-        filterButton.isEnabled = false
-        sortByButton.isEnabled = false
         add(alertViewController!, to: alertView)
     }
     
     private func hideNoContentController() {
-        filterButton.isEnabled = true
-        sortByButton.isEnabled = true
         if let alertViewController {
             remove(alertViewController)
         }

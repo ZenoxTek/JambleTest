@@ -23,13 +23,9 @@ extension UISearchBar {
     /// Sets the background color of the search field.
     func setTextField(color: UIColor) {
         guard let textField = getTextField() else { return }
-        switch searchBarStyle {
-        case .minimal:
-            textField.layer.backgroundColor = color.cgColor
-            textField.layer.cornerRadius = 6
-        case .prominent, .default: textField.backgroundColor = color
-        @unknown default: break
-        }
+        textField.backgroundColor = color
+        textField.layer.cornerRadius = 18
+        textField.clipsToBounds = true
     }
 
     /// Sets the tint color of the search field's search image.

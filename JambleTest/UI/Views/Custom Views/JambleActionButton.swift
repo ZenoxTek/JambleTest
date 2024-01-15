@@ -31,10 +31,11 @@ class JambleActionButton: UIButton {
     }
 
     private func commonInit() {
-        myConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        myConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
         backgroundConfig.backgroundColor = .black
         backgroundConfig.cornerRadius = 16.0
         myConfiguration.background = backgroundConfig
+        myConfiguration.cornerStyle = .capsule
         self.configuration = myConfiguration
         self.setTitleColor(.white, for: .normal)
         
