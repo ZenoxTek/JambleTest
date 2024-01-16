@@ -12,11 +12,12 @@ import UIKit
 // MARK: - ProductsViewModel
 
 final class ProductsViewModel: ProductsViewModelType {
-    
+        
     // MARK: - Properties
     
     private var navigator: ProductsViewNavigator
     @Inject private var useCase: ProductUseCaseType
+    @Inject private var likeUseCase: LikeUseCaseType
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -24,6 +25,7 @@ final class ProductsViewModel: ProductsViewModelType {
     var productCount: Int {
         productItems.count
     }
+    var hasLikeAction: Bool = false
     
     // MARK: - Initialization
     
@@ -33,12 +35,20 @@ final class ProductsViewModel: ProductsViewModelType {
     
     // MARK: - Transform Input
     
+    func getLikePublisher() -> AnyPublisher<(Int, Bool), Never> {
+        likeUseCase.getLikePublisher()
+    }
+    
+    func publishLikeData(with id: Int, action: Bool) {
+        likeUseCase.publishData(with: id, action: action)
+    }
+    
     func transform(input: ProductsViewModelInput) -> ProductsViewModelOuput {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         
         input.selection
-            .sink(receiveValue: { [unowned self] (productId, vc) in self.navigator.showDetails(for: productId, with: vc) })
+            .sink(receiveValue: { [unowned self] productId in self.navigator.showDetails(for: productId) })
             .store(in: &cancellables)
         
         let searchInput = input.search
@@ -51,23 +61,30 @@ final class ProductsViewModel: ProductsViewModelType {
             .map({ result, filter -> ProductsState in
                 switch result {
                 case .success(let products) where products.isEmpty: return .noResults
+                case .success(let products) where self.hasLikeAction:
+                    self.hasLikeAction = false
+                    return .successLiked(products)
                 case .success(let products): return .success(self.determineProducts(with: products, and: filter))
                 case .failure(let error): return .failure(error)
                 }
             })
             .eraseToAnyPublisher()
         
-        let likes = input.liked
-            .flatMapLatest({ [unowned self] (id, hasLike) in self.useCase.likedProduct(with: id, hasLike: hasLike) })
-            .map({ result -> ProductsState in
-                switch result {
-                case .success(let product): return .successLiked(product)
-                case .failure(_): return .idle
+        getLikePublisher()
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    return
+                case .failure(_):
+                    return
                 }
+            }, receiveValue: { (productId, hasLike) in
+                self.hasLikeAction = true
+                self.useCase.likedProduct(with: productId, hasLike: hasLike)
             })
-            .eraseToAnyPublisher()
-                
-        return Publishers.Merge(likes, productsSearch).eraseToAnyPublisher()
+            .store(in: &cancellables)
+            
+        return productsSearch
     }
     
     
@@ -118,15 +135,6 @@ final class ProductsViewModel: ProductsViewModelType {
        }
 
        return filteredData
-    }
-    
-    // MARK: - Navigation
-    
-    func showDetailView(with id: Int, vc: UIViewController) {
-        let detailViewModel = ProductDetailsViewModel(productId: id)
-        let detailViewController = ProductDetailsViewController(viewModel: detailViewModel, delegate: vc as! ProductsCellDelegate)
-        detailViewController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        vc.present(detailViewController, animated: true, completion: nil)
     }
     
     // MARK: - Mock Data

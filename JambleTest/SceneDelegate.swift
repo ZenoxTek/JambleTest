@@ -26,9 +26,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ProductUseCase(repository: r.resolve(ProductRepositoryImpl.self)!)
         }
         
-        container.register(ProductDetailsUseCase.self) { r in
+        container.register(ProductDetailsUseCaseType.self) { r in
             ProductDetailsUseCase(repository: r.resolve(ProductRepositoryImpl.self)!)
         }
+        
+        container.register(LikeUseCaseType.self) { _ in
+            LikeUseCase()
+        }.inObjectScope(.container)
         
         return container
     }()

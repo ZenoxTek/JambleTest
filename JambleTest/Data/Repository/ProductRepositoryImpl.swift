@@ -11,17 +11,20 @@ import Combine
 // MARK: - ProductRepositoryImpl
 
 final class ProductRepositoryImpl: ProductRepository {
+    
+    
     private let jsonService: JsonServiceType
     private let networkService: NetworkServiceType
     
-    private var products: [Product] = []
+    private var currentProducts = CurrentValueSubject<Result<[Product], Error>, Never>(.success([]))
+    private var cancellables = Set<AnyCancellable>()
     
     init(jsonService: JsonServiceType, networkService: NetworkServiceType) {
         self.jsonService = jsonService
         self.networkService = networkService
     }
         
-    func searchProduct(with query: String,
+    /*func searchProduct(with query: String,
                        forceNetworkCall: Bool = false,
                        page: Int = 1, numberOfItems:
                        Int = 15) -> AnyPublisher<Result<[Product], Error>, Never> {
@@ -29,58 +32,82 @@ final class ProductRepositoryImpl: ProductRepository {
             // Implement Network Service using Pagination for instance
             return .empty()
         }
-        if !products.isEmpty {
-            return .just(.success(products))
-        }
-        return jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
-            .map { dataDTO in
-                let productData = dataDTO.map { prod in
-                    let product = prod.toProduct()
-                    self.products.append(product)
-                    return product
-                }
-                return .success(productData)
+    }*/
+    
+    fileprivate func GetDataFromJson() {
+        do {
+            if try currentProducts.value.get().isEmpty {
+                return jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
+                    .map { dataDTO in
+                        let productData = dataDTO.map { prod in
+                            return prod.toProduct()
+                        }
+                        return productData
+                    }
+                    .subscribe(on: Scheduler.backgroundWorkScheduler)
+                    .receive(on: Scheduler.mainScheduler)
+                    .sink( receiveCompletion: { completion in
+                        switch completion {
+                        case .failure(let error):
+                            self.currentProducts.value = .failure(error)
+                        case .finished:
+                            return
+                        }
+                    }, receiveValue: { value in
+                        self.currentProducts.value = .success(value)
+                    })
+                    .store(in: &cancellables)
             }
-            .catch { error -> AnyPublisher<Result<[Product], Error>, Never> in .just(.failure(error)) }
-            .subscribe(on: Scheduler.backgroundWorkScheduler)
-            .receive(on: Scheduler.mainScheduler)
-            .eraseToAnyPublisher()
+        }
+        catch {
+            // Nothing to do
+        }
+    }
+    
+    func getProducts(forceNetworkCall: Bool = false, page: Int = 1, numberOfItems: Int = 15) -> AnyPublisher<Result<[Product], Error>, Never> {
+        if forceNetworkCall {
+            // Call Network
+            return .empty()
+        }
+        GetDataFromJson()
+        return self.currentProducts.eraseToAnyPublisher()
     }
     
     func getProductDetails(with productId: Int, forceNetworkCall: Bool = false) -> AnyPublisher<Result<Product, Error>, Never> {
         if forceNetworkCall {
             return .empty()
         }
-        if !products.isEmpty {
-            guard let product = products.filter({ $0.id == productId }).first else {
-                return .just(.failure(JsonError.invalidResponse))
+        GetDataFromJson()
+        return currentProducts
+            .map { result -> Result<Product, Error> in
+                let product = result.map { products in
+                    return products.filter({ $0.id == productId }).first
+                }
+                do {
+                    if let prod = try product.get() {
+                        return .success(prod)
+                    }
+                    return .failure(JsonError.invalidRequest)
+                }
+                catch {
+                    return .failure(JsonError.invalidRequest)
+                }
             }
-            return .just(.success(product))
-        }
-        return jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
-            .map({ dataDTO in
-                dataDTO.forEach { prod in
-                    let product = prod.toProduct()
-                    self.products.append(product)
-                }
-                guard let product = self.products.filter({ $0.id == productId }).first else {
-                    return .failure(JsonError.invalidResponse)
-                }
-                return .success(product)
-            })
-            .catch { error -> AnyPublisher<Result<Product, Error>, Never> in .just(.failure(error)) }
-            .subscribe(on: Scheduler.backgroundWorkScheduler)
-            .receive(on: Scheduler.mainScheduler)
             .eraseToAnyPublisher()
     }
     
-    func hasLiked(with productId: Int, hasLiked: Bool) -> AnyPublisher<Result<Product, Error>, Never> {
-        if !products.isEmpty && products.contains(where: { $0.id == productId }) {
-            if let index = products.lastIndex(where: { $0.id == productId }) {
-                products[index].hasLiked = hasLiked
-                return .just(.success(products[index]))
+    func hasLiked(with productId: Int, hasLiked: Bool) {
+        do {
+            var products = try currentProducts.value.get()
+            if !products.isEmpty && products.contains(where: { $0.id == productId }) {
+                if let index = products.lastIndex(where: { $0.id == productId }) {
+                    products[index].hasLiked = hasLiked
+                    currentProducts.value = .success(products)
+                }
             }
         }
-        return .just(.failure(JsonError.invalidResponse))
+        catch {
+            // Do Nothing
+        }
     }
 }

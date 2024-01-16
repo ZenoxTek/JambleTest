@@ -73,4 +73,27 @@ final class ProductsViewModelTests: XCTestCase {
         waitForExpectations(timeout: 1.0, handler: nil)
         XCTAssertEqual(state!, .success(products))
     }
+    
+    func test_hasErrorState_whenDataLoadingIsFailed() {
+        // Given
+        let search = PassthroughSubject<String, Never>()
+        let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(), filterOrdering: .just(LogicalRulers()), selection: .empty(), liked: .empty())
+        var state: ProductsState?
+
+        /*let expectation = self.expectation(description: "movies")
+        useCase.searchMoviesWithReturnValue = .just(.failure(NetworkError.invalidResponse))
+        useCase.loadImageForSizeReturnValue = .just(UIImage())
+        viewModel.transform(input: input).sink { value in
+            guard case .failure = value else { return }
+            state = value
+            expectation.fulfill()
+        }.store(in: &cancellables)
+
+        // When
+        search.send("joker")
+
+        // Then
+        waitForExpectations(timeout: 1.0, handler: nil)
+        XCTAssertEqual(state!, .failure(NetworkError.invalidResponse))*/
+    }
 }

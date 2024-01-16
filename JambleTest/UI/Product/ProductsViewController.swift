@@ -98,8 +98,7 @@ final class ProductsViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private let search = CurrentValueSubject<String, Never>("")
     private let filteringOrder = CurrentValueSubject<LogicalRulers, Never>(LogicalRulers())
-    private let selection = PassthroughSubject<(Int, ProductsViewController), Never>()
-    private let liked = PassthroughSubject<(Int, Bool), Never>()
+    private let selection = PassthroughSubject<Int, Never>()
     
     // MARK: - Data Elements
     
@@ -314,8 +313,7 @@ extension ProductsViewController {
         
         let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(),
                                            filterOrdering: filteringOrder.eraseToAnyPublisher(),
-                                           selection: selection.eraseToAnyPublisher(),
-                                           liked: liked.eraseToAnyPublisher())
+                                           selection: selection.eraseToAnyPublisher())
 
         let output = viewModel.transform(input: input)
 
@@ -349,8 +347,8 @@ extension ProductsViewController {
             productsCV.isHidden = false
             hideNoContentController()
             update(with: products, animate: true)
-        case .successLiked(let product):
-            updateLiked(with: product)
+        case .successLiked(let products):
+            updateLiked(with: products)
         }
     }
     
@@ -367,7 +365,7 @@ extension ProductsViewController {
         }
     }
     
-    private func updateLiked(with product: Product) {
+    private func updateLiked(with products: [Product]) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else {
                 return
@@ -375,10 +373,10 @@ extension ProductsViewController {
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections(Section.allCases)
             let items = self.dataSource.snapshot().itemIdentifiers.map { prod in
-                if prod.id == product.id && prod.hasLiked != product.hasLiked {
-                    return product
+                guard let product = products.filter({ $0.id == prod.id }).first else {
+                    return prod
                 }
-                return prod
+                return product
             }
             snapshot.appendItems(items)
             self.dataSource.applySnapshotUsingReloadData(snapshot)
@@ -443,7 +441,7 @@ extension ProductsViewController {
                 sender.view?.transform = CGAffineTransform.identity
             }, completion: { _ in
                 if let cell = sender.view as? ProductCollectionViewCell {
-                    self.selection.send((cell.id, self))
+                    self.selection.send(cell.id)
                 }
             })
         })
@@ -514,10 +512,6 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
 extension ProductsViewController: ProductsCellDelegate {
     
     func hasLiked(with productId: Int, hasLiked: Bool) {
-        liked.send((productId, hasLiked))
-    }
-    
-    func hasLikedOnDetail(with product: Product) {
-        updateLiked(with: product)
+        viewModel.publishLikeData(with: productId, action: hasLiked)
     }
 }

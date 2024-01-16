@@ -28,9 +28,9 @@ extension ApplicationComponentsFactory: ApplicationCoordinatorDependencyProvider
         return productsNavigationController
     }
     
-    func movieDetailsController(_ productId: Int, with vc: ProductsViewController) -> UIViewController {
+    func productDetailsController(_ productId: Int) -> UIViewController {
         let detailViewModel = ProductDetailsViewModel(productId: productId)
-        return ProductDetailsViewController(viewModel: detailViewModel, delegate: vc as ProductsCellDelegate)
+        return ProductDetailsViewController(viewModel: detailViewModel)
     }
 }
 

@@ -79,6 +79,7 @@
 		B2F8DCE22B55EF5900FAF4D8 /* ProductsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCE12B55EF5900FAF4D8 /* ProductsViewModelTests.swift */; };
 		B2F8DCE62B55F49300FAF4D8 /* AutoMockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCE52B55F49300FAF4D8 /* AutoMockable.swift */; };
 		B2F8DCEA2B55FA2500FAF4D8 /* JsonReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCE92B55FA2500FAF4D8 /* JsonReader.swift */; };
+		B2F8DCEE2B56D5DB00FAF4D8 /* LikeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F8DCED2B56D5DB00FAF4D8 /* LikeUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,6 +181,7 @@
 		B2F8DCE12B55EF5900FAF4D8 /* ProductsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModelTests.swift; sourceTree = "<group>"; };
 		B2F8DCE52B55F49300FAF4D8 /* AutoMockable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoMockable.swift; sourceTree = "<group>"; };
 		B2F8DCE92B55FA2500FAF4D8 /* JsonReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonReader.swift; sourceTree = "<group>"; };
+		B2F8DCED2B56D5DB00FAF4D8 /* LikeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeUseCase.swift; sourceTree = "<group>"; };
 		C821E5DA316B5E6E3E4E1DFD /* Pods-JambleTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JambleTest.release.xcconfig"; path = "Target Support Files/Pods-JambleTest/Pods-JambleTest.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -366,6 +368,7 @@
 			children = (
 				B22B6F482B51789A0044E0F7 /* ProductUseCase.swift */,
 				B22B702C2B5479920044E0F7 /* ProductDetailsUseCase.swift */,
+				B2F8DCED2B56D5DB00FAF4D8 /* LikeUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -724,6 +727,7 @@
 			files = (
 				B22B70092B5451880044E0F7 /* ProductMapper.swift in Sources */,
 				B22B6FF92B5314D30044E0F7 /* JambleActionButton.swift in Sources */,
+				B2F8DCEE2B56D5DB00FAF4D8 /* LikeUseCase.swift in Sources */,
 				B22B6F772B517A030044E0F7 /* NetworkServiceType.swift in Sources */,
 				B22B6F892B517C200044E0F7 /* JsonResource.swift in Sources */,
 				B22B6FFE2B5328C80044E0F7 /* NoContentViewController.swift in Sources */,

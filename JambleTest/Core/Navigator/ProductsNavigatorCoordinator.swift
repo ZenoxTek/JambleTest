@@ -32,8 +32,8 @@ class ProductsNavigatorCoordinator: NavigatorCoordinator {
 
 extension ProductsNavigatorCoordinator: ProductsViewNavigator {
     
-    func showDetails(for productId: Int, with vc: ProductsViewController) {
-        let detailViewController = dependencyProvider.movieDetailsController(productId, with: vc)
+    func showDetails(for productId: Int) {
+        let detailViewController = dependencyProvider.productDetailsController(productId)
         detailViewController.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
         searchNavigationController?.present(detailViewController, animated: true)
     }

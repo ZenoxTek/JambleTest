@@ -14,9 +14,6 @@ struct ProductDetailsViewModelInput {
     
     /// called when a screen becomes visible
     let appear: AnyPublisher<Void, Never>
-    
-    /// called when product is liked
-    let liked: AnyPublisher<(productId: Int, hasLiked: Bool), Never>
 }
 
 // MARK: - ProductDetailsState
@@ -50,4 +47,8 @@ typealias ProductDetailsViewModelOutput = AnyPublisher<ProductDetailsState, Neve
 
 protocol ProductDetailsViewModelType: AnyObject {
     func transform(input: ProductDetailsViewModelInput) -> ProductDetailsViewModelOutput
+    
+    func getLikePublisher() -> AnyPublisher<(Int, Bool), Never>
+    
+    func publishLikeData(with id: Int, action: Bool)
 }

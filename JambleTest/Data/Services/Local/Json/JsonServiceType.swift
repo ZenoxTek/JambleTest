@@ -22,5 +22,5 @@ protocol JsonServiceType: ServiceType {
 enum JsonError: Error {
     case invalidRequest
     case invalidResponse
-    case jsonDecodingError(error: Error)
+    case jsonDecodingError(error: String)
 }

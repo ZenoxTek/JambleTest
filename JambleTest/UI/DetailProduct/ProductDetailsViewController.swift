@@ -79,7 +79,6 @@ final class ProductDetailsViewController: UIViewController {
     
     private var cancellables = Set<AnyCancellable>()
     private let appear = PassthroughSubject<Void, Never>()
-    private let liked = CurrentValueSubject<(productId: Int, hasLiked: Bool), Never>((-1, false))
 
     // MARK: - Data Elements
     
@@ -87,13 +86,11 @@ final class ProductDetailsViewController: UIViewController {
     private var alertViewController: NoContentViewController?
     private var productId = -1
     private var hasLiked = false
-    private weak var productsDelegate: ProductsCellDelegate?
 
     // MARK: - Initialization
     
-    init(viewModel: ProductDetailsViewModelType, delegate: ProductsCellDelegate) {
+    init(viewModel: ProductDetailsViewModelType) {
         self.viewModel = viewModel
-        self.productsDelegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -213,8 +210,7 @@ extension ProductDetailsViewController {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         
-        let input = ProductDetailsViewModelInput(appear: appear.eraseToAnyPublisher(),
-                                                 liked: liked.eraseToAnyPublisher())
+        let input = ProductDetailsViewModelInput(appear: appear.eraseToAnyPublisher())
         
         let output = viewModel.transform(input: input)
         
@@ -255,13 +251,13 @@ extension ProductDetailsViewController {
     
     private func updateLayout(with product: Product) {
         productId = product.id
-        liked.value.hasLiked = product.hasLiked
         productImageView.isHidden = true
         productColorView.backgroundColor = product.uiColor
         productNameLabel.text = product.title
         priceLabel.text = product.price(with: product.currency)
         sizeLabel.text = product.size
         favoriteButton.isHidden = false
+        self.hasLiked = product.hasLiked
         favoriteButton.setCustomBackgroundColor(with: (product.hasLiked) ? .red : .black)
     }
     
@@ -271,8 +267,7 @@ extension ProductDetailsViewController {
                 return
             }
             favoriteButton.setCustomBackgroundColor(with: (product.hasLiked) ? .red : .black)
-            hasLiked = product.hasLiked
-            productsDelegate?.hasLikedOnDetail(with: product)
+            self.hasLiked = product.hasLiked
         }
     }
 }
@@ -284,7 +279,7 @@ extension ProductDetailsViewController {
     // Action when the favorite button is tapped
     @objc private func favoriteButtonTapped() {
         if productId > 0 {
-            liked.send((productId, !liked.value.hasLiked))
+            viewModel.publishLikeData(with: productId, action: !self.hasLiked)
         }
     }
 

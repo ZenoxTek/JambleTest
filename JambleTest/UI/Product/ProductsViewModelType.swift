@@ -18,10 +18,7 @@ struct ProductsViewModelInput {
     let filterOrdering: AnyPublisher<LogicalRulers, Never>
     
     /// Called when the user selected an item from the list
-    let selection: AnyPublisher<(Int, ProductsViewController), Never>
-    
-    /// Called when the user liked the product from list
-    let liked: AnyPublisher<(Int, Bool), Never>
+    let selection: AnyPublisher<Int, Never>
 }
 
 // MARK: - LogicalRulers
@@ -61,7 +58,7 @@ enum ProductsState {
     case idle
     case loading
     case success([Product])
-    case successLiked(Product)
+    case successLiked([Product])
     case noResults
     case failure(Error)
 }
@@ -90,4 +87,8 @@ protocol ProductsViewModelType {
     func transform(input: ProductsViewModelInput) -> ProductsViewModelOuput
     
     func loadMockData()
+    
+    func getLikePublisher() -> AnyPublisher<(Int, Bool), Never>
+    
+    func publishLikeData(with id: Int, action: Bool)
 }

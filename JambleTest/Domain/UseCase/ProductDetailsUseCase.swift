@@ -23,7 +23,7 @@ protocol ProductDetailsUseCaseType: AutoMockable {
     /// - Parameter productId: Id of the product liked or unliked
     /// - Parameter hasLike: Bool representing the action to either like or unliked a product
     /// - Returns: A publisher emitting the search result as an array of products or an error.
-    func likedProduct(with productId: Int, hasLike: Bool) -> AnyPublisher<Result<Product, Error>, Never>
+    func likedProduct(with productId: Int, hasLike: Bool)
 }
 
 // MARK: - ProductDetailsUseCase
@@ -44,7 +44,7 @@ final class ProductDetailsUseCase: ProductDetailsUseCaseType {
         repository.getProductDetails(with: productId)
     }
     
-    func likedProduct(with productId: Int, hasLike: Bool) -> AnyPublisher<Result<Product, Error>, Never> {
+    func likedProduct(with productId: Int, hasLike: Bool) {
         repository.hasLiked(with: productId, hasLiked: hasLike)
     }
 }

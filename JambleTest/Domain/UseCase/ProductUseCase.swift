@@ -24,7 +24,7 @@ protocol ProductUseCaseType: AutoMockable {
     /// - Parameter productId: Id of the product liked or unliked
     /// - Parameter hasLike: Bool representing the action to either like or unliked a product
     /// - Returns: A publisher emitting the search result as an array of products or an error.
-    func likedProduct(with productId: Int, hasLike: Bool) -> AnyPublisher<Result<Product, Error>, Never>
+    func likedProduct(with productId: Int, hasLike: Bool)
 }
 
 // MARK: - ProductUseCase
@@ -44,7 +44,7 @@ final class ProductUseCase: ProductUseCaseType {
     // MARK: Search Products Implementation
     
     func searchProduct(with query: String) -> AnyPublisher<Result<[Product], Error>, Never> {
-        return repository.searchProduct(with: query).map { data in
+        return repository.getProducts().map { data in
             guard let products = try? data.get() else {
                 return .failure(JsonError.invalidResponse)
             }
@@ -60,7 +60,7 @@ final class ProductUseCase: ProductUseCaseType {
 
     // MARK: Liked Product Implementation
     
-    func likedProduct(with productId: Int, hasLike: Bool) -> AnyPublisher<Result<Product, Error>, Never> {
-        return repository.hasLiked(with: productId, hasLiked: hasLike)
+    func likedProduct(with productId: Int, hasLike: Bool) {
+        repository.hasLiked(with: productId, hasLiked: hasLike)
     }
 }
