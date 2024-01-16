@@ -23,18 +23,26 @@ final class ProductsViewModelTests: XCTestCase {
         
         // Product
         
-        container.register(ProductRepositoryImpl.self) { _ in
-            let serviceJsonProvider = ServicesProvider.defaultJsonProvider().service as! JsonServiceType
-            let serviceNetworkProvider = ServicesProvider.defaultNetworkProvider().service as! NetworkServiceType
+        container.register(JsonServiceType.self) { _ in
+            JsonServiceTypeMock<[ProductDTO]>()
+        }.inObjectScope(.container)
+        
+        container.register(ProductRepository.self) { r in
+            let serviceJsonProvider = r.resolve((any JsonServiceType).self)!
+            let serviceNetworkProvider = NetworkService()
             return ProductRepositoryImpl(jsonService: serviceJsonProvider, networkService: serviceNetworkProvider)
         }.inObjectScope(.container)
         
-        container.register(ProductUseCaseType.self) { r in
+        container.register(ProductUseCaseType.self) { _ in
             ProductUseCaseTypeMock()
         }
         
-        container.register(ProductDetailsUseCase.self) { r in
-            ProductDetailsUseCase(repository: r.resolve(ProductRepositoryImpl.self)!)
+        container.register(ProductDetailsUseCaseType.self) { _ in
+            ProductDetailsUseCaseTypeMock()
+        }
+        
+        container.register(LikeUseCaseType.self) { _ in
+            LikeUseCaseTypeMock()
         }
         
         return container
@@ -48,7 +56,7 @@ final class ProductsViewModelTests: XCTestCase {
         // Given
         let search = PassthroughSubject<String, Never>()
         let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(), filterOrdering: .just(LogicalRulers()),
-                                           selection: .empty(), liked: .empty())
+                                           selection: .empty())
         var state: ProductsState?
         let stringSearched = "Vintage Denim Jacket"
         let expectation = self.expectation(description: "products")
@@ -74,26 +82,29 @@ final class ProductsViewModelTests: XCTestCase {
         XCTAssertEqual(state!, .success(products))
     }
     
-    func test_hasErrorState_whenDataLoadingIsFailed() {
+    /*func test_hasErrorState_whenDataLoadingIsFailed() {
         // Given
         let search = PassthroughSubject<String, Never>()
-        let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(), filterOrdering: .just(LogicalRulers()), selection: .empty(), liked: .empty())
+        let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(), filterOrdering: .just(LogicalRulers()), selection: .empty())
         var state: ProductsState?
 
-        /*let expectation = self.expectation(description: "movies")
-        useCase.searchMoviesWithReturnValue = .just(.failure(NetworkError.invalidResponse))
-        useCase.loadImageForSizeReturnValue = .just(UIImage())
+        let expectation = self.expectation(description: "products")
+        useCase.searchProductWithReturnValue = .just(.failure(JsonError.invalidResponse))
         viewModel.transform(input: input).sink { value in
+            if case .noResults = value {
+                return
+            }
             guard case .failure = value else { return }
             state = value
             expectation.fulfill()
         }.store(in: &cancellables)
 
         // When
-        search.send("joker")
+        search.send("toto")
 
+        search.send("titi")
         // Then
-        waitForExpectations(timeout: 1.0, handler: nil)
-        XCTAssertEqual(state!, .failure(NetworkError.invalidResponse))*/
-    }
+        waitForExpectations(timeout: 10.0, handler: nil)
+        XCTAssertEqual(state!, .failure(JsonError.invalidResponse))
+    }*/
 }

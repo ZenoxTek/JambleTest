@@ -44,12 +44,15 @@ final class ProductUseCase: ProductUseCaseType {
     // MARK: Search Products Implementation
     
     func searchProduct(with query: String) -> AnyPublisher<Result<[Product], Error>, Never> {
-        return repository.getProducts().map { data in
-            guard let products = try? data.get() else {
-                return .failure(JsonError.invalidResponse)
-            }
-            return .success(self.determineSearchedProducts(with: products, and: query))
-        }.eraseToAnyPublisher()
+        return repository.getProducts()
+            .map { data in
+                switch data {
+                case .success(let products):
+                    return .success(self.determineSearchedProducts(with: products, and: query))
+                case .failure(_):
+                    return data
+                }
+            }.eraseToAnyPublisher()
     }
     
     private func determineSearchedProducts(with products: [Product], and search: String) -> [Product] {

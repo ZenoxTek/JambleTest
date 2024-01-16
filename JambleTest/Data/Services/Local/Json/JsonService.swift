@@ -12,7 +12,7 @@ import Combine
 
 /// A service class for loading JSON resources.
 final class JsonService: JsonServiceType {
-    
+            
     // MARK: Properties
     
     /// The URL session used for data tasks.

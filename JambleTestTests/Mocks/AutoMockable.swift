@@ -64,26 +64,67 @@ class ApplicationCoordinatorDependencyProviderMock: ApplicationCoordinatorDepend
         }
     }
 
-    //MARK: - movieDetailsController
+    //MARK: - productDetailsController
 
-    var movieDetailsControllerWithCallsCount = 0
-    var movieDetailsControllerWithCalled: Bool {
-        return movieDetailsControllerWithCallsCount > 0
+    var productDetailsControllerCallsCount = 0
+    var productDetailsControllerCalled: Bool {
+        return productDetailsControllerCallsCount > 0
     }
-    var movieDetailsControllerWithReceivedArguments: (productId: Int, vc: ProductsViewController)?
-    var movieDetailsControllerWithReceivedInvocations: [(productId: Int, vc: ProductsViewController)] = []
-    var movieDetailsControllerWithReturnValue: UIViewController!
-    var movieDetailsControllerWithClosure: ((Int, ProductsViewController) -> UIViewController)?
+    var productDetailsControllerReceivedProductId: (Int)?
+    var productDetailsControllerReceivedInvocations: [(Int)] = []
+    var productDetailsControllerReturnValue: UIViewController!
+    var productDetailsControllerClosure: ((Int) -> UIViewController)?
 
-    func movieDetailsController(_ productId: Int, with vc: ProductsViewController) -> UIViewController {
-        movieDetailsControllerWithCallsCount += 1
-        movieDetailsControllerWithReceivedArguments = (productId: productId, vc: vc)
-        movieDetailsControllerWithReceivedInvocations.append((productId: productId, vc: vc))
-        if let movieDetailsControllerWithClosure = movieDetailsControllerWithClosure {
-            return movieDetailsControllerWithClosure(productId, vc)
+    func productDetailsController(_ productId: Int) -> UIViewController {
+        productDetailsControllerCallsCount += 1
+        productDetailsControllerReceivedProductId = productId
+        productDetailsControllerReceivedInvocations.append(productId)
+        if let productDetailsControllerClosure = productDetailsControllerClosure {
+            return productDetailsControllerClosure(productId)
         } else {
-            return movieDetailsControllerWithReturnValue
+            return productDetailsControllerReturnValue
         }
+    }
+
+}
+class LikeUseCaseTypeMock: LikeUseCaseType {
+
+
+
+
+    //MARK: - getLikePublisher
+
+    var getLikePublisherCallsCount = 0
+    var getLikePublisherCalled: Bool {
+        return getLikePublisherCallsCount > 0
+    }
+    var getLikePublisherReturnValue: AnyPublisher<(Int, Bool), Never>!
+    var getLikePublisherClosure: (() -> AnyPublisher<(Int, Bool), Never>)?
+
+    func getLikePublisher() -> AnyPublisher<(Int, Bool), Never> {
+        getLikePublisherCallsCount += 1
+        if let getLikePublisherClosure = getLikePublisherClosure {
+            return getLikePublisherClosure()
+        } else {
+            return getLikePublisherReturnValue
+        }
+    }
+
+    //MARK: - publishData
+
+    var publishDataWithActionCallsCount = 0
+    var publishDataWithActionCalled: Bool {
+        return publishDataWithActionCallsCount > 0
+    }
+    var publishDataWithActionReceivedArguments: (id: Int, action: Bool)?
+    var publishDataWithActionReceivedInvocations: [(id: Int, action: Bool)] = []
+    var publishDataWithActionClosure: ((Int, Bool) -> Void)?
+
+    func publishData(with id: Int, action: Bool) {
+        publishDataWithActionCallsCount += 1
+        publishDataWithActionReceivedArguments = (id: id, action: action)
+        publishDataWithActionReceivedInvocations.append((id: id, action: action))
+        publishDataWithActionClosure?(id, action)
     }
 
 }
@@ -122,18 +163,13 @@ class ProductDetailsUseCaseTypeMock: ProductDetailsUseCaseType {
     }
     var likedProductWithHasLikeReceivedArguments: (productId: Int, hasLike: Bool)?
     var likedProductWithHasLikeReceivedInvocations: [(productId: Int, hasLike: Bool)] = []
-    var likedProductWithHasLikeReturnValue: AnyPublisher<Result<Product, Error>, Never>!
-    var likedProductWithHasLikeClosure: ((Int, Bool) -> AnyPublisher<Result<Product, Error>, Never>)?
+    var likedProductWithHasLikeClosure: ((Int, Bool) -> Void)?
 
-    func likedProduct(with productId: Int, hasLike: Bool) -> AnyPublisher<Result<Product, Error>, Never> {
+    func likedProduct(with productId: Int, hasLike: Bool) {
         likedProductWithHasLikeCallsCount += 1
         likedProductWithHasLikeReceivedArguments = (productId: productId, hasLike: hasLike)
         likedProductWithHasLikeReceivedInvocations.append((productId: productId, hasLike: hasLike))
-        if let likedProductWithHasLikeClosure = likedProductWithHasLikeClosure {
-            return likedProductWithHasLikeClosure(productId, hasLike)
-        } else {
-            return likedProductWithHasLikeReturnValue
-        }
+        likedProductWithHasLikeClosure?(productId, hasLike)
     }
 
 }
@@ -164,26 +200,93 @@ class ProductNavigatorCoordinatorDependencyProviderMock: ProductNavigatorCoordin
         }
     }
 
-    //MARK: - movieDetailsController
+    //MARK: - productDetailsController
 
-    var movieDetailsControllerWithCallsCount = 0
-    var movieDetailsControllerWithCalled: Bool {
-        return movieDetailsControllerWithCallsCount > 0
+    var productDetailsControllerCallsCount = 0
+    var productDetailsControllerCalled: Bool {
+        return productDetailsControllerCallsCount > 0
     }
-    var movieDetailsControllerWithReceivedArguments: (productId: Int, vc: ProductsViewController)?
-    var movieDetailsControllerWithReceivedInvocations: [(productId: Int, vc: ProductsViewController)] = []
-    var movieDetailsControllerWithReturnValue: UIViewController!
-    var movieDetailsControllerWithClosure: ((Int, ProductsViewController) -> UIViewController)?
+    var productDetailsControllerReceivedProductId: (Int)?
+    var productDetailsControllerReceivedInvocations: [(Int)] = []
+    var productDetailsControllerReturnValue: UIViewController!
+    var productDetailsControllerClosure: ((Int) -> UIViewController)?
 
-    func movieDetailsController(_ productId: Int, with vc: ProductsViewController) -> UIViewController {
-        movieDetailsControllerWithCallsCount += 1
-        movieDetailsControllerWithReceivedArguments = (productId: productId, vc: vc)
-        movieDetailsControllerWithReceivedInvocations.append((productId: productId, vc: vc))
-        if let movieDetailsControllerWithClosure = movieDetailsControllerWithClosure {
-            return movieDetailsControllerWithClosure(productId, vc)
+    func productDetailsController(_ productId: Int) -> UIViewController {
+        productDetailsControllerCallsCount += 1
+        productDetailsControllerReceivedProductId = productId
+        productDetailsControllerReceivedInvocations.append(productId)
+        if let productDetailsControllerClosure = productDetailsControllerClosure {
+            return productDetailsControllerClosure(productId)
         } else {
-            return movieDetailsControllerWithReturnValue
+            return productDetailsControllerReturnValue
         }
+    }
+
+}
+class ProductRepositoryMock: ProductRepository {
+
+
+
+
+    //MARK: - getProductDetails
+
+    var getProductDetailsWithForceNetworkCallCallsCount = 0
+    var getProductDetailsWithForceNetworkCallCalled: Bool {
+        return getProductDetailsWithForceNetworkCallCallsCount > 0
+    }
+    var getProductDetailsWithForceNetworkCallReceivedArguments: (productId: Int, forceNetworkCall: Bool)?
+    var getProductDetailsWithForceNetworkCallReceivedInvocations: [(productId: Int, forceNetworkCall: Bool)] = []
+    var getProductDetailsWithForceNetworkCallReturnValue: AnyPublisher<Result<Product, Error>, Never>!
+    var getProductDetailsWithForceNetworkCallClosure: ((Int, Bool) -> AnyPublisher<Result<Product, Error>, Never>)?
+
+    func getProductDetails(with productId: Int, forceNetworkCall: Bool) -> AnyPublisher<Result<Product, Error>, Never> {
+        getProductDetailsWithForceNetworkCallCallsCount += 1
+        getProductDetailsWithForceNetworkCallReceivedArguments = (productId: productId, forceNetworkCall: forceNetworkCall)
+        getProductDetailsWithForceNetworkCallReceivedInvocations.append((productId: productId, forceNetworkCall: forceNetworkCall))
+        if let getProductDetailsWithForceNetworkCallClosure = getProductDetailsWithForceNetworkCallClosure {
+            return getProductDetailsWithForceNetworkCallClosure(productId, forceNetworkCall)
+        } else {
+            return getProductDetailsWithForceNetworkCallReturnValue
+        }
+    }
+
+    //MARK: - getProducts
+
+    var getProductsForceNetworkCallPageNumberOfItemsCallsCount = 0
+    var getProductsForceNetworkCallPageNumberOfItemsCalled: Bool {
+        return getProductsForceNetworkCallPageNumberOfItemsCallsCount > 0
+    }
+    var getProductsForceNetworkCallPageNumberOfItemsReceivedArguments: (forceNetworkCall: Bool, page: Int, numberOfItems: Int)?
+    var getProductsForceNetworkCallPageNumberOfItemsReceivedInvocations: [(forceNetworkCall: Bool, page: Int, numberOfItems: Int)] = []
+    var getProductsForceNetworkCallPageNumberOfItemsReturnValue: AnyPublisher<Result<[Product], Error>, Never>!
+    var getProductsForceNetworkCallPageNumberOfItemsClosure: ((Bool, Int, Int) -> AnyPublisher<Result<[Product], Error>, Never>)?
+
+    func getProducts(forceNetworkCall: Bool, page: Int, numberOfItems: Int) -> AnyPublisher<Result<[Product], Error>, Never> {
+        getProductsForceNetworkCallPageNumberOfItemsCallsCount += 1
+        getProductsForceNetworkCallPageNumberOfItemsReceivedArguments = (forceNetworkCall: forceNetworkCall, page: page, numberOfItems: numberOfItems)
+        getProductsForceNetworkCallPageNumberOfItemsReceivedInvocations.append((forceNetworkCall: forceNetworkCall, page: page, numberOfItems: numberOfItems))
+        if let getProductsForceNetworkCallPageNumberOfItemsClosure = getProductsForceNetworkCallPageNumberOfItemsClosure {
+            return getProductsForceNetworkCallPageNumberOfItemsClosure(forceNetworkCall, page, numberOfItems)
+        } else {
+            return getProductsForceNetworkCallPageNumberOfItemsReturnValue
+        }
+    }
+
+    //MARK: - hasLiked
+
+    var hasLikedWithHasLikedCallsCount = 0
+    var hasLikedWithHasLikedCalled: Bool {
+        return hasLikedWithHasLikedCallsCount > 0
+    }
+    var hasLikedWithHasLikedReceivedArguments: (productId: Int, hasLiked: Bool)?
+    var hasLikedWithHasLikedReceivedInvocations: [(productId: Int, hasLiked: Bool)] = []
+    var hasLikedWithHasLikedClosure: ((Int, Bool) -> Void)?
+
+    func hasLiked(with productId: Int, hasLiked: Bool) {
+        hasLikedWithHasLikedCallsCount += 1
+        hasLikedWithHasLikedReceivedArguments = (productId: productId, hasLiked: hasLiked)
+        hasLikedWithHasLikedReceivedInvocations.append((productId: productId, hasLiked: hasLiked))
+        hasLikedWithHasLikedClosure?(productId, hasLiked)
     }
 
 }
@@ -222,18 +325,13 @@ class ProductUseCaseTypeMock: ProductUseCaseType {
     }
     var likedProductWithHasLikeReceivedArguments: (productId: Int, hasLike: Bool)?
     var likedProductWithHasLikeReceivedInvocations: [(productId: Int, hasLike: Bool)] = []
-    var likedProductWithHasLikeReturnValue: AnyPublisher<Result<Product, Error>, Never>!
-    var likedProductWithHasLikeClosure: ((Int, Bool) -> AnyPublisher<Result<Product, Error>, Never>)?
+    var likedProductWithHasLikeClosure: ((Int, Bool) -> Void)?
 
-    func likedProduct(with productId: Int, hasLike: Bool) -> AnyPublisher<Result<Product, Error>, Never> {
+    func likedProduct(with productId: Int, hasLike: Bool) {
         likedProductWithHasLikeCallsCount += 1
         likedProductWithHasLikeReceivedArguments = (productId: productId, hasLike: hasLike)
         likedProductWithHasLikeReceivedInvocations.append((productId: productId, hasLike: hasLike))
-        if let likedProductWithHasLikeClosure = likedProductWithHasLikeClosure {
-            return likedProductWithHasLikeClosure(productId, hasLike)
-        } else {
-            return likedProductWithHasLikeReturnValue
-        }
+        likedProductWithHasLikeClosure?(productId, hasLike)
     }
 
 }
@@ -244,19 +342,19 @@ class ProductsViewNavigatorMock: ProductsViewNavigator {
 
     //MARK: - showDetails
 
-    var showDetailsForWithCallsCount = 0
-    var showDetailsForWithCalled: Bool {
-        return showDetailsForWithCallsCount > 0
+    var showDetailsForCallsCount = 0
+    var showDetailsForCalled: Bool {
+        return showDetailsForCallsCount > 0
     }
-    var showDetailsForWithReceivedArguments: (productId: Int, vc: ProductsViewController)?
-    var showDetailsForWithReceivedInvocations: [(productId: Int, vc: ProductsViewController)] = []
-    var showDetailsForWithClosure: ((Int, ProductsViewController) -> Void)?
+    var showDetailsForReceivedProductId: (Int)?
+    var showDetailsForReceivedInvocations: [(Int)] = []
+    var showDetailsForClosure: ((Int) -> Void)?
 
-    func showDetails(for productId: Int, with vc: ProductsViewController) {
-        showDetailsForWithCallsCount += 1
-        showDetailsForWithReceivedArguments = (productId: productId, vc: vc)
-        showDetailsForWithReceivedInvocations.append((productId: productId, vc: vc))
-        showDetailsForWithClosure?(productId, vc)
+    func showDetails(for productId: Int) {
+        showDetailsForCallsCount += 1
+        showDetailsForReceivedProductId = productId
+        showDetailsForReceivedInvocations.append(productId)
+        showDetailsForClosure?(productId)
     }
 
 }

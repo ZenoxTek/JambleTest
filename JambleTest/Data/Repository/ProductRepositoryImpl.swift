@@ -13,31 +13,21 @@ import Combine
 final class ProductRepositoryImpl: ProductRepository {
     
     
-    private let jsonService: JsonServiceType
+    private let jsonService: any JsonServiceType
     private let networkService: NetworkServiceType
     
     private var currentProducts = CurrentValueSubject<Result<[Product], Error>, Never>(.success([]))
     private var cancellables = Set<AnyCancellable>()
     
-    init(jsonService: JsonServiceType, networkService: NetworkServiceType) {
+    init(jsonService: any JsonServiceType, networkService: NetworkServiceType) {
         self.jsonService = jsonService
         self.networkService = networkService
     }
-        
-    /*func searchProduct(with query: String,
-                       forceNetworkCall: Bool = false,
-                       page: Int = 1, numberOfItems:
-                       Int = 15) -> AnyPublisher<Result<[Product], Error>, Never> {
-        if forceNetworkCall {
-            // Implement Network Service using Pagination for instance
-            return .empty()
-        }
-    }*/
     
     fileprivate func GetDataFromJson() {
         do {
             if try currentProducts.value.get().isEmpty {
-                return jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
+                jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
                     .map { dataDTO in
                         let productData = dataDTO.map { prod in
                             return prod.toProduct()

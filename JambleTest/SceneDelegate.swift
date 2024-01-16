@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Product
         
         container.register(ProductRepositoryImpl.self) { _ in
-            let serviceJsonProvider = ServicesProvider.defaultJsonProvider().service as! JsonServiceType
+            let serviceJsonProvider = ServicesProvider.defaultJsonProvider().service as! (any JsonServiceType)
             let serviceNetworkProvider = ServicesProvider.defaultNetworkProvider().service as! NetworkServiceType
             return ProductRepositoryImpl(jsonService: serviceJsonProvider, networkService: serviceNetworkProvider)
         }.inObjectScope(.container)
