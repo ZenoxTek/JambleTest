@@ -16,7 +16,6 @@ protocol NetworkServiceType: ServiceType {
     /// Loads data from a network resource and decodes it into the specified type.
     /// - Parameter resource: The network resource to load.
     /// - Returns: A publisher that emits the decoded type or an error.
-    @discardableResult
     func load<T>(_ resource: Resource<T>) -> AnyPublisher<T, Error>
 }
 

@@ -31,7 +31,6 @@ final class JsonService: JsonServiceType {
     /// Loads a JSON resource and decodes it into the specified type.
     /// - Parameter resource: The JSON resource to load.
     /// - Returns: A publisher that emits the decoded type or an error.
-    @discardableResult
     func load<T>(_ resource: JsonResource<T>) -> AnyPublisher<T, Error> {
         guard let url = Bundle.main.url(forResource: resource.file, withExtension: "json") else {
             return .fail(JsonError.invalidRequest)

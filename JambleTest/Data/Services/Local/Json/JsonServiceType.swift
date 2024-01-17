@@ -12,7 +12,6 @@ import Combine
 
 protocol JsonServiceType: ServiceType {
     
-    @discardableResult
     func load<T>(_ resource: JsonResource<T>) -> AnyPublisher<T, Error>
 }
 

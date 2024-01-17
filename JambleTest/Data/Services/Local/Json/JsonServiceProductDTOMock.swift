@@ -23,7 +23,6 @@ class JsonServiceTypeMock<U: Decodable>: JsonServiceType {
     var loadReturnValue: AnyPublisher<U, Error>!
     var loadClosure: ((JsonResource<U>) -> AnyPublisher<U, Error>)?
 
-    @discardableResult
     func load<T>(_ resource: JsonResource<T>) -> AnyPublisher<T, Error> {
         loadCallsCount += 1
         loadReceivedResource = resource as! JsonResource<U>
