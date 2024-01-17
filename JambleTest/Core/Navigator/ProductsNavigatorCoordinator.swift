@@ -12,9 +12,9 @@ import UIKit
 /// The `ProductsNavigatorController` takes control over the flows on the products search screen
 class ProductsNavigatorCoordinator: NavigatorCoordinator {
     
-    fileprivate var dependencyProvider: ProductNavigatorCoordinatorDependencyProvider
-    fileprivate var searchNavigationController: UINavigationController?
-    fileprivate let window: UIWindow
+    private var dependencyProvider: ProductNavigatorCoordinatorDependencyProvider
+    private var searchNavigationController: UINavigationController?
+    private let window: UIWindow
 
     init(window: UIWindow, provider: ProductNavigatorCoordinatorDependencyProvider) {
         dependencyProvider = provider

@@ -24,7 +24,7 @@ final class ProductRepositoryImpl: ProductRepository {
         self.networkService = networkService
     }
     
-    fileprivate func GetDataFromJson() {
+    private func GetDataFromJson() {
         do {
             if try currentProducts.value.get().isEmpty {
                 jsonService.load(JsonResource<[ProductDTO]>(file: Constants.jsonFile))
