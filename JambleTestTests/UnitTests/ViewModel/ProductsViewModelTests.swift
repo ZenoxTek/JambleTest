@@ -13,6 +13,7 @@ import Combine
 final class ProductsViewModelTests: XCTestCase {
 
     private let useCase = ProductUseCaseTypeMock()
+    private let likeUseCase = LikeUseCaseTypeMock()
     private let navigator = ProductsViewNavigatorMock()
     private var viewModel: ProductsViewModel!
     private var jsonService = JsonService()
@@ -82,29 +83,36 @@ final class ProductsViewModelTests: XCTestCase {
         XCTAssertEqual(state!, .success(products))
     }
     
-    /*func test_hasErrorState_whenDataLoadingIsFailed() {
+    func test_determineProducts() {
         // Given
-        let search = PassthroughSubject<String, Never>()
-        let input = ProductsViewModelInput(search: search.eraseToAnyPublisher(), filterOrdering: .just(LogicalRulers()), selection: .empty())
-        var state: ProductsState?
-
-        let expectation = self.expectation(description: "products")
-        useCase.searchProductWithReturnValue = .just(.failure(JsonError.invalidResponse))
-        viewModel.transform(input: input).sink { value in
-            if case .noResults = value {
-                return
-            }
-            guard case .failure = value else { return }
-            state = value
-            expectation.fulfill()
-        }.store(in: &cancellables)
-
+        let product1 = Product(id: 1, color: "#C70039", title: "Product1", price: 20.0, currency: "USD", size: "M", numberOfFavorites: 10, hasLiked: true)
+        let product2 = Product(id: 2, color: "#FFC300", title: "Product2", price: 15.0, currency: "USD", size: "L", numberOfFavorites: 5, hasLiked: false)
+        let product3 = Product(id: 3, color: "#DAF7A6", title: "Product3", price: 25.0, currency: "USD", size: "S", numberOfFavorites: 8, hasLiked: true)
+        
+        let products = [product1, product2, product3]
+        
+        // Create a sample LogicalRuler for testing
+        let rulerNone: LogicalRulers = LogicalRulers()
+        let rulerAsc: LogicalRulers = LogicalRulers(sorting: .asc, filtering: (.none, ""))
+        let rulerDesc: LogicalRulers = LogicalRulers(sorting: .desc, filtering: (.none, ""))
+        let rulerFilterColor: LogicalRulers = LogicalRulers(sorting: .none, filtering: (.color, "Red"))
+        let rulerFilterSize: LogicalRulers = LogicalRulers(sorting: .none, filtering: (.size, "M"))
+        let rulerFilterBookmarked: LogicalRulers = LogicalRulers(sorting: .none, filtering: (.bookmarked, "Bookmarked"))
+        
         // When
-        search.send("toto")
-
-        search.send("titi")
+        let resultNone = viewModel.determineProducts(with: products, and: rulerNone)
+        let resultAsc = viewModel.determineProducts(with: products, and: rulerAsc)
+        let resultDesc = viewModel.determineProducts(with: products, and: rulerDesc)
+        let resultFilterColor = viewModel.determineProducts(with: products, and: rulerFilterColor)
+        let resultFilterSize = viewModel.determineProducts(with: products, and: rulerFilterSize)
+        let resultFilterBookmarked = viewModel.determineProducts(with: products, and: rulerFilterBookmarked)
+        
         // Then
-        waitForExpectations(timeout: 10.0, handler: nil)
-        XCTAssertEqual(state!, .failure(JsonError.invalidResponse))
-    }*/
+        XCTAssertEqual(resultNone, products) // No sorting or filtering
+        XCTAssertEqual(resultAsc, [product2, product1, product3]) // Ascending sorting by price
+        XCTAssertEqual(resultDesc, [product3, product1, product2]) // Descending sorting by price
+        XCTAssertEqual(resultFilterColor, [product1]) // Filtering by color "Red"
+        XCTAssertEqual(resultFilterSize, [product1]) // Filtering by size "M"
+        XCTAssertEqual(resultFilterBookmarked, [product1, product3]) // Filtering by bookmarked
+    }
 }

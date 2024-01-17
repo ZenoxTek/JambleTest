@@ -9,6 +9,8 @@ import Foundation
 import Combine
 import XCTest
 
+// MARK: Extension XCTestCase
+
 extension XCTestCase {
     func awaitPublisher<T: Publisher>(
         _ publisher: T,
@@ -36,7 +38,7 @@ extension XCTestCase {
             }
         )
 
-        // Just like before, we await the expectation that we
+        // we await the expectation that we
         // created at the top of our test, and once done, we
         // also cancel our cancellable to avoid getting any
         // unused variable warnings:

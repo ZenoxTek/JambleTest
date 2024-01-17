@@ -9,7 +9,9 @@ import XCTest
 import Swinject
 @testable import JambleTest
 
-final class JambleTestTests: XCTestCase {
+// MARK: - ApplicationNavigatorCoordinatorTests
+
+final class ApplicationNavigatorCoordinatorTests: XCTestCase {
     
     private lazy var applicationNavigationCoordinator = ApplicationNavigatorCoordinator(window: window, dependencyProvider: dependencyProvider)
     private let window = UIWindow()
@@ -18,7 +20,7 @@ final class JambleTestTests: XCTestCase {
     /// Test that application flow is started correctly
     func test_startsApplicationsNavigation() {
         // GIVEN
-        var rootViewController = UINavigationController()
+        let rootViewController = UINavigationController()
         dependencyProvider.productsNavigationControllerNavigatorReturnValue = rootViewController
 
         // WHEN

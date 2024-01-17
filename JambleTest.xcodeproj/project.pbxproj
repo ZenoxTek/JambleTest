@@ -593,11 +593,11 @@
 		B2F8DCE02B55EEA000FAF4D8 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				B2F8DD152B57DD2800FAF4D8 /* ViewModel */,
 				B2F8DD0B2B57343200FAF4D8 /* Utils */,
 				B2F8DCFE2B57119900FAF4D8 /* Repository */,
 				B2F8DCF72B57067100FAF4D8 /* UseCases */,
 				B22B6F182B516CD30044E0F7 /* ApplicationNavigatorCoordinatorTests.swift */,
-				B2F8DCE12B55EF5900FAF4D8 /* ProductsViewModelTests.swift */,
 				B2F8DCF32B57011100FAF4D8 /* JsonServiceTest.swift */,
 			);
 			path = UnitTests;
@@ -634,6 +634,14 @@
 				B2F8DD0D2B57344F00FAF4D8 /* XCTTestCase+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B2F8DD152B57DD2800FAF4D8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B2F8DCE12B55EF5900FAF4D8 /* ProductsViewModelTests.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

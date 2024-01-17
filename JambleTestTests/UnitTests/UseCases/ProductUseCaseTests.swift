@@ -11,6 +11,8 @@ import Combine
 import Swinject
 @testable import JambleTest
 
+// MARK: - ProductUseCaseTests
+
 class ProductUseCaseTests: XCTestCase {
     
     var cancellables: Set<AnyCancellable> = []
